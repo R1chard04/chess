@@ -1,5 +1,5 @@
-#ifndef PIECE_H
-#define PIECE_H
+#ifndef BISHOP_H
+#define BISHOP_H
 #include <vector>
 #include <string> 
 using namespace std;
@@ -7,11 +7,11 @@ using namespace std;
 class Piece {
     
     vector<vector<int>> moves; 
-    string pieceColour; 
+    bool isWhite; 
     char pieceType;
 
     public:
-        Piece(string pieceColour);
+        Piece(bool isWhite);
 
         string getColour(); 
         vector<vector<int>> getValidMoves();

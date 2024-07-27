@@ -1,13 +1,19 @@
 #include "piece.h"
 
-Piece::Piece(bool isWhite): isWhite{isWhite} {}
+Piece::Piece(string pieceColour): pieceColour{pieceColour} {}
 
 Piece::~Piece() {}
 
 bool Piece::getIsWhite() const {
-    return isWhite;
+    return pieceColour == "white";
 }
 
 bool Piece::getPieceType() const {
-    return pieceType;
+    return pieceType;    
 }
+
+vector<vector<int> > Piece::getValidMoves() {
+    return moves;
+}
+
+
