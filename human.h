@@ -8,8 +8,8 @@ using namespace std;
 
 class Human : public Player {
     public:
-        Human(); 
-        bool makeMove(ChessBoard& board);
+        Human(bool isWhite); 
+        bool makeMove(ChessBoard& board) override;
         virtual ~Human() = default;
 
 };

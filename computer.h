@@ -7,9 +7,12 @@
 using namespace std;
 
 class Computer : public Player {
+
+    int difficulty;
+
     public:
-        Computer(); 
-        bool makeMove(ChessBoard& board);
+        Computer(bool isWhite, int difficulty); 
+        bool makeMove(ChessBoard& board) override;
         virtual ~Computer() = default;
 
 };
