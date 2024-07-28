@@ -3,6 +3,7 @@
 #include <vector>
 #include <string> 
 #include "piece.h"
+#include "chessboard.h"
 using namespace std;
 
 class Bishop : public Piece {

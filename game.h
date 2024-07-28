@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "player.h"
-#include "chessBoard.h"
+#include "chessboard.h"
 #include "Window.h"
 #include "textobserver.h"
 #include "graphicalobserver.h"

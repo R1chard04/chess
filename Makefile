@@ -2,19 +2,19 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -Wextra -std=c++11
+CXXFLAGS = -Wall -Wextra -std=c++14
 
 # Linker flags
 LDFLAGS = -lX11
 
 # Source files
-SRC = bishop.cpp chessBoard.cpp computer.cpp game.cpp graphicalobserver.cpp \
-      human.cpp king.cpp knight.cpp main.cc observer.cpp pawn.cpp piece.cpp \
-      player.cpp queen.cpp rook.cpp textobserver.cpp window.cpp
+SRC = piece.cpp bishop.cpp chessBoard.cpp computer.cpp game.cpp graphicalobserver.cpp \
+      human.cpp king.cpp knight.cpp main.cc observer.cpp pawn.cpp \
+      player.cpp queen.cpp rook.cpp textobserver.cpp window.cpp main.cc
 
 # Header files
-HEADERS = bishop.h chessBoard.h computer.h game.h graphicalobserver.h \
-          human.h king.h knight.h observer.h pawn.h piece.h player.h \
+HEADERS = piece.h bishop.h chessBoard.h computer.h game.h graphicalobserver.h \
+          human.h king.h knight.h observer.h pawn.h player.h \
           queen.h rook.h textobserver.h window.h
 
 # Object files

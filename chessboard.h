@@ -10,6 +10,7 @@
 #include "bishop.h"
 #include "knight.h"
 #include "pawn.h"
+#include "piece.h"
 using namespace std;
 
 class Observer;

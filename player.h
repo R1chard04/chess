@@ -4,7 +4,7 @@
 #include <string> 
 #include <iostream>
 #include <sstream>
-#include "chessBoard.h"
+#include "chessboard.h"
 using namespace std;
 
 class Player {
