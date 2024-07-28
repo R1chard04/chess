@@ -16,7 +16,7 @@ class Piece {
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType);
 
         string getColour(); 
-        bool checkValidMove(ChessBoard& board);
+        virtual bool checkValidMove(ChessBoard& board, int dx, int dy) = 0;
 
         virtual ~Piece() = default;
 
