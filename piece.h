@@ -6,12 +6,13 @@
 using namespace std;
 
 class Piece {
-    
     vector<vector<int>> moves; 
     string pieceColour; 
     char pieceType;
     bool hasMoved;
-    int row, col; 
+    
+    protected: 
+        int row, col; 
 
     public:
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);
