@@ -74,28 +74,64 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
 
         // promotion on pawn
         if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
-            // cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
-            // // make the move and check if there is a check on opponent
-            // if(cBoard.checkCheck(opponentColour)) {
-            //     return true; 
-            // } else {
-            //     // no check, move the piece back to original position
-            //     cBoard.movePiece(move[2], move[3], move[0], move[1], 'x'); 
-            // }
+            cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
+            // make the move and check if there is a check on opponent
+            if(cBoard.checkIfKingIsInCheck(!isWhite)) {
+                return true; 
+            } else {
+                // no check, move the piece back to original position
+                cBoard.goBack(); 
+            }
         } else {
             cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
-            if(cBoard.checkCheck(opponentColour)) {
+            if(cBoard.checkIfKingIsInCheck(!isWhite)) {
                 // the move resulted in a check
                 return true; 
             } else {
                 // the move did not result in a check 
-                cBoard.movePiece(move[2], move[3], move[0], move[1], 'x');
+                cBoard.goBack(); 
             }   
         }
     }
 
     // no checks and takes could be made
     return makeMove1(cBoard);
+}
+
+
+bool Computer::makeMove3(ChessBoard& cBoard) {
+    int board_size = 8;
+    vector<vector<int> > moves = generateMoves(cBoard);
+
+    if(moves.size() == 0) return false;
+
+    // avoid capture 
+    for(int i = 0; i < moves.size(); i++) {
+        vector<int> move = moves[i];
+        // check if the piece is being attacked
+        Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
+
+        if(!cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) continue; 
+        // don't care if piece not attacked
+
+        if(cBoard.getSquare(move[2], move[3])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+            cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
+            if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
+                cBoard.goBack();
+            } else {
+                return true; 
+            }
+        } else {
+            cBoard.movePiece(move[0], move[1], move[2], move[3]);
+            if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
+                cBoard.goBack();
+            } else {
+                return true; 
+            }
+        }
+    }
+
+    makeMove2(); 
 }
 
 bool Computer::makeMove(ChessBoard& cBoard) {
@@ -116,6 +152,8 @@ bool Computer::makeMove(ChessBoard& cBoard) {
         makeMove2(cBoard);
     } else if(difficulty == 3) {
         // prefers avoiding capture, capturing moves, and checks
+        makeMove3(cBoard);        
+
     } else if(difficulty == 4) {
         //
 
