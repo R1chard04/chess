@@ -1,7 +1,7 @@
 #include "graphicalobserver.h"
 
-GraphicalObserver::GraphicalObserver(ChessBoard* board) : mainSubject{board} {
-    maainSubject->attach(this);
+GraphicalObserver::GraphicalObserver(ChessBoard* board) : mainSubject{board}, w{10 * 8, 10 * 8} {
+    mainSubject->attach(this);
 }
 
 void GraphicalObserver::notify() {
@@ -30,7 +30,7 @@ void GraphicalObserver::notify() {
                 if(currentPiece->getIsWhite()) {
                     s = {currentPiece->getPieceType()};
                 } else {
-                    s = {currentPiece->getPieceType() - 32};
+                    s = {char(currentPiece->getPieceType() - 32)};
                 }
                 w.drawString(cx + ctr, cy + ctr, s);
             }
