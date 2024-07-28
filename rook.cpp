@@ -13,7 +13,11 @@ vector<vector<int>> rookMoves = {
 Rook::Rook(string pieceColour, int row, int col): Piece{pieceColour, rookMoves, 'b', row, col} {}
 
 bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
-    if (!(toRow >= 0 && toRow < 8 && toCol >= 0 && toCol < 8)) { return false; }
+    int board_size = 8;
+    if(toRow < 0 || toRow >= board_size || toCol < 0 || toCol >= board_size) {
+        return false; 
+    }
+    
     if (toRow != row && toCol != col || (toRow == row && toCol == col)) { return false; }
     
     if (toRow == row) {

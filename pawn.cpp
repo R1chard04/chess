@@ -17,6 +17,11 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int dy = toRow - row;
     int dx = toCol - col;
 
+    int board_size = 8;
+    if(toRow < 0 || toRow >= board_size || toCol < 0 || toCol >= board_size) {
+        return false; 
+    }
+
     bool isPawnMove = false; 
     for(int i = 0; i < moves.size(); i++) {
         if(moves[i][0] == dx && moves[i][1] == dy) {
