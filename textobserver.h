@@ -14,9 +14,9 @@ class TextObserver : public Observer {
         TextObserver();
         ~TextObserver();
 
-        void notify() override;
+        void notify(ChessBoard& board) override;
 
 
-        friend ostream &operator<<(ostream &out, const ChessBoard &board);
+        friend ostream &operator<<(ostream &out, const TextObserver &textDisplay);
 };
 #endif

@@ -6,12 +6,11 @@ using namespace std;
 
 ChessBoard::ChessBoard(TextObserver* textDisplay, GraphicalObserver* graphicsDisplay) {
     for (int i = 0; i < 8; ++i) {
-        for (int j = 0; j < 8; ++j) {
-            board[i][j] = nullptr;
-        }
+        vector<Piece*> row {8, nullptr};
+        board.push_back(row);
     }
-    attach(textDisplay);
-    attach(graphicsDisplay);
+    if (textDisplay != nullptr) attach(textDisplay);
+    if (graphicsDisplay != nullptr) attach(graphicsDisplay);
 }
 
 ChessBoard::ChessBoard(const ChessBoard& other) {
@@ -34,8 +33,10 @@ void ChessBoard::detach(Observer* o) {
 }
 
 void ChessBoard::notifyObservers() {
+    cout << "size: " << observers.size() << endl;
     for (int i = 0; i < observers.size(); ++i) {
-        observers[i]->notify();
+        observers[i]->notify(*this);
+        cout << "i: " << i << endl;
     }
 }
 

@@ -3,7 +3,7 @@
 
 // TODO: remember to replace graphical display init
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},
-                            graphicalDisplay{nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), nullptr)},
+                            graphicalDisplay{nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
                             isWhiteTurn{true}, setupMode{false} {}
 
 // Game::Game(Xwindow *w, bool enableGraphics) : in{cin}, out{cout}, turn{Colour::White}, isSetup{false}, enableGraphics{enableGraphics},
@@ -67,15 +67,15 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
 
     if (!setupMode) { setupNormalBoard(); } 
 
-    while (in) {
-        // TODO
-        // first, check for checks
-        // if check: check for checkmate or stalemate -> if so, end game and start new round
+    // while (in) {
+    //     // TODO
+    //     // first, check for checks
+    //     // if check: check for checkmate or stalemate -> if so, end game and start new round
 
-        runTurn();
+    //     runTurn();
 
-        isWhiteTurn = !isWhiteTurn;
-    }
+    //     isWhiteTurn = !isWhiteTurn;
+    // }
 }
 
 // ALMOST DONE
