@@ -2,6 +2,7 @@
 #define PIECE_H
 #include <vector>
 #include <string> 
+#include "chessboard.h"
 using namespace std;
 
 class Piece {
@@ -15,7 +16,7 @@ class Piece {
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType);
 
         string getColour(); 
-        vector<vector<int>> getValidMoves();
+        bool checkValidMove(ChessBoard& board);
 
         virtual ~Piece() = default;
 
