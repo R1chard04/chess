@@ -17,7 +17,7 @@ class GraphicalObserver : public Observer {
     public:
         GraphicalObserver(ChessBoard* mainSubject);
 
-        void notify() override;
+        void notify(ChessBoard& board) override;
 
         ~GraphicalObserver();
 };

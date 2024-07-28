@@ -4,7 +4,7 @@ GraphicalObserver::GraphicalObserver(ChessBoard* board) : mainSubject{board}, w{
     mainSubject->attach(this);
 }
 
-void GraphicalObserver::notify() {
+void GraphicalObserver::notify(ChessBoard& board) {
     // 
     int square_size = 10; 
     int ctr = square_size / 2;
