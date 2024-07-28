@@ -9,7 +9,12 @@ using namespace std;
 class Computer : public Player {
 
     int difficulty;
-    vector<vector<int> > generateMoves();
+    vector<vector<int> > generateMoves(ChessBoard& board);
+
+    bool makeMove1(ChessBoard& cBoard);  
+    bool makeMove2(ChessBoard& cBoard);  
+    bool makeMove3(ChessBoard& cBoard);  
+    bool makeMove4(ChessBoard& cBoard);  
 
     public:
         Computer(bool isWhite, int difficulty); 
