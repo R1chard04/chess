@@ -11,12 +11,13 @@ class Piece {
     string pieceColour; 
     char pieceType;
     bool hasMoved;
+    int row, col; 
 
     public:
-        Piece(string pieceColour, vector<vector<int>> moves, char pieceType);
+        Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);
 
         string getColour(); 
-        virtual bool checkValidMove(ChessBoard& board, int dx, int dy) = 0;
+        virtual bool checkValidMove(ChessBoard& board, int fromCol, int fromRow, int toCol, int fromCol) = 0;
 
         virtual ~Piece() = default;
 
