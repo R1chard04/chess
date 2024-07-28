@@ -66,6 +66,42 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     }
 }
 
+void ChessBoard::removeAllPieces() {
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            removePiece(i, j);
+        }
+    }
+}
+
+void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x') {
+    Piece *p = getSquare(fromRow, fromCol);
+    if (p == nullptr) { return; }
+
+    // if (p->getPieceType() == 'k' && abs(fromCol - toCol) == 2) {
+    //     if (toCol == 6) {
+    //         movePiece(fromRow, 7, fromRow, 5);
+    //     } else {
+    //         movePiece(fromRow, 0, fromRow, 3);
+    //     }
+    // }
+
+    // if (getSquare(toRow, toCol) != nullptr) {
+    //     removePiece(toRow, toCol);
+    // }
+
+    // p->setCoords(toRow, toCol);
+    // board[toRow][toCol] = p;
+    // board[fromRow][fromCol] = nullptr;
+
+    // if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) {
+    //     placePiece(toRow, toCol, p->getIsWhite(), promotionType);
+    // }
+
+    p->setHasMoved(true);
+    notifyObservers();
+}
+
 // bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, string colour, char promotionType) {
 //     if(fromRow < 0 || fromRow > 7 || fromCol < 0 || fromCol > 7 || toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) {
 //         return false;
