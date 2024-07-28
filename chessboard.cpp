@@ -109,14 +109,32 @@ Piece* ChessBoard::getKing(bool isWhite) {
     return nullptr;
 }
 
+bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
+    if (pieceType == ' ') {
+        return board.getSquare(row, col) != nullptr;
+    }
+    Piece* tmpPiece = board.getSquare(row, col);
+    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && (tmpPiece->getIsWhite() && isWhite || !tmpPiece->getIsWhite() && !isWhite);
+}
+
 bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
+    int row = piece->getRow();
+    int col = piece->getCol();
+
     // TODO: implement this
-    bool attackedByKing;
+    bool attackedByKing = existsPieceInSquare(*this, row+1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'k', isWhite) 
+                        || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
+                        || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
+                        || existsPieceInSquare(*this, row, col+1, 'k', isWhite) || existsPieceInSquare(*this, row, col-1, 'k', isWhite);
     bool attackedByQueen;
     bool attackedByRook;
     bool attackedByBishop;
-    bool attackedByKnight;
-    bool attackedByPawn;
+    bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite) 
+                        || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
+                        || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
+                        || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
+    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) 
+                        : existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'p', isWhite);
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
 
