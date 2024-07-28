@@ -9,7 +9,7 @@ using namespace std;
 class Bishop : public Piece {
 
     public:
-        Bishop(string pieceColour, int row, int col); 
+        Bishop(bool isWhite, int row, int col); 
         bool checkValidMove(ChessBoard& cBoard, int toRow, int toCol) override;
         virtual ~Bishop() = default;
 };

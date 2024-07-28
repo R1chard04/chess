@@ -8,7 +8,7 @@ vector<vector<int>> knightMoves = {
     {1, 2}, {-1, 2}, {1, -2}, {-1, -2},
 };
 
-Knight::Knight(string pieceColour, int row, int col): Piece{pieceColour, knightMoves, 'n', row, col} {}
+Knight::Knight(bool isWhite, int row, int col): Piece{isWhite, knightMoves, 'n', row, col} {}
 
 
 bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {  
@@ -32,7 +32,7 @@ bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {
     }
 
     // check if moving to capture own piece
-    if(board.getSquare(toRow, toCol)->getColour() == getColour()) {
+    if(board.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
         return false; 
     }
 

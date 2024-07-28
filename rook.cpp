@@ -10,7 +10,7 @@ vector<vector<int>> rookMoves = {
     {0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}, {0, -8}
 };
 
-Rook::Rook(string pieceColour, int row, int col): Piece{pieceColour, rookMoves, 'b', row, col} {}
+Rook::Rook(bool isWhite, int row, int col): Piece{isWhite, rookMoves, 'b', row, col} {}
 
 bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int board_size = 8;
@@ -32,7 +32,7 @@ bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
         }
     }
     Piece* p = cBoard.getSquare(toRow, toCol);
-    if (p != nullptr && p->getColour() == this->getColour()) { return false; }
+    if (p != nullptr && p->getIsWhite() == this->getIsWhite()) { return false; }
 
     return true;
 }

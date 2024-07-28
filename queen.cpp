@@ -21,7 +21,7 @@ vector<vector<int>> queenMoves = {
     {8, 8}, {8, -8}, {-8, 8}, {-8, -8}
 };
 
-Queen::Queen(string pieceColour, int row, int col): Piece{pieceColour, queenMoves, 'q', row, col} {}
+Queen::Queen(bool isWhite, int row, int col): Piece{isWhite, queenMoves, 'q', row, col} {}
 
 bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int board_size = 8;
@@ -53,7 +53,7 @@ bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     }
 
     Piece* p = cBoard.getSquare(toRow, toCol);
-    if (p != nullptr && p->getColour() == this->getColour()) { return false; }
+    if (p != nullptr && p->getIsWhite() == this->getIsWhite()) { return false; }
 
     return true;
 }

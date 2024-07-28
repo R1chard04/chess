@@ -8,7 +8,7 @@ using namespace std;
 class Rook : public Piece {
 
     public:
-        Rook(string pieceColour, int row, int col); 
+        Rook(bool isWhite, int row, int col); 
         bool checkValidMove(ChessBoard& cBoard, int toRow, int toCol) override;
         virtual ~Rook() = default;
 };

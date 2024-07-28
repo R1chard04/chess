@@ -9,7 +9,7 @@ using namespace std;
 class King : public Piece {
 
     public:
-        King(string pieceColour, int row, int col);
+        King(bool isWhite, int row, int col);
         bool checkValidMove(ChessBoard& board, int toRow, int toCol) override;
         virtual ~King() = default;
 

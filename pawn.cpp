@@ -11,7 +11,7 @@ vector<vector<int>> whitePawnMoves = {
     {0, -1}, {1, -1}, {-1, -1}, {0, -2}
 };
 
-Pawn::Pawn(string pieceColour, int row, int col): Piece{pieceColour, pieceColour == "white" ? whitePawnMoves : blackPawnMoves, 'p', row, col} {}
+Pawn::Pawn(bool isWhite, int row, int col): Piece{isWhite, isWhite ? whitePawnMoves : blackPawnMoves, 'p', row, col} {}
 
 bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int dy = toRow - row;
@@ -55,7 +55,7 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
             // en passant or invalid move
             if (cBoard.getSquare(this->row, toCol) == nullptr) { return false; } 
             else if (cBoard.getSquare(this->row, toCol) != cBoard.getEnPassantPawn()) { return false; } // correct since the en passant pawn is never your own pawn
-        } else if(cBoard.getSquare(toRow, toCol)->getColour() == getColour()) {
+        } else if(cBoard.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
             // trying to take piece with same colour
             return false; 
         }

@@ -1,19 +1,29 @@
 #include "piece.h"
 
-Piece::Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col): pieceColour{pieceColour}, moves{moves}, pieceType{pieceType}, row{row}, col{col} {}
+Piece::Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col)
+    : isWhite{isWhite}, moves{moves}, pieceType{pieceType}, row{row}, col{col}, hasMoved{false} {}
 
 Piece::~Piece() {}
 
+
 bool Piece::getIsWhite() const {
-    return pieceColour == "white";
+    return isWhite;
 }
 
-bool Piece::getPieceType() const {
-    return pieceType;    
+char Piece::getPieceType() const {  // Corrected return type
+    return pieceType;
 }
 
 bool Piece::getHasMoved() const {
     return hasMoved;
+}
+
+int Piece::getRow() const {
+    return row;
+}
+
+int Piece::getCol() const {
+    return col;
 }
 
 void Piece::setHasMoved(bool hasMoved) {

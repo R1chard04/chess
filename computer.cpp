@@ -10,12 +10,12 @@ vector<vector<int> > Computer::generateMoves(ChessBoard& cBoard) {
 
     for(int i = 0; i < board_size; i++) {
         for(int j = 0; j < board_size; j++) {
-            if(cBoard.getSquare(i, j)->getColour() != playerColour) continue; 
+            if(cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
 
             // square is computer's piece 
             for(int k = 0; k < board_size; k++) {
                 for(int h = 0; h < board_size; h++) {
-                    if(cBoard.verifyMove(i, j, k, h)) {
+                    if(cBoard.verifyMove(i, j, k, h, isWhite)) {
                         // valid move
                         res.push_back({i, j, k, h});
                     }
@@ -55,7 +55,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
     for(int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
 
-        if(cBoard.getSquare(move[2], move[3])->getColour() != playerColour) {
+        if(cBoard.getSquare(move[2], move[3])->getIsWhite() != isWhite) {
             // takes opponent's piece
             if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
                 // capture with promotion on pawn
@@ -80,7 +80,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
                 return true; 
             } else {
                 // no check, move the piece back to original position
-                cBoard.goBack(); 
+                // cBoard.goBack(); 
             }
         } else {
             cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
@@ -89,7 +89,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
                 return true; 
             } else {
                 // the move did not result in a check 
-                cBoard.goBack(); 
+                // cBoard.goBack(); 
             }   
         }
     }
@@ -117,21 +117,21 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         if(cBoard.getSquare(move[2], move[3])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
             cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
             if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
-                cBoard.goBack();
+                // cBoard.goBack();
             } else {
                 return true; 
             }
         } else {
             cBoard.movePiece(move[0], move[1], move[2], move[3]);
             if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
-                cBoard.goBack();
+                // cBoard.goBack();
             } else {
                 return true; 
             }
         }
     }
 
-    makeMove2(); 
+    makeMove2(cBoard); 
 }
 
 bool Computer::makeMove(ChessBoard& cBoard) {

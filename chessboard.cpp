@@ -228,7 +228,7 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
 // check if king is in check 
 // check if piece blocks check
 // check if piece is king and moves away from check 
-bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1) {
+bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, int toRow, int toCol) {
     int kingRow, kingCol;
     Piece* king = getKing(isWhite);
     
@@ -241,7 +241,7 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCo
     return checkIfPieceIsAttacked(king, king->getCol());
 }
 
-void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x') {
+void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }
 

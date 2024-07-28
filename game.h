@@ -4,7 +4,7 @@
 #include <iostream>
 #include "player.h"
 #include "chessboard.h"
-#include "Window.h"
+#include "window.h"
 #include "textobserver.h"
 #include "graphicalobserver.h"
 using namespace std;

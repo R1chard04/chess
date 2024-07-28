@@ -1,36 +1,33 @@
 #ifndef PIECE_H
 #define PIECE_H
 #include <vector>
-#include <string> 
-#include "chessboard.h"
+#include <string>
+
+class ChessBoard; // Forward declaration
 
 using namespace std;
 
 class Piece {
-    string pieceColour; 
+protected:
+    bool isWhite;
     char pieceType;
     bool hasMoved;
-    
-    protected: 
-        vector<vector<int>> moves; 
-        int row, col; 
+    vector<vector<int>> moves;
+    int row, col;
 
-    public:
-        Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);
+public:
+    Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col);
+    virtual ~Piece();
 
-        string getColour(); 
-        virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) = 0;
+    virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) = 0;
 
-        virtual ~Piece() = default;
-
-        bool getIsWhite() const;
-        bool getPieceType() const;
-        bool getHasMoved() const;
-        int getRow() const;
-        int getCol() const;
-        void setHasMoved(bool hasMoved);
-        void setCoords(int row, int col);
-
+    bool getIsWhite() const;
+    char getPieceType() const;  // Corrected return type
+    bool getHasMoved() const;
+    int getRow() const;
+    int getCol() const;
+    void setHasMoved(bool hasMoved);
+    void setCoords(int row, int col);
 };
 
 #endif

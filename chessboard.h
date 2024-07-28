@@ -39,10 +39,10 @@ class ChessBoard {
 
         bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
         bool checkCheckmate(); 
-        bool checkStalemate(string colour);
+        bool checkStalemate(bool isWhite);
 
         bool getIfRookMoved(string colour);  // needs further refining
-        bool getIfKingMoved(string colour);  // needs further refining
+        bool getIfKingMoved(bool isWhite);  // needs further refining
 
         Piece *getSquare(int row, int col);
         void removeAllPieces();
