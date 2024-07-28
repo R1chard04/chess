@@ -117,24 +117,111 @@ bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = '
     return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && (tmpPiece->getIsWhite() && isWhite || !tmpPiece->getIsWhite() && !isWhite);
 }
 
+bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
+    int i = col;
+
+    while (i < 8) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, row, i))) {
+            return true;
+        }
+        i += 1;
+    }
+
+    i = col;
+    while (i >= 0) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, row, i))) {
+            return true;
+        }
+        i -= 1;
+    }
+
+    return false;
+}
+
+bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
+    int i = row;
+
+    while (i < 8) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, col))) {
+            return true;
+        }
+        i += 1;
+    }
+
+    i = row;
+    while (i >= 0) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, col))) {
+            return true;
+        }
+        i -= 1;
+    }
+
+    return false;
+}
+
+bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
+    int i = row;
+    int j = col;
+
+    while (i < 8 && j < 8) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
+            return true;
+        }
+        i += 1;
+        j += 1;
+    }
+
+    i = row;
+    j = col;
+    while (i >= 0 && j >= 0) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
+            return true;
+        }
+        i -= 1;
+        j -= 1;
+    }
+
+    i = row;
+    j = col;
+    while (i < 8 && j >= 0) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
+            return true;
+        }
+        i += 1;
+        j -= 1;
+    }
+
+    i = row;
+    j = col;
+    while (i >= 0 && j < 8) {
+        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
+            return true;
+        }
+        i -= 1;
+        j += 1;
+    }
+
+    return false;
+}
+
 bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
     int row = piece->getRow();
     int col = piece->getCol();
 
-    // TODO: implement this
     bool attackedByKing = existsPieceInSquare(*this, row+1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
                         || existsPieceInSquare(*this, row, col+1, 'k', isWhite) || existsPieceInSquare(*this, row, col-1, 'k', isWhite);
-    bool attackedByQueen;
-    bool attackedByRook;
-    bool attackedByBishop;
+    bool attackedByQueen = existsPieceInHorizontal(*this, row, col, 'q', isWhite) || existsPieceInVertical(*this, row, col, 'q', isWhite) || existsPieceInDiagonal(*this, row, col, 'q', isWhite);
+    bool attackedByRook = existsPieceInHorizontal(*this, row, col, 'r', isWhite) || existsPieceInVertical(*this, row, col, 'r', isWhite);
+    bool attackedByBishop = existsPieceInDiagonal(*this, row, col, 'b', isWhite);
     bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
     bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) 
                         : existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'p', isWhite);
+    
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
 
