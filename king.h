@@ -8,7 +8,8 @@ using namespace std;
 class King : public Piece {
 
     public:
-        King(string pieceColour); 
+        King(string pieceColour, int row, int col);
+        virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) override;
         virtual ~King() = default;
 
 };
