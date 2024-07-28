@@ -45,13 +45,14 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
                 return false; 
             }
 
-            if(cBoard.getSquare(toRow, row + dy / 2) != nullptr) { 
+            if(cBoard.getSquare(row + dy/2, toCol) != nullptr) { 
                 return false; 
             }
         }
     } else if(dx != 0) {
         // pawn is moving horizontally and is taking another piece
         if(cBoard.getSquare(toRow, toCol) == nullptr) {
+            // trying to take an empty square
             return false; 
         } else if(cBoard.getSquare(toRow, toCol)->getColour() == getColour()) {
             // trying to take own piece

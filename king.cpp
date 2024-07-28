@@ -37,7 +37,7 @@ bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {
     }
 
     if(dx == 2 || dx == -2) {
-        if(board.getSquare(row + dx / 2, toCol) != nullptr) {
+        if(board.getSquare(toRow, toCol + dx / 2) != nullptr) {
             return false; 
         }   
     }

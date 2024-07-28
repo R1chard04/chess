@@ -9,6 +9,7 @@ using namespace std;
 class Computer : public Player {
 
     int difficulty;
+    vector<vector<int> > generateMoves();
 
     public:
         Computer(bool isWhite, int difficulty); 
