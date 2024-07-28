@@ -9,9 +9,10 @@ class Piece {
     vector<vector<int>> moves; 
     string pieceColour; 
     char pieceType;
+    bool hasMoved;
 
     public:
-        Piece(string pieceColour);
+        Piece(string pieceColour, vector<vector<int>> moves, char pieceType);
 
         string getColour(); 
         vector<vector<int>> getValidMoves();
@@ -20,6 +21,8 @@ class Piece {
 
         bool getIsWhite() const;
         bool getPieceType() const;
+        bool getHasMoved() const;
+
 
 };
 

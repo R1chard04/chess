@@ -3,15 +3,12 @@
 #include <vector>
 using namespace std; 
 
+vector<vector<int>> blackPawnMoves = {
+    {0, 1}, {1, 1}, {-1, 1}, {0, 2}
+};
 
-Pawn::Pawn(string pieceColour): Piece(pieceColour) {
-    if(pieceColour == "black") {
-        moves = {
-            {0, 1}, {1, 1}, {-1, 1}, {0, 2} // 1, 1  and -1, 1 is for captures only
-        };
-    } else {
-        moves = {
-            {0, -1}, {1, -1}, {-1, -1}, {0, -2} // 1, -1 and -1, -1 is for captures only
-        };   // 
-    }
-}
+vector<vector<int>> whitePawnMoves = {
+    {0, -1}, {1, -1}, {-1, -1}, {0, -2}
+};
+
+Pawn::Pawn(string pieceColour): Piece{pieceColour, pieceColour == "white" ? whitePawnMoves : blackPawnMoves, 'p'} {}

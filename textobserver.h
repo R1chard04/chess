@@ -4,6 +4,7 @@
 #include <string> 
 #include "observer.h"
 #include "chessBoard.h"
+#include "piece.h"
 using namespace std;
 
 class TextObserver : public Observer {
@@ -11,9 +12,11 @@ class TextObserver : public Observer {
     
     public:
         TextObserver(ChessBoard* board);
+        ~TextObserver();
 
         void notify() override;
 
-        ~TextObserver();
+
+        friend ostream &operator<<(ostream &out, const ChessBoard &board);
 };
 #endif

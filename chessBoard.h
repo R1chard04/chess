@@ -32,7 +32,7 @@ class ChessBoard {
         void removeAllPieces();
         void placePiece(int row, int col, bool isWhite, char pieceType);
         void removePiece(int row, int col);
-        Piece* getPiece(int row, int col);
+        Piece* getPiece(int row, int col) const;
         void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // uses verifyMove probably
 };
 

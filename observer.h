@@ -6,8 +6,6 @@ using namespace std;
 
 class Observer {
     public:
-        Observer(); 
-        
         virtual void notify() = 0; 
         virtual ~Observer() = default;
 };

@@ -1,6 +1,6 @@
 #include "piece.h"
 
-Piece::Piece(string pieceColour): pieceColour{pieceColour} {}
+Piece::Piece(string pieceColour, vector<vector<int>> moves, char pieceType): pieceColour{pieceColour}, moves{moves}, pieceType{pieceType} {}
 
 Piece::~Piece() {}
 
@@ -16,4 +16,6 @@ vector<vector<int> > Piece::getValidMoves() {
     return moves;
 }
 
-
+bool Piece::getHasMoved() const {
+    return hasMoved;
+}
