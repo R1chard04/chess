@@ -17,7 +17,7 @@ ostream &operator<<(ostream &out, const ChessBoard &board) {
   for (int i = 8; i >= 0; --i) {
     out << i << " ";
     for (int j = 0; j < 8; j++) {
-      Piece* p = board.getPiece(i, j);
+      Piece* p = board.getSquare(i, j);
       if (p == nullptr) { out << " "; }
       else { out << p->getPieceType(); }
     }

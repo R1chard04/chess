@@ -25,7 +25,7 @@ bool Human::makeMove(ChessBoard& board) {
                 if (iss >> promotionType) { // check if there the move is a promotion
                     char lowercasePromotionType = tolower(promotionType);
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
-                        Piece* piece = board.getPiece(startRow, startCol);
+                        Piece* piece = board.getSquare(startRow, startCol);
                         if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
                         else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
                         else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }
@@ -41,7 +41,7 @@ bool Human::makeMove(ChessBoard& board) {
                         out << "Invalid promotion type in Human::makeMove" << endl;
                     }
                 } else { // move is not a promotion
-                    Piece* piece = board.getPiece(startRow, startCol);
+                    Piece* piece = board.getSquare(startRow, startCol);
                     if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
                     else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
                     else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }

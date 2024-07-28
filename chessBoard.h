@@ -3,14 +3,22 @@
 #include <iostream>
 #include <vector>
 #include "observer.h"
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+#include "bishop.h"
+#include "knight.h"
+#include "pawn.h"
 using namespace std;
 
 class Observer;
-class Piece;
+
 class ChessBoard {
     vector<Observer*> observers;
     vector<vector<Piece*>> board;
 
+    vector<unique_ptr<Piece>> whitePieces;
+    vector<unique_ptr<Piece>> blackPieces;
 
     public:
         ChessBoard(); 
@@ -23,7 +31,9 @@ class ChessBoard {
 
         bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // `x` represents no promotion
 
-        bool checkCheckMate(); 
+        bool checkCheck(string colour);
+        bool checkCheckmate(); 
+        bool checkStalemate(string colour);
 
         bool getIfRookMoved(string colour);  // needs further refining
         bool getIfKingMoved(string colour);  // needs further refining
@@ -32,9 +42,8 @@ class ChessBoard {
 
         // richard added this!!!!
         void removeAllPieces();
-        void placePiece(int row, int col, bool isWhite, char pieceType);
+        void placePiece(int row, int col, bool isWhite, char pieceType, bool moved = false);
         void removePiece(int row, int col);
-        Piece* getPiece(int row, int col) const;
         void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // uses verifyMove probably
 };
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string> 
 #include "observer.h"
-#include "chessBoard.h"
+#include "chessboard.h"
 #include "piece.h"
 using namespace std;
 
