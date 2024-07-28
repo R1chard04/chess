@@ -14,8 +14,8 @@ Knight::Knight(string pieceColour, int row, int col): Piece{pieceColour, knightM
 bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {  
     int dy = toRow - row;
     int dx = toCol - col;
-
-    if(toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) {
+    int board_size = 8;
+    if(toRow < 0 || toRow >= board_size || toCol < 0 || toCol >= board_size) {
         return false; 
     }
 

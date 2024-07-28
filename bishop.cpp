@@ -17,7 +17,11 @@ vector<vector<int>> bishopMoves = {
 Bishop::Bishop(string pieceColour, int row, int col): Piece{pieceColour, bishopMoves, 'b', row, col} {}
 
 bool Bishop::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
-    if (!(toRow >= 0 && toRow < 8 && toCol >= 0 && toCol < 8)) { return false; }
+    int board_size = 8;
+    if(toRow < 0 || toRow >= board_size || toCol < 0 || toCol >= board_size) {
+        return false; 
+    }
+    
     if (toRow == row && toCol == col) { return false; }
     if (abs(toRow - row) != abs(toCol - col)) { return false; }
     for (int i = 1; i < abs(toRow - row) - 1; ++i) {
