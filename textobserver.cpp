@@ -11,12 +11,12 @@ TextObserver::~TextObserver() {
 
 void TextObserver::notify(ChessBoard& board) {
     for (int i = 7; i >= 0; --i) {
-      cout << i << " ";
+      cout << i + 1 << " ";
       for (int j = 0; j <= 7; j++) {
         Piece* p = board.getSquare(i, j);
         if (p == nullptr) { cout << " "; }
         else { 
-          if(p->getIsWhite()) {
+          if(!p->getIsWhite()) {
             cout<<char(p->getPieceType() - 32);
           } else {
             cout<<p->getPieceType();
