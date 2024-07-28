@@ -28,6 +28,8 @@ class ChessBoard {
         bool getIfRookMoved(string colour);  // needs further refining
         bool getIfKingMoved(string colour);  // needs further refining
 
+        Piece *getSquare(int row, int col);
+
         // richard added this!!!!
         void removeAllPieces();
         void placePiece(int row, int col, bool isWhite, char pieceType);
