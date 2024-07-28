@@ -17,14 +17,15 @@ class Piece {
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);
 
         string getColour(); 
-        virtual bool checkValidMove(ChessBoard& board, int fromCol, int fromRow, int toCol, int fromCol) = 0;
+        virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) = 0;
 
         virtual ~Piece() = default;
 
         bool getIsWhite() const;
         bool getPieceType() const;
         bool getHasMoved() const;
-
+        void setHasMoved(bool hasMoved);
+        void setCoords(int row, int col);
 
 };
 

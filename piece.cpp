@@ -15,3 +15,12 @@ bool Piece::getPieceType() const {
 bool Piece::getHasMoved() const {
     return hasMoved;
 }
+
+void Piece::setHasMoved(bool hasMoved) {
+    this->hasMoved = hasMoved;
+}
+
+void Piece::setCoords(int row, int col) {
+    this->row = row;
+    this->col = col;
+}
