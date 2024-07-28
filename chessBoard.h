@@ -2,6 +2,7 @@
 #define CHESSBOARD_H
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "observer.h"
 #include "king.h"
 #include "queen.h"
