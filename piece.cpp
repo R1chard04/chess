@@ -4,6 +4,15 @@ Piece::Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int 
 
 Piece::~Piece() {}
 
+bool Piece::checkInMoves(int dx, int dy) {
+    for(int i = 0; i < moves.size(); i++) {
+        if(moves[i][0] == dx && moves[i][1] == dy) {
+            return true;
+        }
+    }
+    return false; 
+}
+
 bool Piece::getIsWhite() const {
     return pieceColour == "white";
 }

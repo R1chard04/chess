@@ -13,6 +13,7 @@ class Piece {
     
     protected: 
         int row, col; 
+        bool checkInMoves(int dx, int dy); 
 
     public:
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);
