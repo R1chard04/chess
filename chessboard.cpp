@@ -14,7 +14,18 @@ ChessBoard::ChessBoard(TextObserver* textDisplay, GraphicalObserver* graphicsDis
 }
 
 ChessBoard::ChessBoard(const ChessBoard& other) {
-    // TODO
+    for (int i = 0; i < 8; ++i) {
+        vector<Piece*> row {8, nullptr};
+        board.push_back(row);
+    }
+    for (int i = 0; i < other.whitePieces.size(); ++i) {
+        Piece* p = other.whitePieces[i].get();
+        placePiece(p->getRow(), p->getCol(), p->getIsWhite(), p->getPieceType(), p->getHasMoved());
+    }
+    for (int i = 0; i < other.blackPieces.size(); ++i) {
+        Piece* p = other.blackPieces[i].get();
+        placePiece(p->getRow(), p->getCol(), p->getIsWhite(), p->getPieceType(), p->getHasMoved());
+    }
 }
 
 ChessBoard::~ChessBoard() {}
@@ -258,7 +269,7 @@ bool ChessBoard::checkCheckmate(bool isWhite) {
 }
 
 bool ChessBoard::checkStalemate(bool isWhite) {
-    
+
 }
 
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
