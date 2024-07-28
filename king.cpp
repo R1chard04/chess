@@ -36,11 +36,20 @@ bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {
         return false; 
     }
 
-    if(dx == 2 || dx == -2) {
-        if(board.getSquare(toRow, toCol + dx / 2) != nullptr) {
-            return false; 
-        }   
+    // check if castling is valid
+    if (dx == 2 || dx == -2) {
+        if(board.getSquare(toRow, toCol + dx / 2) != nullptr) { return false; } 
+        if (this->getHasMoved()) { return false; }
+        Piece* rook = board.getSquare(this->row, dx == 2 ? 7 : 0);
+        if (rook == nullptr || rook->getPieceType() != 'r' || rook->getHasMoved()) { return false; }
+
+        // check that king is not castling in or through check
+        if (board.checkIfKingIsInCheck(this->getIsWhite())) { return false; }
+        if (board.checkIfKingIsInCheck(this->getIsWhite(), this->row, this->col, toRow, toCol + dx / 2)) { return false; }
     }
+    
+    // check that king is not moving into check
+    if (board.checkIfKingIsInCheck(this->getIsWhite(), this->row, this->col, toRow, toCol)) { return false; }
 
     return true; 
 }

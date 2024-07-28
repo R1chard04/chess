@@ -21,18 +21,22 @@ class ChessBoard {
     vector<unique_ptr<Piece>> whitePieces;
     vector<unique_ptr<Piece>> blackPieces;
 
+    Piece* enPassantPawn; // TODO: MAKE SURE TO UPDATE THIS WHEN A PAWN MOVES TWO SQUARES
+
     public:
         ChessBoard(); 
+        ChessBoard(const ChessBoard& other);
         virtual ~ChessBoard();
 
         void attach(Observer* o);
         void detach(Observer* o);
         void notifyObservers(); 
-        char getState(); // needs further refining
+        // char getState(); // needs further refining
 
-        bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // `x` represents no promotion
+        bool checkIfPieceIsAttacked(Piece* piece, bool isWhite);
+        bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType = ' '); // ` ` represents no promotion
 
-        bool checkCheck(string colour);
+        bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
         bool checkCheckmate(); 
         bool checkStalemate(string colour);
 
@@ -44,6 +48,10 @@ class ChessBoard {
         void placePiece(int row, int col, bool isWhite, char pieceType, bool moved = false);
         void removePiece(int row, int col);
         void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // uses verifyMove probably
+
+        Piece* getKing(bool isWhite);
+        int getNumKings(bool isWhite);
+        Piece* getEnPassantPawn();
 };
 
 #endif

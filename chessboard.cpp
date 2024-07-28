@@ -14,15 +14,32 @@ ChessBoard::ChessBoard() {
 
 ChessBoard::~ChessBoard() {}
 
+void ChessBoard::attach(Observer* o) {
+    observers.emplace_back(o);
+}
+
+void ChessBoard::detach(Observer* o) {
+    for (int i = 0; i < observers.size(); ++i) {
+        if (observers[i] == o) {
+            observers.erase(observers.begin() + i);
+            break;
+        }
+    }
+}
+
+void ChessBoard::notifyObservers() {
+    for (int i = 0; i < observers.size(); ++i) {
+        observers[i]->notify();
+    }
+}
+
 Piece* ChessBoard::getSquare(int row, int col) {
     return board[row][col];
 }
 
 void ChessBoard::removePiece(int row, int col) {
     Piece *p = getSquare(row, col);
-    if (p == nullptr) {
-        return;
-    }
+    if (p == nullptr) { return; }
 
     if (p->getIsWhite()) {
         for (int i = 0; i < whitePieces.size(); ++i) {
@@ -58,11 +75,12 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     else if (pieceType == 'k') { p = make_unique<King>(isWhite, row, col); }
     p.get()->setHasMoved(moved);
 
-    removePiece(row, col);
+    board[row][col] = p.get();
+    notifyObservers();
     if (isWhite) {
-        whitePieces.push_back(move(p));
+        whitePieces.emplace_back(move(p));
     } else {
-        blackPieces.push_back(move(p));
+        blackPieces.emplace_back(move(p));
     }
 }
 
@@ -72,6 +90,50 @@ void ChessBoard::removeAllPieces() {
             removePiece(i, j);
         }
     }
+}
+
+Piece* ChessBoard::getKing(bool isWhite) {
+    if (isWhite) {
+        for (int i = 0; i < whitePieces.size(); ++i) {
+            if (whitePieces[i].get()->getPieceType() == 'k') {
+                return whitePieces[i].get();
+            }
+        }
+    } else {
+        for (int i = 0; i < blackPieces.size(); ++i) {
+            if (blackPieces[i].get()->getPieceType() == 'k') {
+                return blackPieces[i].get();
+            }
+        }
+    }
+    return nullptr;
+}
+
+bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
+    // TODO: implement this
+    bool attackedByKing;
+    bool attackedByQueen;
+    bool attackedByRook;
+    bool attackedByBishop;
+    bool attackedByKnight;
+    bool attackedByPawn;
+    return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
+}
+
+// check if king is in check 
+// check if piece blocks check
+// check if piece is king and moves away from check 
+bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1) {
+    int kingRow, kingCol;
+    Piece* king = getKing(isWhite);
+    
+    if (fromRow != -1) {
+        ChessBoard boardAfterMove = ChessBoard{*this};
+        boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
+        return boardAfterMove.checkIfPieceIsAttacked(king, king->getCol());
+    }
+
+    return checkIfPieceIsAttacked(king, king->getCol());
 }
 
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x') {
@@ -102,38 +164,40 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     notifyObservers();
 }
 
-// bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, string colour, char promotionType) {
-//     if(fromRow < 0 || fromRow > 7 || fromCol < 0 || fromCol > 7 || toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) {
-//         return false;
-//     }
+bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType) {
+    if (fromRow < 0 || fromRow > 7 || fromCol < 0 || fromCol > 7 || toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) { return false; }
 
-//     int dx = toCol - fromCol;
-//     int dy = toRow - fromRow;
-
-//     Piece *piece = board[fromRow][fromCol];
-
-//     // check if the piece is in the set of moves the piece can make
-//     if(piece->isInValidMoves(dx, dy) == false) {
-//         return false;
-//     }
-
-//     // special conditions: knights and pawns, king castle 
-//     if(piece->getPieceType() == 'p') {
-
-//     } else if(piece->getPieceType() == 'n') {
-//         // check if 
-//     } else {
-//         // check if there is a piece blocking the path 
-//         dx == 8 dy == 8
-//         for(int i = 0; i < )
-//     }
-
-//     // check if the piece is currently pinned 
-//     if()
-
-//     // check if king is in check 
-//         // check if piece blocks check
-//         // check if piece is king and moves away from check 
+    Piece* piece = getSquare(fromRow, fromCol);
+    if (piece == nullptr) { return false; }
 
 
-// }
+    // check if a piece can move to the destination; no pieces block path; landing square is empty or occupied by DIFFERENT colour piece
+    if (!(piece->checkValidMove(*this, toRow, toCol))) { return false; }
+
+    // check that after the move, the king is not in check
+    if (checkIfKingIsInCheck(isWhite, fromRow, fromCol, toRow, toCol)) { return false; }
+    
+    return true;
+}
+
+int ChessBoard::getNumKings(bool isWhite) {
+    int numKings = 0;
+    if (isWhite) {
+        for (int i = 0; i < whitePieces.size(); ++i) {
+            if (whitePieces[i].get()->getPieceType() == 'k') {
+                numKings++;
+            }
+        }
+    } else {
+        for (int i = 0; i < blackPieces.size(); ++i) {
+            if (blackPieces[i].get()->getPieceType() == 'k') {
+                numKings++;
+            }
+        }
+    }
+    return numKings;
+}
+
+Piece* ChessBoard::getEnPassantPawn() {
+    return enPassantPawn;
+}

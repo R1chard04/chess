@@ -26,6 +26,8 @@ class Piece {
         bool getIsWhite() const;
         bool getPieceType() const;
         bool getHasMoved() const;
+        int getRow() const;
+        int getCol() const;
         void setHasMoved(bool hasMoved);
         void setCoords(int row, int col);
 

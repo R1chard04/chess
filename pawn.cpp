@@ -52,17 +52,20 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     } else if(dx != 0) {
         // pawn is moving horizontally and is taking another piece
         if(cBoard.getSquare(toRow, toCol) == nullptr) {
-            // trying to take an empty square
-            return false; 
+            // en passant or invalid move
+            if (cBoard.getSquare(this->row, toCol) == nullptr) { return false; } 
+            else if (cBoard.getSquare(this->row, toCol) != cBoard.getEnPassantPawn()) { return false; } // correct since the en passant pawn is never your own pawn
         } else if(cBoard.getSquare(toRow, toCol)->getColour() == getColour()) {
-            // trying to take own piece
+            // trying to take piece with same colour
             return false; 
         }
+        
     } else {
         // is moving one square up 
         if(cBoard.getSquare(toRow, toCol) != nullptr) {
             return false; 
         }
     }   
-    return true; 
+    
+    return true;
 }
