@@ -82,7 +82,7 @@ void Game::setupBoard() {
 			iss >> type >> c >> n;
             
             char lowerCaseType = tolower(type);
-            if (row >= 0 && row <= 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
+            if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
                 // TODO: need something here to indicate that castling is NOT ALLOWED
                 board->placePiece(row, col, type != lowerCaseType, type);
             } else {
