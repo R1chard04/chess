@@ -6,14 +6,13 @@
 using namespace std;
 
 class Piece {
-    vector<vector<int>> moves; 
     string pieceColour; 
     char pieceType;
     bool hasMoved;
     
     protected: 
+        vector<vector<int>> moves; 
         int row, col; 
-        bool checkInMoves(int dx, int dy); 
 
     public:
         Piece(string pieceColour, vector<vector<int>> moves, char pieceType, int row, int col);

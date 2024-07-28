@@ -6,6 +6,37 @@ using namespace std;
 vector<vector<int>> kingMoves = {
     {1, 1}, {1, -1}, {-1, 1}, {-1, -1}, 
     {1, 0}, {0, -1}, {0, 1}, {-1, 0}, 
+    {-2, 0}, {2, 0}
 };
 
-King::King(string pieceColour): Piece{pieceColour, kingMoves, 'k'} {}
+King::King(string pieceColour, int row, int col): Piece{pieceColour, kingMoves, 'k', row, col} {}
+
+bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {  
+    int dy = toRow - row;
+    int dx = toCol - col;   
+
+    bool isKingMove = false; 
+    for(int i = 0; i < moves.size(); i++) {
+        if(moves[i][0] == dx && moves[i][1] == dy) {
+            isKingMove = true; 
+            break; 
+        }
+    }   
+
+    if(!isKingMove) {
+        return false; 
+    }
+
+    // check if moving to capture own piece
+    if(board.getSquare(toRow, toCol)->getColour() == getColour()) {
+        return false; 
+    }
+
+    if(dx == 2 || dx == -2) {
+        if(board.getSquare(row + dx / 2, toCol) != nullptr) {
+            return false; 
+        }   
+    }
+
+    return true; 
+}
