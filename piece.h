@@ -6,12 +6,12 @@
 using namespace std;
 
 class Piece {
-    vector<vector<int>> moves; 
     string pieceColour; 
     char pieceType;
     bool hasMoved;
     
     protected: 
+        vector<vector<int>> moves; 
         int row, col; 
 
     public:
