@@ -4,12 +4,18 @@
 #include <vector> 
 using namespace std; 
 
-ChessBoard::ChessBoard() {
+ChessBoard::ChessBoard(TextObserver* textDisplay, GraphicalObserver* graphicsDisplay) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             board[i][j] = nullptr;
         }
     }
+    attach(textDisplay);
+    attach(graphicsDisplay);
+}
+
+ChessBoard::ChessBoard(const ChessBoard& other) {
+    // TODO
 }
 
 ChessBoard::~ChessBoard() {}
@@ -33,7 +39,7 @@ void ChessBoard::notifyObservers() {
     }
 }
 
-Piece* ChessBoard::getSquare(int row, int col) {
+Piece* ChessBoard::getSquare(int row, int col) const {
     return board[row][col];
 }
 
@@ -92,7 +98,7 @@ void ChessBoard::removeAllPieces() {
     }
 }
 
-Piece* ChessBoard::getKing(bool isWhite) {
+Piece* ChessBoard::getKing(bool isWhite) const {
     if (isWhite) {
         for (int i = 0; i < whitePieces.size(); ++i) {
             if (whitePieces[i].get()->getPieceType() == 'k') {
@@ -114,7 +120,7 @@ bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = '
         return board.getSquare(row, col) != nullptr;
     }
     Piece* tmpPiece = board.getSquare(row, col);
-    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && (tmpPiece->getIsWhite() && isWhite || !tmpPiece->getIsWhite() && !isWhite);
+    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && ((tmpPiece->getIsWhite() && isWhite) || !tmpPiece->getIsWhite() && !isWhite);
 }
 
 bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
@@ -285,7 +291,7 @@ bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool
     return true;
 }
 
-int ChessBoard::getNumKings(bool isWhite) {
+int ChessBoard::getNumKings(bool isWhite) const {
     int numKings = 0;
     if (isWhite) {
         for (int i = 0; i < whitePieces.size(); ++i) {
@@ -303,6 +309,6 @@ int ChessBoard::getNumKings(bool isWhite) {
     return numKings;
 }
 
-Piece* ChessBoard::getEnPassantPawn() {
+Piece* ChessBoard::getEnPassantPawn() const {
     return enPassantPawn;
 }

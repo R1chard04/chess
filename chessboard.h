@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include "observer.h"
+#include "textobserver.h"
+#include "graphicalobserver.h"
 #include "king.h"
 #include "queen.h"
 #include "rook.h"
@@ -14,6 +16,8 @@
 using namespace std;
 
 class Observer;
+class TextObserver;
+class GraphicalObserver;
 
 class ChessBoard {
     vector<Observer*> observers;
@@ -25,7 +29,7 @@ class ChessBoard {
     Piece* enPassantPawn; // TODO: MAKE SURE TO UPDATE THIS WHEN A PAWN MOVES TWO SQUARES
 
     public:
-        ChessBoard(); 
+        ChessBoard(TextObserver *textDisplay, GraphicalObserver *graphicsDisplay); 
         ChessBoard(const ChessBoard& other);
         virtual ~ChessBoard();
 
@@ -44,15 +48,15 @@ class ChessBoard {
         bool getIfRookMoved(string colour);  // needs further refining
         bool getIfKingMoved(bool isWhite);  // needs further refining
 
-        Piece *getSquare(int row, int col);
+        Piece* getSquare(int row, int col) const;
         void removeAllPieces();
         void placePiece(int row, int col, bool isWhite, char pieceType, bool moved = false);
         void removePiece(int row, int col);
         void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // uses verifyMove probably
 
-        Piece* getKing(bool isWhite);
-        int getNumKings(bool isWhite);
-        Piece* getEnPassantPawn();
+        Piece* getKing(bool isWhite) const;
+        int getNumKings(bool isWhite) const;
+        Piece* getEnPassantPawn() const;
 };
 
 #endif

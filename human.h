@@ -3,7 +3,7 @@
 #include <vector>
 #include <string> 
 #include "player.h"
-#include "chessBoard.h"
+#include "chessboard.h"
 using namespace std;
 
 class Human : public Player {

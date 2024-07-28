@@ -46,7 +46,7 @@ bool Human::makeMove(ChessBoard& board) {
                     else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
                     else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }
                     else {
-                        if (board.verifyMove(startRow, startCol, endRow, endCol)) {
+                        if (board.verifyMove(startRow, startCol, endRow, endCol, isWhite)) {
                             board.movePiece(startRow, startCol, endRow, endCol);
                             return true;
                         } else {

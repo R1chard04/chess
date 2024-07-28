@@ -1,22 +1,23 @@
 #include "textobserver.h"
 using namespace std;
 
-TextObserver::TextObserver(ChessBoard* board): mainSubject{board} {
-    mainSubject->attach(this);
+TextObserver::TextObserver() {
+    // mainSubject->attach(this);
 }
 
 TextObserver::~TextObserver() {
-    mainSubject->detach(this);
+    // mainSubject->detach(this);
 }
 
 void TextObserver::notify() {
-    cout << *mainSubject;
+    // cout << *mainSubject;
 }
 
-ostream &operator<<(ostream &out, const ChessBoard &board) {
+ostream &operator<<(ostream &out, const ChessBoard& board) {
   for (int i = 8; i >= 0; --i) {
     out << i << " ";
     for (int j = 0; j < 8; j++) {
+      // Piece* p = board.getSquare(i, j);
       Piece* p = board.getSquare(i, j);
       if (p == nullptr) { out << " "; }
       else { out << p->getPieceType(); }

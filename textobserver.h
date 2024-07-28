@@ -11,7 +11,7 @@ class TextObserver : public Observer {
     ChessBoard* mainSubject; 
     
     public:
-        TextObserver(ChessBoard* board);
+        TextObserver();
         ~TextObserver();
 
         void notify() override;

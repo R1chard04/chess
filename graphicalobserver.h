@@ -7,13 +7,15 @@
 #include "chessboard.h"
 using namespace std;
 
+class ChessBoard;
+
 class GraphicalObserver : public Observer {
     ChessBoard* mainSubject; 
 
-    Xwindow w; 
+    Xwindow &w; 
     
     public:
-        GraphicalObserver(ChessBoard* board);
+        GraphicalObserver(Xwindow& window);
 
         void notify() override;
 

@@ -18,7 +18,7 @@ bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
         return false; 
     }
     
-    if (toRow != row && toCol != col || (toRow == row && toCol == col)) { return false; }
+    if ((toRow != row && toCol != col) || (toRow == row && toCol == col)) { return false; }
     
     if (toRow == row) {
         for (int i = 0; i < abs(toCol - col) - 1; ++i) {

@@ -1,9 +1,14 @@
 #include "game.h"
 
 
+// TODO: remember to replace graphical display init
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},
-                            graphicalDisplay{make_unique<GraphicalObserver>(8, *window)}, board{make_unique<ChessBoard>(td.get(), gd.get())},
+                            graphicalDisplay{nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), nullptr)},
                             isWhiteTurn{true}, setupMode{false} {}
+
+// Game::Game(Xwindow *w, bool enableGraphics) : in{cin}, out{cout}, turn{Colour::White}, isSetup{false}, enableGraphics{enableGraphics},
+// 						 td{make_unique<TextDisplay>()}, gd{enableGraphics ? make_unique<GraphicsDisplay>(8, *w) : nullptr},
+// 						 b{make_unique<Board>(td.get(), gd.get())}, scoreWhite{0}, scoreBlack{0} {}
 
 Game::~Game() {}
 
@@ -48,8 +53,17 @@ void Game::runTurn() {
 
 void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, int blackDifficulty) {
     isWhiteTurn = true;
-    pWhite = whiteIsHuman ? make_unique<Human>(true) : make_unique<Computer>(true, whiteDifficulty);
-    pBlack = blackIsHuman ? make_unique<Human>(false) : make_unique<Computer>(false, blackDifficulty);
+    if (whiteIsHuman) {
+        pWhite = make_unique<Human>(true);
+    } else {
+        pWhite = make_unique<Computer>(true, whiteDifficulty);
+    }
+
+    if (blackIsHuman) {
+        pBlack = make_unique<Human>(false);
+    } else {
+        pBlack = make_unique<Computer>(false, blackDifficulty);
+    }
 
     if (!setupMode) { setupNormalBoard(); } 
 
@@ -79,7 +93,7 @@ void Game::setupBoard() {
             char type;
 			char col;
 			int row;
-			iss >> type >> c >> n;
+			iss >> type >> col >> row;
             
             char lowerCaseType = tolower(type);
             if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
@@ -91,7 +105,7 @@ void Game::setupBoard() {
         } else if (command == "-") {
             char col;
 			int row;
-			iss >> c >> n;
+			iss >> col >> row;
             if (row >= 0 && row <= 8 && col >= 'a' && col <= 'h') {
                 board->removePiece(row, col);
             } else {

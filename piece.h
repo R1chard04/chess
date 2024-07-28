@@ -10,10 +10,10 @@ using namespace std;
 class Piece {
 protected:
     bool isWhite;
-    char pieceType;
-    bool hasMoved;
     vector<vector<int>> moves;
+    char pieceType;
     int row, col;
+    bool hasMoved;
 
 public:
     Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col);
