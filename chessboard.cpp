@@ -248,6 +248,19 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
     return checkIfPieceIsAttacked(king, king->getCol());
 }
 
+bool ChessBoard::checkCheckmate(bool isWhite) {
+    Piece* king = getKing(isWhite);
+    int row = king->getRow();
+    int col = king->getCol();
+    return checkIfKingIsInCheck(isWhite) && verifyMove(row, col, row-1, col-1, isWhite) && verifyMove(row, col, row-1, col, isWhite) 
+            && verifyMove(row, col, row-1, col+1, isWhite) && verifyMove(row, col, row, col-1, isWhite) && verifyMove(row, col, row, col+1, isWhite) 
+            && verifyMove(row, col, row+1, col-1, isWhite) && verifyMove(row, col, row+1, col, isWhite) && verifyMove(row, col, row+1, col+1, isWhite);
+}
+
+bool ChessBoard::checkStalemate(bool isWhite) {
+    
+}
+
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }

@@ -67,15 +67,15 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
 
     if (!setupMode) { setupNormalBoard(); } 
 
-    // while (in) {
-    //     // TODO
-    //     // first, check for checks
-    //     // if check: check for checkmate or stalemate -> if so, end game and start new round
+    while (in) {
+        // TODO
+        // first, check for checks
+        // if check: check for checkmate or stalemate -> if so, end game and start new round
 
-    //     runTurn();
+        runTurn();
 
-    //     isWhiteTurn = !isWhiteTurn;
-    // }
+        isWhiteTurn = !isWhiteTurn;
+    }
 }
 
 // ALMOST DONE

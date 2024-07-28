@@ -42,7 +42,7 @@ class ChessBoard {
         bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType = ' '); // ` ` represents no promotion
 
         bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
-        bool checkCheckmate(); 
+        bool checkCheckmate(bool isWhite); 
         bool checkStalemate(bool isWhite);
 
         bool getIfRookMoved(string colour);  // needs further refining
