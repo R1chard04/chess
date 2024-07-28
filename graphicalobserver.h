@@ -12,10 +12,10 @@ class ChessBoard;
 class GraphicalObserver : public Observer {
     ChessBoard* mainSubject; 
 
-    Xwindow &w; 
+    Xwindow w; 
     
     public:
-        GraphicalObserver(Xwindow& window);
+        GraphicalObserver(ChessBoard* mainSubject);
 
         void notify() override;
 
