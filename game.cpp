@@ -68,16 +68,15 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     if (!setupMode) { setupNormalBoard(); } 
 
     while (in) {
-        // TODO
-        // first, check for checks
-        // if check: check for checkmate or stalemate -> if so, end game and start new round
 
         runTurn();
+        board->notifyObservers();
+
         isWhiteTurn = !isWhiteTurn;
         string nextPlayer = isWhiteTurn ? "white" : "black";
         string curPlayer = isWhiteTurn ? "black" : "white";
 
-        if(board->checkStalemate()) { // what is the logic for ending a game? 
+        if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
             cout<<"It's a tie! stalemate"<<endl; 
             break;
         }
@@ -164,8 +163,6 @@ void Game::setupBoard() {
 
             // verify kings not both in check
 
-            cout<<"black king: "<<board->checkIfKingIsInCheck(false)<<endl;
-            cout<<"white king: "<<board->checkIfKingIsInCheck(true)<<endl;
             if(board->checkIfKingIsInCheck(true) && board->checkIfKingIsInCheck(false)) {
                 setupMode = false; 
                 cout<<"Error: invalid board setup, both kings in check"<<endl;
