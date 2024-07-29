@@ -145,26 +145,14 @@ void Game::setupBoard() {
             }
         } else if (command == "done") { // leave setup mode
             // TODO: verify that the board contains exactly one white king and exactly one black king; that no pawns are on the first or last row of the board; and that neither king is in check.
-            int blackKingCount = 0; 
-            int whiteKingCount = 0;
-            int board_size = 8; 
-            for(int i = 0; i < board_size; i++) {
-                for(int j = 0; j < board_size; j++) {
-                    Piece* currentPiece = board->getSquare(i, j);
-                    if(currentPiece != nullptr && currentPiece->getPieceType() == 'k') {
-                        if(currentPiece->getIsWhite()) {
-                            ++whiteKingCount;
-                        } else {
-                            ++blackKingCount;
-                        }
-                    }
-                }
-            }
+            int blackKingCount = board->getNumKings(false); 
+            int whiteKingCount = board->getNumKings(true);
             
             //verify good # of kings
             if(blackKingCount != 1 || whiteKingCount != 1) {
                 setupMode = false; 
                 cout<<"Error: Invalid board setup, wrong number of kings"<<endl; 
+                break;
             }
 
             // verify kings not both in check
