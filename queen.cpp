@@ -31,14 +31,14 @@ bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     
     if (toRow == row && toCol == col) { return false; }
     
-    if ((toRow == row || toCol == col) && !(toRow == row && toCol == col)) {
+    if (toRow == row || toCol == col) {
         if (toRow == row) {
-            for (int i = 0; i < abs(toCol - col) - 1; ++i) {
+            for (int i = 1; i < abs(toCol - col) - 1; ++i) {
                 Piece* p = cBoard.getSquare(row, toCol > col ? col + i : col - i);
                 if (p != nullptr) { return false; }
             }
         } else if (toCol == col) {
-            for (int i = 0; i < abs(toRow - row) - 1; ++i) {
+            for (int i = 1; i < abs(toRow - row) - 1; ++i) {
                 Piece* p = cBoard.getSquare(toRow > row ? row + i : row - i, col);
                 if (p != nullptr) { return false; }
             }
@@ -51,7 +51,6 @@ bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     } else {
         return false;
     }
-
     Piece* p = cBoard.getSquare(toRow, toCol);
     if (p != nullptr && p->getIsWhite() == this->getIsWhite()) { return false; }
 
