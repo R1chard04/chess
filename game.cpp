@@ -66,6 +66,7 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     }
 
     if (!setupMode) { setupNormalBoard(); } 
+    board->notifyObservers();
 
     while (in) {
 
@@ -75,20 +76,20 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
         string nextPlayer = isWhiteTurn ? "white" : "black";
         string curPlayer = isWhiteTurn ? "black" : "white";
 
-        cout<<"move made succesful"<<endl;
+        out<<"move made succesful"<<endl;
 
         if(board->checkCheckmate(isWhiteTurn)) {
-            cout<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl;
+            out<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl; // remember to change this
             break;
         }
 
         if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
-            cout<<"It's a tie! stalemate"<<endl; 
+            out<<"Stalemate!"<<endl; 
             break;
         }
 
         if(board->checkIfKingIsInCheck(isWhiteTurn)) {
-            cout<<nextPlayer<<" is now in check"<<endl;
+            out<<nextPlayer<<" is now in check"<<endl;
         }
         cout<<"No checks"<<endl; 
         board->notifyObservers();
@@ -118,6 +119,7 @@ void Game::setupBoard() {
                 // TODO: need something here to indicate that castling is NOT ALLOWED
                 cout<<"placing piece: "<<type<<" "<<row<<" "<<int(col - 'a')<<endl;
                 board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType);
+                board->notifyObservers();
             } else {
                 out << "Invalid command in Game::setupBoard (+)" << " "<<type<<" "<<col<<" "<<row<<endl;
             }
@@ -176,7 +178,6 @@ void Game::setupBoard() {
         } else {
             out << "Invalid command in Game::setupBoard (\"done\")" << endl;
         }
-
     }
 }
 

@@ -9,8 +9,8 @@ LDFLAGS = -lX11
 
 # Source files
 SRC = piece.cpp bishop.cpp chessboard.cpp computer.cpp game.cpp graphicalobserver.cpp \
-      human.cpp king.cpp knight.cpp main.cc observer.cpp pawn.cpp \
-      player.cpp queen.cpp rook.cpp textobserver.cpp window.cpp main.cc
+      human.cpp king.cpp knight.cpp observer.cpp pawn.cpp \
+      player.cpp queen.cpp rook.cpp textobserver.cpp window.cpp
 
 # Header files
 HEADERS = piece.h bishop.h chessboard.h computer.h game.h graphicalobserver.h \
@@ -28,7 +28,7 @@ all: $(EXEC)
 
 # Linking
 $(EXEC): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) main.cc 
 
 # Compilation
 %.o: %.cpp $(HEADERS)
