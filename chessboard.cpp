@@ -85,15 +85,14 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     }
 
     unique_ptr<Piece> p;
-
     if (pieceType == 'p') { p = make_unique<Pawn>(isWhite, row, col); } 
     else if (pieceType == 'r') { p = make_unique<Rook>(isWhite, row, col); } 
     else if (pieceType == 'n') { p = make_unique<Knight>(isWhite, row, col); } 
     else if (pieceType == 'b') { p = make_unique<Bishop>(isWhite, row, col); } 
     else if (pieceType == 'q') { p = make_unique<Queen>(isWhite, row, col); } 
     else if (pieceType == 'k') { p = make_unique<King>(isWhite, row, col); }
-    p.get()->setHasMoved(moved);
 
+    p.get()->setHasMoved(moved);
     board[row][col] = p.get();
     notifyObservers();
     if (isWhite) {

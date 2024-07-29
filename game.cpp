@@ -95,12 +95,14 @@ void Game::setupBoard() {
 			int row;
 			iss >> type >> col >> row;
             
+            row--; 
             char lowerCaseType = tolower(type);
             if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
                 // TODO: need something here to indicate that castling is NOT ALLOWED
-                board->placePiece(row, col, type != lowerCaseType, type);
+                cout<<"placing piece: "<<type<<" "<<row<<" "<<int(col - 'a')<<endl;
+                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType);
             } else {
-                out << "Invalid command in Game::setupBoard (+)" << endl;
+                out << "Invalid command in Game::setupBoard (+)" << " "<<type<<" "<<col<<" "<<row<<endl;
             }
         } else if (command == "-") {
             char col;
