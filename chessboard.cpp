@@ -133,7 +133,7 @@ bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = '
         return board.getSquare(row, col) != nullptr;
     }
     Piece* tmpPiece = board.getSquare(row, col);
-    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && !((tmpPiece->getIsWhite() && isWhite) || !(!tmpPiece->getIsWhite() && !isWhite));
+    return (tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && tmpPiece->getIsWhite() != isWhite);
 }
 
 bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
@@ -143,7 +143,7 @@ bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType
         if (existsPieceInSquare(board, row, i)) {
             if (pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != col) {
                 break;
             }
         }
@@ -155,7 +155,7 @@ bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType
         if (existsPieceInSquare(board, row, i)) {
             if (pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != col) {
                 break;
             }
         }
@@ -172,7 +172,7 @@ bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType =
         if (existsPieceInSquare(board, i, col)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row) {
                 break;
             }
         }
@@ -184,7 +184,7 @@ bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType =
         if (existsPieceInSquare(board, i, col)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row) {
                 break;
             }
         }
@@ -202,21 +202,21 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         if (existsPieceInSquare(board, i, j)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row || j != col) {
                 break;
             }
         }
         i += 1;
         j += 1;
     }
-
+    // 6, 5
     i = row;
     j = col;
     while (i >= 0 && j >= 0) {
         if (existsPieceInSquare(board, i, j)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row || j != col) {
                 break;
             }
         }
@@ -230,7 +230,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         if (existsPieceInSquare(board, i, j)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row || j != col) {
                 break;
             }
         }
@@ -244,7 +244,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         if (existsPieceInSquare(board, i, j)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
                 return true;
-            } else {
+            } else if(i != row || j != col) {
                 break;
             }
         }
@@ -292,8 +292,8 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
         ChessBoard boardAfterMove = ChessBoard{*this};
         cout << "copy contructing done" << endl;
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
-        cout << "piece is moved" << endl;
-        return boardAfterMove.checkIfPieceIsAttacked(king, !king->getIsWhite());
+        cout << "piece is moved" << " "<<king->getIsWhite()<<endl;
+        return boardAfterMove.checkIfPieceIsAttacked(king, king->getIsWhite());
     }
 
     return checkIfPieceIsAttacked(king, king->getCol());
