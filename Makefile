@@ -27,15 +27,19 @@ EXEC = chess
 all: $(EXEC)
 
 # Linking
-$(EXEC): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) main.cc 
+$(EXEC): $(OBJ) main.o
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Compilation
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Compilation of main.o
+main.o: main.cc
+	$(CXX) $(CXXFLAGS) -c main.cc -o main.o
+
 # Clean target
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -f $(OBJ) $(EXEC) main.o
 
 .PHONY: all clean

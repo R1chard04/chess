@@ -64,7 +64,7 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     } else {
         pBlack = make_unique<Computer>(false, blackDifficulty);
     }
-
+    cout<<"done"<<endl;
     if (!setupMode) { setupNormalBoard(); } 
     board->notifyObservers();
 

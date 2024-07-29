@@ -56,7 +56,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
     // move takes a piece: 
     for(int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
-
+        if(cBoard.getSquare(move[2], move[3]) == nullptr) continue; 
         if(cBoard.getSquare(move[2], move[3])->getIsWhite() != isWhite) {
             // takes opponent's piece
             if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
@@ -70,29 +70,26 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
         }
     }
 
-    // move results in check 
+    // move results in check and does not take a piece
     for(int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
 
+
+        ChessBoard boardAfterMove = ChessBoard(cBoard); 
+
         // promotion on pawn
         if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
-            cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             // make the move and check if there is a check on opponent
-            if(cBoard.checkIfKingIsInCheck(!isWhite)) {
+            if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
                 return true; 
-            } else {
-                // no check, move the piece back to original position
-                // cBoard.goBack(); 
-            }
+            } 
         } else {
-            cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
-            if(cBoard.checkIfKingIsInCheck(!isWhite)) {
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'x');
+            if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
                 // the move resulted in a check
                 return true; 
-            } else {
-                // the move did not result in a check 
-                // cBoard.goBack(); 
-            }   
+            } 
         }
     }
 
@@ -133,7 +130,7 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         }
     }
 
-    makeMove2(cBoard); 
+    return makeMove2(cBoard); 
 }
 
 bool Computer::makeMove(ChessBoard& cBoard) {

@@ -33,14 +33,14 @@ int main(int argc, char *argv[]) {
             } else if (whiteIsHuman && !blackIsHuman) {
                 int difficulty = static_cast<int>(blackPlayer.back()) - '0';
                 cout << "diff: " << difficulty << endl;
-                // game.startGame(true, false, -1, difficulty);
+                game.startGame(true, false, -1, difficulty);
             } else if (!whiteIsHuman && blackIsHuman) {
                 int difficulty = static_cast<int>(whitePlayer.back()) - '0';
-                // game.startGame(false, true, difficulty, -1);
+                game.startGame(false, true, difficulty, -1);
             } else {
                 int whiteDifficulty = static_cast<int>(whitePlayer.back()) - '0';
                 int blackDifficulty = static_cast<int>(blackPlayer.back()) - '0';
-                // game.startGame(false, false, whiteDifficulty, blackDifficulty);
+                game.startGame(false, false, whiteDifficulty, blackDifficulty);
             }
 
         } else if (command == "setup") {
