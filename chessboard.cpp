@@ -2,6 +2,7 @@
 #include "piece.h"
 #include <iostream> 
 #include <vector> 
+#include <cassert>
 using namespace std; 
 
 ChessBoard::ChessBoard(TextObserver* textDisplay, GraphicalObserver* graphicsDisplay) {
@@ -127,8 +128,20 @@ Piece* ChessBoard::getKing(bool isWhite) const {
     return nullptr;
 }
 
+void printBoard(ChessBoard& board) {
+    for(int i = 7; i >= 0; i--) {
+        for(int j = 0; j < 8; j++) {
+            if(board.getSquare(i, j) != nullptr) {
+                cout<<board.getSquare(i, j)->getPieceType(); 
+            } else {
+                cout<<" ";
+            }
+        } cout<<endl; 
+    }
+}
+
 bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
-    if (row < 0 || row > 7 || col < 0 || row > 7) return false;
+    if (row < 0 || row > 7 || col < 0 || col > 7) return false;
     if (pieceType == ' ') {
         return board.getSquare(row, col) != nullptr;
     }
@@ -259,6 +272,7 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
     int row = piece->getRow();
     int col = piece->getCol();
     
+    cout<<row<<" "<<col<<" "<<endl; 
     bool attackedByKing = existsPieceInSquare(*this, row+1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
@@ -270,7 +284,7 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
     cout << "attacked: " << attackedByRook << endl;
     bool attackedByBishop = existsPieceInDiagonal(*this, row, col, 'b', isWhite);
     cout << "attacked: " << attackedByBishop << endl;
-    bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite) 
+    bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite)
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
@@ -292,8 +306,12 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
         ChessBoard boardAfterMove = ChessBoard{*this};
         cout << "copy contructing done" << endl;
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
-        cout << "piece is moved" << " "<<king->getIsWhite()<<endl;
-        return boardAfterMove.checkIfPieceIsAttacked(king, king->getIsWhite());
+        cout << "piece is moved from" <<fromRow<<" "<<fromCol<<" to" << " "<< toRow << " " <<toCol<<endl;
+        printBoard(boardAfterMove); 
+        cout<<"if output breaks here this means that the piece was not moved correctly in checkIfKingIsInCheck"<<endl;
+        Piece *newKing = boardAfterMove.getKing(isWhite); 
+        assert(newKing != nullptr); 
+        return boardAfterMove.checkIfPieceIsAttacked(newKing, king->getIsWhite());
     }
 
     return checkIfPieceIsAttacked(king, king->getCol());

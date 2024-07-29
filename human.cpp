@@ -24,12 +24,12 @@ bool Human::makeMove(ChessBoard& board) {
             startRow--; 
             endRow--;
 
-            int startColNum = (startCol - 'a'); 
-            int endColNum = (endCol - 'a'); 
+            int startColNum = int(startCol - 'a'); 
+            int endColNum = int(endCol - 'a'); 
             // startRow = 7 - startRow; 
             // endRow = 7 - endRow; 
 
-            cout << "COORDS:" << startRow << " " << endRow << " " << startColNum << " " << endColNum << endl;
+            cout << "COORDS:" << startRow << " " << endRow << " " << startColNum << " " << endColNum << " "<<startCol<<" "<<endCol<< endl;
 
             if (startRow >= 0 && startRow < 8 && startCol >= 'a' && startCol <= 'h' && endRow >= 0 && endRow < 8 && endCol >= 'a' && endCol <= 'h') {
                 if (iss >> promotionType) { // check if there the move is a promotion
