@@ -317,17 +317,40 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
     return checkIfPieceIsAttacked(king, king->getCol());
 }
 
-bool ChessBoard::checkCheckmate(bool isWhite) {
-    Piece* king = getKing(isWhite);
-    int row = king->getRow();
-    int col = king->getCol();
-    return checkIfKingIsInCheck(isWhite) && verifyMove(row, col, row-1, col-1, isWhite) && verifyMove(row, col, row-1, col, isWhite) 
-            && verifyMove(row, col, row-1, col+1, isWhite) && verifyMove(row, col, row, col-1, isWhite) && verifyMove(row, col, row, col+1, isWhite) 
-            && verifyMove(row, col, row+1, col-1, isWhite) && verifyMove(row, col, row+1, col, isWhite) && verifyMove(row, col, row+1, col+1, isWhite);
+vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
+    int board_size = 8; 
+    vector<vector<int> > res; 
+
+    for(int i = 0; i < board_size; i++) {
+        for(int j = 0; j < board_size; j++) {
+            // piece is nullptr
+            if(cBoard.getSquare(i, j) == nullptr);
+            
+            // piece is not our colour
+            if(cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
+
+            // square is our piece 
+            for(int k = 0; k < board_size; k++) {
+                for(int h = 0; h < board_size; h++) {
+                    if(cBoard.verifyMove(i, j, k, h, isWhite)) {
+                        // valid move
+                        res.push_back({i, j, k, h});
+                    }
+                }
+            }
+        }
+    }
+    return res; 
 }
 
-bool ChessBoard::checkStalemate(bool isWhite) {
+bool ChessBoard::checkCheckmate(bool isWhite) {
+    vector<vector<int>> moves = generateMoves(*this, isWhite);
+    if(moves.size() == 0) return true; 
+    return false;     
+}
 
+bool ChessBoard::checkStalemate() {
+    return checkCheckmate(true) && checkCheckmate(false);
 }
 
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
