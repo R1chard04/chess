@@ -10,6 +10,7 @@ vector<vector<int> > Computer::generateMoves(ChessBoard& cBoard) {
 
     for(int i = 0; i < board_size; i++) {
         for(int j = 0; j < board_size; j++) {
+            if(cBoard.getSquare(i, j) == nullptr) continue; 
             if(cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
 
             // square is computer's piece 
@@ -23,6 +24,7 @@ vector<vector<int> > Computer::generateMoves(ChessBoard& cBoard) {
             }
         }
     }
+    return res; 
 }
 
 bool Computer::makeMove1(ChessBoard& cBoard) {

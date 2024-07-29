@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
             }
 
         } else if (command == "setup") {
-            // game.setupBoard();
+            game.setupBoard();
         } else {
             cout << "Invalid command in main.cc" << endl;
         }
