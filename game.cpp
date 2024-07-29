@@ -68,11 +68,21 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     if (!setupMode) { setupNormalBoard(); } 
 
     while (in) {
-        // TODO
-        // first, check for checks
-        // if check: check for checkmate or stalemate -> if so, end game and start new round
+        // checks for checks, checkmates and stalemates
+        if (board->checkIfKingIsInCheck(isWhiteTurn)) {
+            string oppositeColourTurn = !isWhiteTurn ? "White" : "Black";
+            if (board->checkCheckmate(isWhiteTurn)) {
+                out << "Checkmate! " << oppositeColourTurn << " wins!" << endl;
+            } else {
+                out << oppositeColourTurn << " is in check." << endl;
+            }
+        }
+        if (board->checkStalemate(isWhiteTurn)) {
+            out << "Stalemate!" << endl;
+        }
 
         runTurn();
+        board->notifyObservers();
 
         isWhiteTurn = !isWhiteTurn;
     }

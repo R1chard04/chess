@@ -95,7 +95,6 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     p.get()->setHasMoved(moved);
 
     board[row][col] = p.get();
-    notifyObservers();
     if (isWhite) {
         whitePieces.emplace_back(move(p));
     } else {
@@ -277,21 +276,21 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
                         || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
                         || existsPieceInSquare(*this, row, col+1, 'k', isWhite) || existsPieceInSquare(*this, row, col-1, 'k', isWhite);
-    cout << "attacked: " << attackedByKing << endl;
+    cout << "attacked by king: " << attackedByKing << endl;
     bool attackedByQueen = existsPieceInHorizontal(*this, row, col, 'q', isWhite) || existsPieceInVertical(*this, row, col, 'q', isWhite) || existsPieceInDiagonal(*this, row, col, 'q', isWhite);
-    cout << "attacked: " << attackedByQueen << endl;
+    cout << "attacked by queen: " << attackedByQueen << endl;
     bool attackedByRook = existsPieceInHorizontal(*this, row, col, 'r', isWhite) || existsPieceInVertical(*this, row, col, 'r', isWhite);
-    cout << "attacked: " << attackedByRook << endl;
+    cout << "attacked by rook: " << attackedByRook << endl;
     bool attackedByBishop = existsPieceInDiagonal(*this, row, col, 'b', isWhite);
-    cout << "attacked: " << attackedByBishop << endl;
+    cout << "attacked by bishop: " << attackedByBishop << endl;
     bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite)
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
-    cout << "attacked: " << attackedByKnight << endl;
+    cout << "attacked by knight: " << attackedByKnight << endl;
     bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn))
                         : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn));
-    cout << "attacked: " << attackedByPawn << endl;
+    cout << "attacked by pawn: " << attackedByPawn << endl;
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
 
@@ -308,9 +307,9 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
         cout << "piece is moved from" <<fromRow<<" "<<fromCol<<" to" << " "<< toRow << " " <<toCol<<endl;
         printBoard(boardAfterMove); 
-        cout<<"if output breaks here this means that the piece was not moved correctly in checkIfKingIsInCheck"<<endl;
+        // cout<<"if output breaks here this means that the piece was not moved correctly in checkIfKingIsInCheck"<<endl;
         Piece *newKing = boardAfterMove.getKing(isWhite); 
-        assert(newKing != nullptr); 
+        // assert(newKing != nullptr); 
         return boardAfterMove.checkIfPieceIsAttacked(newKing, king->getIsWhite());
     }
 
@@ -368,7 +367,6 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     }
 
     p->setHasMoved(true);
-    notifyObservers();
 }
 
 bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType) {
