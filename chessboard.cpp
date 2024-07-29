@@ -305,6 +305,7 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
     if (fromRow != -1) {
         ChessBoard boardAfterMove = ChessBoard{*this};
         cout << "copy contructing done" << endl;
+        cout <<" attempting move from " <<fromRow<<" "<<fromCol<<" to" << " "<< toRow << " " <<toCol<<endl;
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
         cout << "piece is moved from" <<fromRow<<" "<<fromCol<<" to" << " "<< toRow << " " <<toCol<<endl;
         printBoard(boardAfterMove); 
@@ -390,6 +391,13 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
 
     // pawn promotion
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
+        if(promotionType == 'k') {
+            cout<<"error: cannot promot pawn to king"<<endl; 
+        } else if(promotionType == 'x') {
+            promotionType = 'q'; 
+            // default promotion to queen
+        }
+        cout<<"attempting to promote to: "<<promotionType<<endl;
         placePiece(toRow, toCol, p->getIsWhite(), promotionType); // TODO: change placePiece to account for castling
     }
 
