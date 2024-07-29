@@ -17,28 +17,28 @@ void Game::setupNormalBoard() {
     board->removeAllPieces();
     isWhiteTurn = true;
 
-    board->placePiece(0, 0, false, 'r');
-    board->placePiece(0, 1, false, 'n');
-    board->placePiece(0, 2, false, 'b');
-    board->placePiece(0, 3, false, 'q');
-    board->placePiece(0, 4, false, 'k');
-    board->placePiece(0, 5, false, 'b');
-    board->placePiece(0, 6, false, 'n');
-    board->placePiece(0, 7, false, 'r');
+    board->placePiece(0, 0, true, 'r');
+    board->placePiece(0, 1, true, 'n');
+    board->placePiece(0, 2, true, 'b');
+    board->placePiece(0, 3, true, 'q');
+    board->placePiece(0, 4, true, 'k');
+    board->placePiece(0, 5, true, 'b');
+    board->placePiece(0, 6, true, 'n');
+    board->placePiece(0, 7, true, 'r');
 
     for (int i = 0; i < 8; i++) {
-        board->placePiece(1, i, false, 'p');
-        board->placePiece(6, i, true, 'p');
+        board->placePiece(1, i, true, 'p');
+        board->placePiece(6, i, false, 'p');
     }
 
-    board->placePiece(7, 0, true, 'r');
-    board->placePiece(7, 1, true, 'n');
-    board->placePiece(7, 2, true, 'b');
-    board->placePiece(7, 3, true, 'q');
-    board->placePiece(7, 4, true, 'k');
-    board->placePiece(7, 5, true, 'b');
-    board->placePiece(7, 6, true, 'n');
-    board->placePiece(7, 7, true, 'r');
+    board->placePiece(7, 0, false, 'r');
+    board->placePiece(7, 1, false, 'n');
+    board->placePiece(7, 2, false, 'b');
+    board->placePiece(7, 3, false, 'q');
+    board->placePiece(7, 4, false, 'k');
+    board->placePiece(7, 5, false, 'b');
+    board->placePiece(7, 6, false, 'n');
+    board->placePiece(7, 7, false, 'r');
 
 }
 

@@ -133,23 +133,31 @@ bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = '
         return board.getSquare(row, col) != nullptr;
     }
     Piece* tmpPiece = board.getSquare(row, col);
-    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && ((tmpPiece->getIsWhite() && isWhite) || !(!tmpPiece->getIsWhite() && !isWhite));
+    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && !((tmpPiece->getIsWhite() && isWhite) || !(!tmpPiece->getIsWhite() && !isWhite));
 }
 
 bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     int i = col;
 
     while (i < 8) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, row, i))) {
-            return true;
+        if (existsPieceInSquare(board, row, i)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i += 1;
     }
 
     i = col;
     while (i >= 0) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, row, i))) {
-            return true;
+        if (existsPieceInSquare(board, row, i)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i -= 1;
     }
@@ -161,16 +169,24 @@ bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType =
     int i = row;
 
     while (i < 8) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, col))) {
-            return true;
+        if (existsPieceInSquare(board, i, col)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i += 1;
     }
 
     i = row;
     while (i >= 0) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, col))) {
-            return true;
+        if (existsPieceInSquare(board, i, col)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i -= 1;
     }
@@ -183,8 +199,12 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
     int j = col;
 
     while (i < 8 && j < 8) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
-            return true;
+        if (existsPieceInSquare(board, i, j)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i += 1;
         j += 1;
@@ -193,8 +213,12 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
     i = row;
     j = col;
     while (i >= 0 && j >= 0) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
-            return true;
+        if (existsPieceInSquare(board, i, j)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i -= 1;
         j -= 1;
@@ -203,8 +227,12 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
     i = row;
     j = col;
     while (i < 8 && j >= 0) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
-            return true;
+        if (existsPieceInSquare(board, i, j)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i += 1;
         j -= 1;
@@ -213,8 +241,12 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
     i = row;
     j = col;
     while (i >= 0 && j < 8) {
-        if ((pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) || (pieceType == ' ' && existsPieceInSquare(board, i, j))) {
-            return true;
+        if (existsPieceInSquare(board, i, j)) {
+            if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
+                return true;
+            } else {
+                break;
+            }
         }
         i -= 1;
         j += 1;
@@ -231,21 +263,21 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
                         || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
                         || existsPieceInSquare(*this, row, col+1, 'k', isWhite) || existsPieceInSquare(*this, row, col-1, 'k', isWhite);
-    cout << "here11111" << attackedByKing << endl;
+    cout << "attacked: " << attackedByKing << endl;
     bool attackedByQueen = existsPieceInHorizontal(*this, row, col, 'q', isWhite) || existsPieceInVertical(*this, row, col, 'q', isWhite) || existsPieceInDiagonal(*this, row, col, 'q', isWhite);
-    cout << "here11111" << attackedByQueen << endl;
+    cout << "attacked: " << attackedByQueen << endl;
     bool attackedByRook = existsPieceInHorizontal(*this, row, col, 'r', isWhite) || existsPieceInVertical(*this, row, col, 'r', isWhite);
-    cout << "here11111" << attackedByRook << endl;
+    cout << "attacked: " << attackedByRook << endl;
     bool attackedByBishop = existsPieceInDiagonal(*this, row, col, 'b', isWhite);
-    cout << "here11111" << attackedByBishop << endl;
+    cout << "attacked: " << attackedByBishop << endl;
     bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
-    cout << "here11111" << attackedByKnight << endl;
-    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) 
-                        : existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'p', isWhite);
-    cout << "here11111" << attackedByPawn << endl;
+    cout << "attacked: " << attackedByKnight << endl;
+    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) 
+                        : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite);
+    cout << "attacked: " << attackedByPawn << endl;
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
 
@@ -284,25 +316,27 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }
 
-    // if (p->getPieceType() == 'k' && abs(fromCol - toCol) == 2) {
-    //     if (toCol == 6) {
-    //         movePiece(fromRow, 7, fromRow, 5);
-    //     } else {
-    //         movePiece(fromRow, 0, fromRow, 3);
-    //     }
-    // }
+    // moving rook for castling
+    if (p->getPieceType() == 'k' && abs(fromCol - toCol) == 2) {
+        if (toCol == 6) {
+            movePiece(fromRow, 7, fromRow, 5);
+        } else {
+            movePiece(fromRow, 0, fromRow, 3);
+        }
+    }
 
-    // if (getSquare(toRow, toCol) != nullptr) {
-    //     removePiece(toRow, toCol);
-    // }
+    if (getSquare(toRow, toCol) != nullptr) {
+        removePiece(toRow, toCol);
+    }
 
-    // p->setCoords(toRow, toCol);
-    // board[toRow][toCol] = p;
-    // board[fromRow][fromCol] = nullptr;
+    p->setCoords(toRow, toCol);
+    board[toRow][toCol] = p;
+    board[fromRow][fromCol] = nullptr;
 
-    // if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) {
-    //     placePiece(toRow, toCol, p->getIsWhite(), promotionType);
-    // }
+    // pawn promotion
+    if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
+        placePiece(toRow, toCol, p->getIsWhite(), promotionType); // TODO: change placePiece to account for castling
+    }
 
     p->setHasMoved(true);
     notifyObservers();
@@ -313,13 +347,15 @@ bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool
 
     Piece* piece = getSquare(fromRow, fromCol);
     if (piece == nullptr) { return false; }
-
+    cout << "check passed: piece exists" << endl;
 
     // check if a piece can move to the destination; no pieces block path; landing square is empty or occupied by DIFFERENT colour piece
     if (!(piece->checkValidMove(*this, toRow, toCol))) { return false; }
-    cout << "HEREEEEE" << endl;
+    cout << "check passed: piece can move" << endl;
+
     // check that after the move, the king is not in check
     if (checkIfKingIsInCheck(isWhite, fromRow, fromCol, toRow, toCol)) { return false; }
+    cout << "check passed: king is not in check" << endl;
     
     return true;
 }

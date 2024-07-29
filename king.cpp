@@ -32,7 +32,7 @@ bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {
     }
 
     // check if moving to capture own piece
-    if(board.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
+    if (board.getSquare(toRow, toCol) != nullptr && board.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
         return false; 
     }
 

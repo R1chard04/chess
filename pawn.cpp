@@ -3,11 +3,11 @@
 #include <vector>
 using namespace std; 
 
-vector<vector<int>> blackPawnMoves = {
+vector<vector<int>> whitePawnMoves = {
     {0, 1}, {1, 1}, {-1, 1}, {0, 2}
 };
 
-vector<vector<int>> whitePawnMoves = {
+vector<vector<int>> blackPawnMoves = {
     {0, -1}, {1, -1}, {-1, -1}, {0, -2}
 };
 

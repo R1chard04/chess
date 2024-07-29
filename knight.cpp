@@ -26,13 +26,14 @@ bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {
             break; 
         }
     }
+    cout << "checkValidMove in knight" << endl;
 
     if(!isKnightMove) {
         return false; 
     }
 
     // check if moving to capture own piece
-    if(board.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
+    if(board.getSquare(toRow, toCol) != nullptr && board.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
         return false; 
     }
 

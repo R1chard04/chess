@@ -26,8 +26,10 @@ bool Human::makeMove(ChessBoard& board) {
 
             int startColNum = (startCol - 'a'); 
             int endColNum = (endCol - 'a'); 
-            startRow = 7 - startRow; 
-            endRow = 7 - endRow; 
+            // startRow = 7 - startRow; 
+            // endRow = 7 - endRow; 
+
+            cout << "COORDS:" << startRow << " " << endRow << " " << startColNum << " " << endColNum << endl;
 
             if (startRow >= 0 && startRow < 8 && startCol >= 'a' && startCol <= 'h' && endRow >= 0 && endRow < 8 && endCol >= 'a' && endCol <= 'h') {
                 if (iss >> promotionType) { // check if there the move is a promotion
@@ -50,11 +52,12 @@ bool Human::makeMove(ChessBoard& board) {
                     }
                 } else { // move is not a promotion
                     Piece* piece = board.getSquare(startRow, startColNum);
+                    cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
                     if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
-                    else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
-                    else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }
+                    else if (piece->getIsWhite() ^ isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
                     else {
                         if (board.verifyMove(startRow, startColNum, endRow, endColNum, isWhite)) {
+                            cout << "moving piece" << endl;
                             board.movePiece(startRow, startColNum, endRow, endColNum);
                             return true;
                         } else {
