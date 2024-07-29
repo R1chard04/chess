@@ -293,7 +293,7 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
         cout << "copy contructing done" << endl;
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
         cout << "piece is moved" << endl;
-        return boardAfterMove.checkIfPieceIsAttacked(king, king->getIsWhite());
+        return boardAfterMove.checkIfPieceIsAttacked(king, !king->getIsWhite());
     }
 
     return checkIfPieceIsAttacked(king, king->getCol());
