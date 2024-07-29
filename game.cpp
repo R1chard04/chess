@@ -77,17 +77,15 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
 
         cout<<"move made succesful"<<endl;
 
+        if(board->checkCheckmate(isWhiteTurn)) {
+            cout<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl;
+            break;
+        }
+
         if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
             cout<<"It's a tie! stalemate"<<endl; 
             break;
         }
-
-        cout<<"No stalemate"<<endl; 
-        if(board->checkCheckmate(isWhiteTurn)) {
-            cout<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl;
-            break;
-        } 
-        cout<<"No checkmate"<<endl; 
 
         if(board->checkIfKingIsInCheck(isWhiteTurn)) {
             cout<<nextPlayer<<" is now in check"<<endl;
