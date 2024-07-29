@@ -82,11 +82,13 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             // make the move and check if there is a check on opponent
             if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
                 return true; 
             } 
         } else {
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'x');
             if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
                 // the move resulted in a check
                 return true; 
             } 
@@ -99,6 +101,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
 
 
 bool Computer::makeMove3(ChessBoard& cBoard) {
+    cout<<"trying"<<endl;
     int board_size = 8;
     vector<vector<int> > moves = generateMoves(cBoard);
 
@@ -113,24 +116,26 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         if(!cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) continue; 
         // don't care if piece not attacked
 
-        if(cBoard.getSquare(move[2], move[3])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
-            cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
-            if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
-                // cBoard.goBack();
-            } else {
+        ChessBoard boardAfterMove = ChessBoard(cBoard); 
+
+        if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
+            if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
                 return true; 
-            }
+            } 
         } else {
-            cBoard.movePiece(move[0], move[1], move[2], move[3]);
-            if(cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) {
-                // cBoard.goBack();
-            } else {
-                return true; 
-            }
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3]);
+            if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
+                cout<<"found"<<endl;
+                return true;
+            } 
         }
     }
-
-    return makeMove2(cBoard); 
+    cout<<"makeMove 3"<<endl;
+    return false; 
+    // return makeMove2(cBoard); 
 }
 
 bool Computer::makeMove(ChessBoard& cBoard) {
@@ -151,7 +156,8 @@ bool Computer::makeMove(ChessBoard& cBoard) {
         makeMove2(cBoard);
     } else if(difficulty == 3) {
         // prefers avoiding capture, capturing moves, and checks
-        makeMove3(cBoard);        
+        makeMove3(cBoard);         
+        cout<<"moveMade"<<endl;
 
     } else if(difficulty == 4) {
         //
