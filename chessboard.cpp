@@ -347,7 +347,7 @@ bool ChessBoard::checkCheckmate(bool isWhite) {
     return false;     
 }
 
-bool ChessBoard::checkStalemate() {
+bool ChessBoard::checkStalemate(bool isWhiteTurn) {
     return checkCheckmate(true) && checkCheckmate(false);
 }
 
