@@ -128,11 +128,12 @@ Piece* ChessBoard::getKing(bool isWhite) const {
 }
 
 bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
+    if (row < 0 || row > 7 || col < 0 || row > 7) return false;
     if (pieceType == ' ') {
         return board.getSquare(row, col) != nullptr;
     }
     Piece* tmpPiece = board.getSquare(row, col);
-    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && ((tmpPiece->getIsWhite() && isWhite) || !tmpPiece->getIsWhite() && !isWhite);
+    return tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && ((tmpPiece->getIsWhite() && isWhite) || !(!tmpPiece->getIsWhite() && !isWhite));
 }
 
 bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
@@ -225,21 +226,26 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
 bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
     int row = piece->getRow();
     int col = piece->getCol();
-
+    
     bool attackedByKing = existsPieceInSquare(*this, row+1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+1, 'k', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'k', isWhite) 
                         || existsPieceInSquare(*this, row+1, col, 'k', isWhite) || existsPieceInSquare(*this, row-1, col, 'k', isWhite) 
                         || existsPieceInSquare(*this, row, col+1, 'k', isWhite) || existsPieceInSquare(*this, row, col-1, 'k', isWhite);
+    cout << "here11111" << attackedByKing << endl;
     bool attackedByQueen = existsPieceInHorizontal(*this, row, col, 'q', isWhite) || existsPieceInVertical(*this, row, col, 'q', isWhite) || existsPieceInDiagonal(*this, row, col, 'q', isWhite);
+    cout << "here11111" << attackedByQueen << endl;
     bool attackedByRook = existsPieceInHorizontal(*this, row, col, 'r', isWhite) || existsPieceInVertical(*this, row, col, 'r', isWhite);
+    cout << "here11111" << attackedByRook << endl;
     bool attackedByBishop = existsPieceInDiagonal(*this, row, col, 'b', isWhite);
+    cout << "here11111" << attackedByBishop << endl;
     bool attackedByKnight = existsPieceInSquare(*this, row+2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row+2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
+    cout << "here11111" << attackedByKnight << endl;
     bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) 
                         : existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col-1, 'p', isWhite);
-    
+    cout << "here11111" << attackedByPawn << endl;
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
 
@@ -252,8 +258,10 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
     
     if (fromRow != -1) {
         ChessBoard boardAfterMove = ChessBoard{*this};
+        cout << "copy contructing done" << endl;
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
-        return boardAfterMove.checkIfPieceIsAttacked(king, king->getCol());
+        cout << "piece is moved" << endl;
+        return boardAfterMove.checkIfPieceIsAttacked(king, king->getIsWhite());
     }
 
     return checkIfPieceIsAttacked(king, king->getCol());
@@ -309,7 +317,7 @@ bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool
 
     // check if a piece can move to the destination; no pieces block path; landing square is empty or occupied by DIFFERENT colour piece
     if (!(piece->checkValidMove(*this, toRow, toCol))) { return false; }
-
+    cout << "HEREEEEE" << endl;
     // check that after the move, the king is not in check
     if (checkIfKingIsInCheck(isWhite, fromRow, fromCol, toRow, toCol)) { return false; }
     
