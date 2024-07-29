@@ -68,23 +68,26 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     if (!setupMode) { setupNormalBoard(); } 
 
     while (in) {
-        // checks for checks, checkmates and stalemates
-        if (board->checkIfKingIsInCheck(isWhiteTurn)) {
-            string oppositeColourTurn = !isWhiteTurn ? "White" : "Black";
-            if (board->checkCheckmate(isWhiteTurn)) {
-                out << "Checkmate! " << oppositeColourTurn << " wins!" << endl;
-            } else {
-                out << oppositeColourTurn << " is in check." << endl;
-            }
-        }
-        if (board->checkStalemate(isWhiteTurn)) {
-            out << "Stalemate!" << endl;
-        }
 
         runTurn();
         board->notifyObservers();
 
         isWhiteTurn = !isWhiteTurn;
+        string nextPlayer = isWhiteTurn ? "white" : "black";
+        string curPlayer = isWhiteTurn ? "black" : "white";
+
+        if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
+            cout<<"It's a tie! stalemate"<<endl; 
+            break;
+        }
+        if(board->checkCheckmate(isWhiteTurn)) {
+            cout<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl;
+            break;
+        } 
+
+        if(board->checkIfKingIsInCheck(isWhiteTurn)) {
+            cout<<nextPlayer<<" is now in check"<<endl;
+        }
     }
 }
 
@@ -136,8 +139,35 @@ void Game::setupBoard() {
             }
         } else if (command == "done") { // leave setup mode
             // TODO: verify that the board contains exactly one white king and exactly one black king; that no pawns are on the first or last row of the board; and that neither king is in check.
+            int blackKingCount = 0; 
+            int whiteKingCount = 0;
+            int board_size = 8; 
+            for(int i = 0; i < board_size; i++) {
+                for(int j = 0; j < board_size; j++) {
+                    Piece* currentPiece = board->getSquare(i, j);
+                    if(currentPiece != nullptr && currentPiece->getPieceType() == 'k') {
+                        if(currentPiece->getIsWhite()) {
+                            ++whiteKingCount;
+                        } else {
+                            ++blackKingCount;
+                        }
+                    }
+                }
+            }
+            
+            //verify good # of kings
+            if(blackKingCount != 1 || whiteKingCount != 1) {
+                setupMode = false; 
+                cout<<"Error: Invalid board setup, wrong number of kings"<<endl; 
+            }
 
-            setupMode = false;
+            // verify kings not both in check
+
+            if(board->checkIfKingIsInCheck(true) && board->checkIfKingIsInCheck(false)) {
+                setupMode = false; 
+                cout<<"Error: invalid board setup, both kings in check"<<endl;
+            }
+
             break;
         } else {
             out << "Invalid command in Game::setupBoard (\"done\")" << endl;

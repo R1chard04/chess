@@ -299,6 +299,8 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
 bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, int toRow, int toCol) {
     int kingRow, kingCol;
     Piece* king = getKing(isWhite);
+
+    cout<<"king is at:"<<king->getRow()<<" "<<king->getCol()<<endl;
     
     if (fromRow != -1) {
         ChessBoard boardAfterMove = ChessBoard{*this};
@@ -312,7 +314,7 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
         return boardAfterMove.checkIfPieceIsAttacked(newKing, king->getIsWhite());
     }
 
-    return checkIfPieceIsAttacked(king, king->getCol());
+    return checkIfPieceIsAttacked(king, king->getIsWhite());
 }
 
 vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
@@ -342,13 +344,16 @@ vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
 }
 
 bool ChessBoard::checkCheckmate(bool isWhite) {
-    vector<vector<int>> moves = generateMoves(*this, isWhite);
-    if(moves.size() == 0) return true; 
-    return false;     
+    if(checkStalemate(isWhite) && checkIfKingIsInCheck(isWhite)) {
+        return true; 
+    }
+    return false; 
 }
 
-bool ChessBoard::checkStalemate(bool isWhiteTurn) {
-    return checkCheckmate(true) && checkCheckmate(false);
+bool ChessBoard::checkStalemate(bool isWhite) {
+    vector<vector<int>> moves = generateMoves(*this, isWhite);
+    if(moves.size() == 0) return true; 
+    return false;
 }
 
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
