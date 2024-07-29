@@ -57,6 +57,7 @@ class ChessBoard {
         Piece* getKing(bool isWhite) const;
         int getNumKings(bool isWhite) const;
         Piece* getEnPassantPawn() const;
+        void setEnPassantPawn(Piece*);
 };
 
 #endif

@@ -275,8 +275,8 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
     cout << "attacked: " << attackedByKnight << endl;
-    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) 
-                        : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite);
+    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn))
+                        : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn));
     cout << "attacked: " << attackedByPawn << endl;
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
 }
@@ -316,6 +316,13 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }
 
+    // set en passant pawn
+    if (p->getPieceType() == 'p' && abs(toCol - p->getCol()) == 2) {
+        enPassantPawn = p;
+    } else {
+        enPassantPawn = nullptr;
+    }
+
     // moving rook for castling
     if (p->getPieceType() == 'k' && abs(fromCol - toCol) == 2) {
         if (toCol == 6) {
@@ -325,10 +332,14 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
         }
     }
 
+    // remove en passant pawn if it exists
+    if (p->getPieceType() == 'p' && abs(toRow - p->getRow()) == abs(toCol - p->getCol()) && getSquare(toRow, toCol) == nullptr) {
+        removePiece(p->getRow(), toCol);
+    }
+
     if (getSquare(toRow, toCol) != nullptr) {
         removePiece(toRow, toCol);
     }
-
     p->setCoords(toRow, toCol);
     board[toRow][toCol] = p;
     board[fromRow][fromCol] = nullptr;
