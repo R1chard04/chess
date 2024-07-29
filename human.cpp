@@ -37,7 +37,7 @@ bool Human::makeMove(ChessBoard& board) {
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
                         Piece* piece = board.getSquare(startRow, startColNum);
                         if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
-                        else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
+                        else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } 
                         else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }
                         else {
                             if (board.verifyMove(startRow, startColNum, endRow, endColNum, promotionType)) {
@@ -52,10 +52,10 @@ bool Human::makeMove(ChessBoard& board) {
                     }
                 } else { // move is not a promotion
                     Piece* piece = board.getSquare(startRow, startColNum);
-                    cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
                     if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
-                    else if (piece->getIsWhite() ^ isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } // does "false == false" return true? 
+                    else if (piece->getIsWhite() ^ isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; }
                     else {
+                        cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
                         if (board.verifyMove(startRow, startColNum, endRow, endColNum, isWhite)) {
                             cout << "moving piece" << endl;
                             board.movePiece(startRow, startColNum, endRow, endColNum);

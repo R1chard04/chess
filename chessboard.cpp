@@ -317,7 +317,7 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     if (p == nullptr) { return; }
 
     // set en passant pawn
-    if (p->getPieceType() == 'p' && abs(toCol - p->getCol()) == 2) {
+    if (p->getPieceType() == 'p' && abs(toRow - p->getRow()) == 2) {
         enPassantPawn = p;
     } else {
         enPassantPawn = nullptr;

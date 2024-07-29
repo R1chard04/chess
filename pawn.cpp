@@ -52,10 +52,12 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     } else if(dx != 0) {
         // pawn is moving horizontally and is taking another piece
         if(cBoard.getSquare(toRow, toCol) == nullptr) {
+            cout << "here1" << endl;
             // en passant or invalid move
-            if (cBoard.getSquare(this->row, toCol) == nullptr) { return false; } 
-            else if (cBoard.getSquare(this->row, toCol) != cBoard.getEnPassantPawn()) { return false; } // correct since the en passant pawn is never your own pawn
-        } else if(cBoard.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) {
+            if (cBoard.getSquare(this->row, toCol) == nullptr) { cout << "here2" << endl; return false; } 
+            else if (cBoard.getSquare(this->row, toCol) != cBoard.getEnPassantPawn()) { cout << "here3" << endl;return false; } // correct since the en passant pawn is never your own pawn
+            cout << "here4" << endl;
+        } else if(cBoard.getSquare(toRow, toCol)->getIsWhite() == getIsWhite()) { 
             // trying to take piece with same colour
             return false; 
         }

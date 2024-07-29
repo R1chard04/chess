@@ -26,7 +26,6 @@ bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {
             break; 
         }
     }
-    cout << "checkValidMove in knight" << endl;
 
     if(!isKnightMove) {
         return false; 
