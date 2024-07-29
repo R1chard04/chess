@@ -324,7 +324,7 @@ vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
     for(int i = 0; i < board_size; i++) {
         for(int j = 0; j < board_size; j++) {
             // piece is nullptr
-            if(cBoard.getSquare(i, j) == nullptr);
+            if(cBoard.getSquare(i, j) == nullptr) continue;
             
             // piece is not our colour
             if(cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
