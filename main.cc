@@ -31,7 +31,6 @@ int main(int argc, char *argv[]) {
                 game.startGame(true, true, -1, -1);
             } else if (whiteIsHuman && !blackIsHuman) {
                 int difficulty = static_cast<int>(blackPlayer.back()) - '0';
-                cout << "diff: " << difficulty << endl;
                 game.startGame(true, false, -1, difficulty);
             } else if (!whiteIsHuman && blackIsHuman) {
                 int difficulty = static_cast<int>(whitePlayer.back()) - '0';
