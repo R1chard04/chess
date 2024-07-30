@@ -39,11 +39,11 @@ void Game::setupNormalBoard() {
 
 }
 
-void Game::runTurn() {
+bool Game::runTurn() {
     if (isWhiteTurn) {
-        pWhite->makeMove(*board);
+        return pWhite->makeMove(*board);
     } else {
-        pBlack->makeMove(*board);
+        return pBlack->makeMove(*board);
     }
 }
 
@@ -60,11 +60,18 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     board->notifyObservers();
 
     while (in) {
-        runTurn();
+        bool result = runTurn();
 
         isWhiteTurn = !isWhiteTurn;
         string nextPlayer = isWhiteTurn ? "white" : "black";
         string curPlayer = isWhiteTurn ? "black" : "white";
+
+        if(!result) {
+            out << "Player " << curPlayer << " resigns and "<< nextPlayer << " wins!" << endl; 
+            if(curPlayer == "white") { scoreBlack += 1; }
+            else { scoreWhite += 1; }
+            break;
+        }
 
         if(board->checkCheckmate(isWhiteTurn)) {
             out << "Checkmate! " << curPlayer << " wins!" << endl;
