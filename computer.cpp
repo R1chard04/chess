@@ -154,25 +154,6 @@ bool Computer::makeMove(ChessBoard& cBoard) {
     string playerColour = isWhite ? "white" : "black";
     string opponentColour = isWhite ? "black" : "white";
 
-<<<<<<< HEAD
-    string inputLine; 
-
-    while(getline(in, inputLine)) {
-        istringstream iss{inputLine}; 
-        string command; 
-        iss >> command; 
-        if (command == "move") {
-            if(difficulty == 1) {
-                // random legal moves
-                // idea: find a piece that is on the board and randomly choose a move 
-                return makeMove1(cBoard);
-            } else if(difficulty == 2) {
-                // prefers capturing moves and checks
-                return makeMove2(cBoard);
-            } else if(difficulty == 3) {
-                // prefers avoiding capture, capturing moves, and checks
-                return makeMove3(cBoard);         
-=======
     if (difficulty == 1) {
         // random legal moves
         // idea: find a piece that is on the board and randomly choose a move 
@@ -187,19 +168,12 @@ bool Computer::makeMove(ChessBoard& cBoard) {
         // prefers avoiding capture, capturing moves, and checks
         makeMove3(cBoard);         
 
-    } else if (difficulty == 4) {
-        //
-
-    } 
->>>>>>> ea906bd73571a54488f1eaf276d6d890511e5a04
-
-            } else if(difficulty == 4) {
-                // weighted pieces 
-                return makeMove4(cBoard);
-            } 
-        } else {
-            cerr << "Invalid computer command" <<endl;
-        }
+    } else if(difficulty == 4) {
+        // weighted pieces 
+        return makeMove4(cBoard);
+    } else {
+        cerr << "Invalid computer command" <<endl;
     }
+    
     return true;
 }

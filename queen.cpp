@@ -33,18 +33,18 @@ bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     
     if (toRow == row || toCol == col) {
         if (toRow == row) {
-            for (int i = 1; i < abs(toCol - col) - 1; ++i) {
+            for (int i = 1; i < abs(toCol - col); ++i) {
                 Piece* p = cBoard.getSquare(row, toCol > col ? col + i : col - i);
                 if (p != nullptr) { return false; }
             }
         } else if (toCol == col) {
-            for (int i = 1; i < abs(toRow - row) - 1; ++i) {
+            for (int i = 1; i < abs(toRow - row); ++i) {
                 Piece* p = cBoard.getSquare(toRow > row ? row + i : row - i, col);
                 if (p != nullptr) { return false; }
             }
         }
     } else if (abs(toRow - row) == abs(toCol - col)) {
-        for (int i = 1; i < abs(toRow - row) - 1; ++i) {
+        for (int i = 1; i < abs(toRow - row); ++i) {
             Piece* p = cBoard.getSquare(toRow > row ? row + i : row - i, toCol > col ? col + i: col - i);
             if (p != nullptr) { return false; }
         }
