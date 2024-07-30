@@ -141,11 +141,52 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         }
     }
     return makeMove2(cBoard); 
-    return false; 
 }
 
 bool Computer::makeMove4(ChessBoard& cBoard) {
-    
+    int board_size = 8;
+    vector<vector<int>> moves = generateMoves(cBoard);
+    for(int i = 0; i < moves.size(); i++) {
+        vector<int> move = moves[i];
+        Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
+        int curVal = currentPiece->getValue(); 
+
+        Piece* capturePiece = cBoard.getSquare(move[2], move[3]);
+
+        if(capturePiece == nullptr)  continue; 
+
+        int captureVal = capturePiece->getValue(); 
+
+        if(captureVal > curVal || (captureVal == curVal && isWhite)) {
+            // good capture because piece is worth more
+            if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
+            } else {
+                cBoard.movePiece(move[0], move[1], move[2], move[3]);
+            }
+            return true; 
+        }
+
+        ChessBoard boardAfterMove = ChessBoard(cBoard); 
+
+        if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
+        } else {
+            boardAfterMove.movePiece(move[0], move[1], move[2], move[3]);
+        }
+
+        Piece *pieceAfterMove = boardAfterMove.getSquare(move[2], move[3]);
+        if(!boardAfterMove.checkIfPieceIsAttacked(pieceAfterMove, isWhite)) {
+            // capture with no recapture 
+            if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
+                cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
+            } else {
+                cBoard.movePiece(move[0], move[1], move[2], move[3]);
+            }
+            return true;
+        }
+    }
+    cout<<"is the fault here"<<endl;
     return makeMove3(cBoard);
 }
 
@@ -175,6 +216,7 @@ bool Computer::makeMove(ChessBoard& cBoard) {
 
             } else if(difficulty == 4) {
                 // weighted pieces 
+                // captures free pieces or pieces weighted more than another piece
                 return makeMove4(cBoard);
             } 
         } else {

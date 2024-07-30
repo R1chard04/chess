@@ -403,13 +403,28 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     // pawn promotion
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
         if(promotionType == 'k') {
-            cout<<"error: cannot promot pawn to king"<<endl; 
+            cout<<"error: cannot promote pawn to king"<<endl; 
         } else if(promotionType == 'x') {
             promotionType = 'q'; 
             // default promotion to queen
         }
         cout<<"attempting to promote to: "<<promotionType<<endl;
-        placePiece(toRow, toCol, p->getIsWhite(), promotionType); // TODO: change placePiece to account for castling
+        placePiece(toRow, toCol, p->getIsWhite(), promotionType, true); // TODO: change placePiece to account for castling
+        if(p->getIsWhite()) {
+            for(int i = 0; i < whitePieces.size(); ++i) {
+                if (whitePieces[i].get() == p) {
+                    whitePieces.erase(whitePieces.begin() + i);
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < blackPieces.size(); ++i) {
+                if (blackPieces[i].get() == p) {
+                    blackPieces.erase(blackPieces.begin() + i);
+                    break;
+                }
+            }
+        }
     }
 
     p->setHasMoved(true);
