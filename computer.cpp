@@ -101,10 +101,11 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
 
 
 bool Computer::makeMove3(ChessBoard& cBoard) {
-    cout<<"trying"<<endl;
     int board_size = 8;
     vector<vector<int> > moves = generateMoves(cBoard);
 
+    cout<<"makeMove 3 made"<<endl; 
+    cout<<moves.size()<<endl;
     if(moves.size() == 0) return false;
 
     // avoid capture 
@@ -112,30 +113,36 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         vector<int> move = moves[i];
         // check if the piece is being attacked
         Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
+        bool out = cBoard.checkIfPieceIsAttacked(currentPiece, isWhite);
+
+        cout<<"this is run"<<" "<<"piece is: "<< currentPiece->getPieceType()<<" attacked is:"<<out<<endl;
+        
 
         if(!cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) continue; 
         // don't care if piece not attacked
+        cout<<"this is also run"<<endl;
 
         ChessBoard boardAfterMove = ChessBoard(cBoard); 
 
         if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+            cout<<"monkeyNoBishop"<<endl;
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
                 return true; 
             } 
         } else {
+            cout<<"monkeybishop: "<<move[0]<<" "<<move[1]<<" "<<move[2]<<" "<<move[3]<<endl; 
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3]);
+            cout<<boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)<<endl;
             if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
-                cout<<"found"<<endl;
                 return true;
             } 
         }
     }
-    cout<<"makeMove 3"<<endl;
+    return makeMove2(cBoard); 
     return false; 
-    // return makeMove2(cBoard); 
 }
 
 bool Computer::makeMove(ChessBoard& cBoard) {
@@ -157,7 +164,6 @@ bool Computer::makeMove(ChessBoard& cBoard) {
     } else if(difficulty == 3) {
         // prefers avoiding capture, capturing moves, and checks
         makeMove3(cBoard);         
-        cout<<"moveMade"<<endl;
 
     } else if(difficulty == 4) {
         //
