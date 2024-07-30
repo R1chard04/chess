@@ -169,21 +169,18 @@ void Game::setupBoard() {
             
             // verify that the board contains exactly one white king and exactly one black king
             if (blackKingCount != 1 || whiteKingCount != 1) {
-                setupMode = false; 
                 cerr << "Error: Invalid board setup, wrong number of kings" << endl; 
                 continue;
             }
 
             // verify that neither kings are in check
             if (board->checkIfKingIsInCheck(true) || board->checkIfKingIsInCheck(false)) {
-                setupMode = false; 
                 cerr << "Error: invalid board setup, both kings in check" << endl;
                 continue;
             }
 
             // verify that no pawns are in the first or last row of the board
             if (board->checkNoPawnsInLastRank()) {
-                setupMode = false;
                 cerr << "Error: invalid board setup, pawns are in the last rank." << endl;
                 continue;
             }
@@ -195,7 +192,7 @@ void Game::setupBoard() {
     }
 }
 
-// DONE
+
 void Game::renderScore () const{
     out << "Final Score:" << endl;
 	out << "White: " << scoreWhite << endl;
