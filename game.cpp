@@ -1,4 +1,5 @@
 #include "game.h"
+using namespace std;
 
 
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},

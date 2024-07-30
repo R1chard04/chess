@@ -1,4 +1,5 @@
 #include "piece.h"
+using namespace std;
 
 Piece::Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col, int value)
     : isWhite{isWhite}, moves{moves}, pieceType{pieceType}, row{row}, col{col}, hasMoved{false}, value{value} {}

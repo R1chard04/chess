@@ -1,5 +1,6 @@
 #include "computer.h"
 #include "piece.h"
+using namespace std;
 
 Computer::Computer(bool isWhite, int difficulty): Player{isWhite}, difficulty{difficulty} {}
 

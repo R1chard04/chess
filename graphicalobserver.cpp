@@ -1,4 +1,5 @@
 #include "graphicalobserver.h"
+using namespace std;
 
 const int margin = 40;
 vector<string> xAxes = {"A", "B", "C", "D", "E", "F", "G", "H"};

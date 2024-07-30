@@ -13,18 +13,17 @@
 #include "knight.h"
 #include "pawn.h"
 #include "piece.h"
-using namespace std;
 
 class Observer;
 class TextObserver;
 class GraphicalObserver;
 
 class ChessBoard {
-    vector<Observer*> observers;
-    vector<vector<Piece*>> board;
+    std::vector<Observer*> observers;
+    std::vector<std::vector<Piece*>> board;
 
-    vector<unique_ptr<Piece>> whitePieces;
-    vector<unique_ptr<Piece>> blackPieces;
+    std::vector<std::unique_ptr<Piece>> whitePieces;
+    std::vector<std::unique_ptr<Piece>> blackPieces;
 
     Piece* enPassantPawn; // TODO: MAKE SURE TO UPDATE THIS WHEN A PAWN MOVES TWO SQUARES
 

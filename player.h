@@ -5,14 +5,13 @@
 #include <iostream>
 #include <sstream>
 #include "chessboard.h"
-using namespace std;
 
 class Player {
 
     protected:
         bool isWhite;
-        std::istream &in = cin;
-        std::ostream &out = cout;
+        std::istream &in = std::cin;
+        std::ostream &out = std::cout;
 
     public:
         Player(bool isWhite); // TODO: maybe add some params here 

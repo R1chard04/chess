@@ -5,13 +5,12 @@
 #include "window.h"
 #include "observer.h"
 #include "chessboard.h"
-using namespace std;
 
 class ChessBoard;
 
 class GraphicalObserver : public Observer {
     Xwindow& window; 
-    vector<vector<char>> boardState;
+    std::vector<std::vector<char>> boardState;
     const int tileSize;
     
     public:

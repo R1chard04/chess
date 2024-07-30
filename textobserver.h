@@ -5,7 +5,6 @@
 #include "observer.h"
 #include "chessboard.h"
 #include "piece.h"
-using namespace std;
 
 class TextObserver : public Observer {
 

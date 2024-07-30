@@ -9,7 +9,6 @@
 #include "window.h"
 #include "textobserver.h"
 #include "graphicalobserver.h"
-using namespace std;
 
 class Player;
 
@@ -24,7 +23,7 @@ class Game {
     std::unique_ptr<GraphicalObserver> graphicalDisplay;
 
     std::unique_ptr<ChessBoard> board; 
-    bool isWhiteTurn; // TODO: eventually, we need to change this -- what if there are 4 players?
+    bool isWhiteTurn;
     bool setupMode;
 
     // IO streams
@@ -33,7 +32,6 @@ class Game {
 
     public:
         Game(Xwindow* window);
-        Game(ChessBoard *board);
 
         void startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, int blackDifficulty);
         void setupNormalBoard();
@@ -42,8 +40,6 @@ class Game {
         bool runTurn(); 
 
         virtual ~Game();
-
-
 
 };
 

@@ -4,7 +4,6 @@
 #include <string> 
 #include "player.h"
 #include "chessboard.h"
-using namespace std;
 
 class Human : public Player {
     public:
