@@ -55,10 +55,11 @@ Piece* ChessBoard::getSquare(int row, int col) const {
 }
 
 void ChessBoard::removePiece(int row, int col) {
-    cout << "in remove piece func" << endl;
+    // cout << "in remove piece func" << endl;
     Piece *p = getSquare(row, col);
+    // cout << "piece acquired" << endl;
     if (p == nullptr) { return; }
-    cout << "piece is not nullptr" << endl;
+    // cout << "piece is not nullptr" << endl;
 
     if (p->getIsWhite()) {
         for (int i = 0; i < whitePieces.size(); ++i) {
@@ -69,9 +70,9 @@ void ChessBoard::removePiece(int row, int col) {
             }
         }
     } else {
-        cout << "piece is black" << endl;
+        // cout << "piece is black" << endl;
         for (int i = 0; i < blackPieces.size(); ++i) {
-            cout << "i: " << blackPieces[i].get()->getPieceType() << endl;
+            // cout << "i: " << blackPieces[i].get()->getPieceType() << endl;
             Piece* tmpP = blackPieces[i].get();
             if (tmpP->getRow() == p->getRow() && tmpP->getCol() == p->getCol()) {
                 blackPieces.erase(blackPieces.begin() + i);

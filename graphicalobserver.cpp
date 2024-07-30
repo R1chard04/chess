@@ -23,14 +23,15 @@ void GraphicalObserver::notify(ChessBoard& board) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             Piece* p = board.getSquare(7-i, j);
+            char pPieceType = 'x';
+            if (p != nullptr) { pPieceType = p->getIsWhite() ? p->getPieceType() - 32 : p->getPieceType(); }
 
-            if ((p == nullptr && boardState.at(7-i).at(j) == ' ') || (p != nullptr && (p->getPieceType() == boardState.at(7-i).at(j)))) { continue; }
+            if ((p == nullptr && boardState.at(7-i).at(j) == ' ') || (p != nullptr && (pPieceType == boardState.at(7-i).at(j)))) { continue; }
             else { 
                 if (p == nullptr) { boardState.at(7-i).at(j) = ' '; }
                 else {
-                    boardState.at(7-i).at(j) = (p->getIsWhite()) ? p->getPieceType() - 32 : p->getPieceType();
+                    boardState.at(7-i).at(j) = p->getIsWhite() ? p->getPieceType() - 32 : p->getPieceType();
                 }
-                // boardState.at(7-i).at(j) = (p == nullptr) ? ' ' : p->getPieceType(); 
             }
 
             window.fillRectangle(j * tileSize + margin, i * tileSize + margin, tileSize, tileSize, (i + j) % 2 == 1 ? window.Green : window.White);
