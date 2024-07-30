@@ -26,50 +26,48 @@ bool Human::makeMove(ChessBoard& board) {
 
             int startColNum = int(startCol - 'a'); 
             int endColNum = int(endCol - 'a'); 
-            // startRow = 7 - startRow; 
-            // endRow = 7 - endRow; 
 
-            cout << "COORDS:" << startRow << " " << endRow << " " << startColNum << " " << endColNum << " "<<startCol<<" "<<endCol<< endl;
+            // cout << "COORDS:" << startRow << " " << endRow << " " << startColNum << " " << endColNum << " "<<startCol<<" "<<endCol<< endl;
 
             if (startRow >= 0 && startRow < 8 && startCol >= 'a' && startCol <= 'h' && endRow >= 0 && endRow < 8 && endCol >= 'a' && endCol <= 'h') {
                 if (iss >> promotionType) { // check if there the move is a promotion
                     char lowercasePromotionType = tolower(promotionType);
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
                         Piece* piece = board.getSquare(startRow, startColNum);
-                        if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
-                        else if (piece->getIsWhite() != isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; } 
-                        else if (piece->getPieceType() != 'p') { out << "Invalid piece type at start position in Human::makeMove" << endl; }
+                        if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove" << endl; }
+                        else if (piece->getIsWhite() != isWhite) { cerr << "Invalid piece at start position in Human::makeMove" << endl; } 
+                        else if (piece->getPieceType() != 'p') { cerr << "Invalid piece type at start position in Human::makeMove" << endl; }
                         else {
                             if (board.verifyMove(startRow, startColNum, endRow, endColNum, promotionType)) {
                                 board.movePiece(startRow, startColNum, endRow, endColNum, promotionType);
                                 return true;
                             } else {
-                                out << "Invalid move in Human::makeMove" << endl;
+                                cerr << "Invalid move in Human::makeMove" << endl;
                             }
                         }
                     } else {
-                        out << "Invalid promotion type in Human::makeMove" << endl;
+                        cerr << "Invalid promotion type in Human::makeMove" << endl;
                     }
                 } else { // move is not a promotion
                     Piece* piece = board.getSquare(startRow, startColNum);
-                    if (piece == nullptr) { out << "No piece at start position in Human::makeMove" << endl; }
-                    else if (piece->getIsWhite() ^ isWhite) { out << "Invalid piece at start position in Human::makeMove" << endl; }
+                    if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove" << endl; }
+                    else if (piece->getIsWhite() ^ isWhite) { cerr << "Invalid piece at start position in Human::makeMove" << endl; }
                     else {
-                        cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
+                        // cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
                         if (board.verifyMove(startRow, startColNum, endRow, endColNum, isWhite)) {
-                            cout << "moving piece" << endl;
+                            // cout << "moving piece" << endl;
                             board.movePiece(startRow, startColNum, endRow, endColNum);
                             return true;
                         } else {
-                            out << "Invalid move in Human::makeMove" << endl;
+                            cerr << "Invalid move in Human::makeMove" << endl;
                         }
                     }
                 }
             } else {
-                out << "Invalid move in Human::makeMove" << endl;
+                cerr << "Invalid move in Human::makeMove" << endl;
             }
         } else {
-            out << "Invalid command in Human::makeMove" << endl;
+            cerr << "Invalid command in Human::makeMove" << endl;
         }
     }
     

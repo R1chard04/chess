@@ -359,6 +359,15 @@ bool ChessBoard::checkStalemate(bool isWhite) {
     return false;
 }
 
+bool ChessBoard::checkNoPawnsInLastRank() {
+    for (int i = 0; i < 8; ++i) {
+        Piece* p = getSquare(0, i);
+        if (p != nullptr && p->getPieceType() == 'p') { return false; }
+        p = getSquare(7, i);
+        if (p != nullptr && p->getPieceType() == 'p') { return false; }
+    }
+}
+
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }

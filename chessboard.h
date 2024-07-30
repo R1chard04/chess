@@ -43,6 +43,7 @@ class ChessBoard {
         bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
         bool checkCheckmate(bool isWhite); 
         bool checkStalemate(bool isWhite);
+        bool checkNoPawnsInLastRank();
 
         Piece* getSquare(int row, int col) const;
         void removeAllPieces();
