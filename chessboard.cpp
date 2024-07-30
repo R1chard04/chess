@@ -400,12 +400,12 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     // cout << "promotion type: " << promotionType << endl;
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
         if (promotionType == 'k') {
-            cout<<"error: cannot promote pawn to king"<<endl; 
+            cerr<<"error: cannot promote pawn to king"<<endl; 
         } else if(promotionType == 'x') {
             p->setHasMoved(true);
             return;
         }
-        cout<<"attempting to promote to: "<<promotionType<<endl;
+        // cout<<"attempting to promote to: "<<promotionType<<endl;
         bool pIsWhite = p->getIsWhite();
         
         removePiece(toRow, toCol);
