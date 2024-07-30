@@ -11,8 +11,7 @@ class ChessBoard;
 
 class GraphicalObserver : public Observer {
     Xwindow& window; 
-
-    // const int boardSize;
+    vector<vector<char>> boardState;
     const int tileSize;
     
     public:

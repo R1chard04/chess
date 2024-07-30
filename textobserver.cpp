@@ -1,13 +1,9 @@
 #include "textobserver.h"
 using namespace std;
 
-TextObserver::TextObserver() {
-    // mainSubject->attach(this);
-}
+TextObserver::TextObserver() {}
 
-TextObserver::~TextObserver() {
-    // mainSubject->detach(this);
-}
+TextObserver::~TextObserver() {}
 
 // eventually, we should move this to the ostream& operator<<
 void TextObserver::notify(ChessBoard& board) {
@@ -33,8 +29,4 @@ void TextObserver::notify(ChessBoard& board) {
       cout << endl;
     }
     cout << endl << "  abcdefgh" << endl;
-}
-
-ostream& operator<<(ostream &out, const TextObserver &textDisplay) {
-  
 }
