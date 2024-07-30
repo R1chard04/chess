@@ -55,8 +55,10 @@ Piece* ChessBoard::getSquare(int row, int col) const {
 }
 
 void ChessBoard::removePiece(int row, int col) {
+    cout << "in remove piece func" << endl;
     Piece *p = getSquare(row, col);
     if (p == nullptr) { return; }
+    cout << "piece is not nullptr" << endl;
 
     if (p->getIsWhite()) {
         for (int i = 0; i < whitePieces.size(); ++i) {
@@ -67,7 +69,9 @@ void ChessBoard::removePiece(int row, int col) {
             }
         }
     } else {
+        cout << "piece is black" << endl;
         for (int i = 0; i < blackPieces.size(); ++i) {
+            cout << "i: " << blackPieces[i].get()->getPieceType() << endl;
             Piece* tmpP = blackPieces[i].get();
             if (tmpP->getRow() == p->getRow() && tmpP->getCol() == p->getCol()) {
                 blackPieces.erase(blackPieces.begin() + i);
@@ -126,17 +130,6 @@ Piece* ChessBoard::getKing(bool isWhite) const {
     return nullptr;
 }
 
-// void printBoard(ChessBoard& board) {
-//     for(int i = 7; i >= 0; i--) {
-//         for(int j = 0; j < 8; j++) {
-//             if(board.getSquare(i, j) != nullptr) {
-//                 cout<<board.getSquare(i, j)->getPieceType(); 
-//             } else {
-//                 cout<<" ";
-//             }
-//         } cout<<endl; 
-//     }
-// }
 
 bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     if (row < 0 || row > 7 || col < 0 || col > 7) return false;
@@ -363,10 +356,11 @@ bool ChessBoard::checkStalemate(bool isWhite) {
 bool ChessBoard::checkNoPawnsInLastRank() {
     for (int i = 0; i < 8; ++i) {
         Piece* p = getSquare(0, i);
-        if (p != nullptr && p->getPieceType() == 'p') { return false; }
+        if (p != nullptr && p->getPieceType() == 'p') { return true; }
         p = getSquare(7, i);
-        if (p != nullptr && p->getPieceType() == 'p') { return false; }
+        if (p != nullptr && p->getPieceType() == 'p') { return true; }
     }
+    return false;
 }
 
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {

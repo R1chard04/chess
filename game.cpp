@@ -61,40 +61,41 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
 
     while (in) {
         bool result = runTurn();
+        board->notifyObservers();
 
         isWhiteTurn = !isWhiteTurn;
         string nextPlayer = isWhiteTurn ? "white" : "black";
         string curPlayer = isWhiteTurn ? "black" : "white";
 
-        if(!result) {
+        if (!result) {
             out << "Player " << curPlayer << " resigns and "<< nextPlayer << " wins!" << endl; 
             if(curPlayer == "white") { scoreBlack += 1; }
             else { scoreWhite += 1; }
             break;
         }
 
-        if(board->checkCheckmate(isWhiteTurn)) {
+        if (board->checkCheckmate(isWhiteTurn)) {
             out << "Checkmate! " << curPlayer << " wins!" << endl;
             if (curPlayer == "white") { scoreWhite += 1; }
             else if (curPlayer == "black") { scoreBlack += 1; }
             break;
         }
 
-        if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
+        if (board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
             scoreWhite += 0.5;
             scoreBlack += 0.5;
             out << "Stalemate!" << endl; 
             break;
         }
 
-        if(board->checkIfKingIsInCheck(isWhiteTurn)) {
+        if (board->checkIfKingIsInCheck(isWhiteTurn)) {
             out << nextPlayer << " is in check." << endl;
         }
-        board->notifyObservers();
+        
     }
 }
 
-// ALMOST DONE
+
 void Game::setupBoard() {
     setupMode = true;
     board->removeAllPieces();
@@ -160,7 +161,7 @@ void Game::setupBoard() {
             // verify that no pawns are in the first or last row of the board
             if (board->checkNoPawnsInLastRank()) {
                 setupMode = false;
-                cerr << "Error: invalid board setup, both kings in check" << endl;
+                cerr << "Error: invalid board setup, pawns are in the last rank." << endl;
                 continue;
             }
 
