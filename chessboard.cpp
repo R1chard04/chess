@@ -62,14 +62,16 @@ void ChessBoard::removePiece(int row, int col) {
 
     if (p->getIsWhite()) {
         for (int i = 0; i < whitePieces.size(); ++i) {
-            if (whitePieces[i].get() == p) {
+            Piece* tmpP = whitePieces[i].get();
+            if (tmpP->getRow() == p->getRow() && tmpP->getCol() == p->getCol()) {
                 whitePieces.erase(whitePieces.begin() + i);
                 break;
             }
         }
     } else {
         for (int i = 0; i < blackPieces.size(); ++i) {
-            if (blackPieces[i].get() == p) {
+            Piece* tmpP = blackPieces[i].get();
+            if (tmpP->getRow() == p->getRow() && tmpP->getCol() == p->getCol()) {
                 blackPieces.erase(blackPieces.begin() + i);
                 break;
             }
@@ -401,30 +403,36 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     board[fromRow][fromCol] = nullptr;
 
     // pawn promotion
+    cout << "promotion type: " << promotionType << endl;
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
-        if(promotionType == 'k') {
+        if (promotionType == 'k') {
             cout<<"error: cannot promote pawn to king"<<endl; 
         } else if(promotionType == 'x') {
-            promotionType = 'q'; 
-            // default promotion to queen
+            // promotionType = 'q'; 
+            // // default promotion to queen
+            p->setHasMoved(true);
+            return;
         }
         cout<<"attempting to promote to: "<<promotionType<<endl;
-        placePiece(toRow, toCol, p->getIsWhite(), promotionType, true); // TODO: change placePiece to account for castling
-        if(p->getIsWhite()) {
-            for(int i = 0; i < whitePieces.size(); ++i) {
-                if (whitePieces[i].get() == p) {
-                    whitePieces.erase(whitePieces.begin() + i);
-                    break;
-                }
-            }
-        } else {
-            for (int i = 0; i < blackPieces.size(); ++i) {
-                if (blackPieces[i].get() == p) {
-                    blackPieces.erase(blackPieces.begin() + i);
-                    break;
-                }
-            }
-        }
+        bool pIsWhite = p->getIsWhite();
+        
+        removePiece(toRow, toCol);
+        placePiece(toRow, toCol, pIsWhite, promotionType, true); // TODO: change placePiece to account for castling
+        // if(p->getIsWhite()) {
+        //     for(int i = 0; i < whitePieces.size(); ++i) {
+        //         if (whitePieces[i].get() == p) {
+        //             whitePieces.erase(whitePieces.begin() + i);
+        //             break;
+        //         }
+        //     }
+        // } else {
+        //     for (int i = 0; i < blackPieces.size(); ++i) {
+        //         if (blackPieces[i].get() == p) {
+        //             blackPieces.erase(blackPieces.begin() + i);
+        //             break;
+        //         }
+        //     }
+        // }
     }
 
     p->setHasMoved(true);

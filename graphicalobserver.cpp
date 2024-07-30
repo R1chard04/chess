@@ -25,7 +25,13 @@ void GraphicalObserver::notify(ChessBoard& board) {
             Piece* p = board.getSquare(7-i, j);
 
             if ((p == nullptr && boardState.at(7-i).at(j) == ' ') || (p != nullptr && (p->getPieceType() == boardState.at(7-i).at(j)))) { continue; }
-            else { boardState.at(7-i).at(j) = (p == nullptr) ? ' ' : p->getPieceType(); }
+            else { 
+                if (p == nullptr) { boardState.at(7-i).at(j) = ' '; }
+                else {
+                    boardState.at(7-i).at(j) = (p->getIsWhite()) ? p->getPieceType() - 32 : p->getPieceType();
+                }
+                // boardState.at(7-i).at(j) = (p == nullptr) ? ' ' : p->getPieceType(); 
+            }
 
             window.fillRectangle(j * tileSize + margin, i * tileSize + margin, tileSize, tileSize, (i + j) % 2 == 1 ? window.Green : window.White);
             

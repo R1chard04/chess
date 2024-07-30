@@ -34,12 +34,16 @@ bool Computer::makeMove1(ChessBoard& cBoard) {
 
     vector<int> move = moves[0]; 
 
+    cout << "here1" << endl;
     // pawn promotion 
     if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+        cout << "here2" << endl;
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
     } else {
+        cout << "here3" << endl;
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
     }
+    cout << "here4" << endl;
     return true; 
 }
 
