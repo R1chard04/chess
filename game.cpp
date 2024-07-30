@@ -116,7 +116,27 @@ void Game::setupBoard() {
             row--; 
             char lowerCaseType = tolower(type);
             if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
-                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, lowerCaseType == 'k' || lowerCaseType == 'r');
+                if(lowerCaseType == 'k' || lowerCaseType == 'r') {
+                    board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
+                } else if(lowerCaseType == 'p') {
+                    if(lowerCaseType != type) {
+                        // it is white
+                        if(row == 1) {
+                            board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, false);
+                        } else {
+                            board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
+                        }
+                    } else {
+                        if(row == 6) {
+                            board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, false);
+                        } else {
+                            board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
+                        }
+                        // it is black
+                    }
+                } else {
+                    board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, false);
+                }
                 board->notifyObservers();
             } else {
                 cerr << "Invalid command in Game::setupBoard (+)" << endl;
