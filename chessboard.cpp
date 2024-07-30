@@ -45,10 +45,8 @@ void ChessBoard::detach(Observer* o) {
 }
 
 void ChessBoard::notifyObservers() {
-    cout << "size: " << observers.size() << endl;
     for (int i = 0; i < observers.size(); ++i) {
         observers[i]->notify(*this);
-        cout << "i: " << i << endl;
     }
 }
 
@@ -404,13 +402,11 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     board[fromRow][fromCol] = nullptr;
 
     // pawn promotion
-    cout << "promotion type: " << promotionType << endl;
+    // cout << "promotion type: " << promotionType << endl;
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) { // TODO: check if this works
         if (promotionType == 'k') {
             cout<<"error: cannot promote pawn to king"<<endl; 
         } else if(promotionType == 'x') {
-            // promotionType = 'q'; 
-            // // default promotion to queen
             p->setHasMoved(true);
             return;
         }
@@ -418,25 +414,9 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
         bool pIsWhite = p->getIsWhite();
         
         removePiece(toRow, toCol);
-        placePiece(toRow, toCol, pIsWhite, promotionType, true); // TODO: change placePiece to account for castling
-        // if(p->getIsWhite()) {
-        //     for(int i = 0; i < whitePieces.size(); ++i) {
-        //         if (whitePieces[i].get() == p) {
-        //             whitePieces.erase(whitePieces.begin() + i);
-        //             break;
-        //         }
-        //     }
-        // } else {
-        //     for (int i = 0; i < blackPieces.size(); ++i) {
-        //         if (blackPieces[i].get() == p) {
-        //             blackPieces.erase(blackPieces.begin() + i);
-        //             break;
-        //         }
-        //     }
-        // }
+        placePiece(toRow, toCol, pIsWhite, promotionType, true);
     }
 
-    p->setHasMoved(true);
 }
 
 bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType) {
