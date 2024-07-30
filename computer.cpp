@@ -115,8 +115,11 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
     for (int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
         // check if the piece is being attacked
+        // cout << "move[0]: " << move[0] << " move[1]: " << move[1] << endl;
         Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
+        // cout << "current piece gotten" << endl;
         bool out = cBoard.checkIfPieceIsAttacked(currentPiece, isWhite);
+        // cout << "check piece attacked past" << endl;
 
         cout<<"this is run"<<" "<<"piece is: "<< currentPiece->getPieceType()<<" attacked is:"<<out<<endl;
         
