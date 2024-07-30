@@ -36,7 +36,6 @@ class ChessBoard {
         void attach(Observer* o);
         void detach(Observer* o);
         void notifyObservers(); 
-        // char getState(); // needs further refining
 
         bool checkIfPieceIsAttacked(Piece* piece, bool isWhite);
         bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType = ' '); // ` ` represents no promotion
@@ -44,9 +43,6 @@ class ChessBoard {
         bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
         bool checkCheckmate(bool isWhite); 
         bool checkStalemate(bool isWhite);
-
-        bool getIfRookMoved(string colour);  // needs further refining
-        bool getIfKingMoved(bool isWhite);  // needs further refining
 
         Piece* getSquare(int row, int col) const;
         void removeAllPieces();

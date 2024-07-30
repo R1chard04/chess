@@ -3,12 +3,8 @@
 
 // TODO: remember to replace graphical display init
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},
-                            graphicalDisplay{make_unique<GraphicalObserver>(*window, 8)}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
+                            graphicalDisplay{window != nullptr ? make_unique<GraphicalObserver>(*window, 8) : nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
                             isWhiteTurn{true}, setupMode{false} {}
-
-// Game::Game(Xwindow *w, bool enableGraphics) : in{cin}, out{cout}, turn{Colour::White}, isSetup{false}, enableGraphics{enableGraphics},
-// 						 td{make_unique<TextDisplay>()}, gd{enableGraphics ? make_unique<GraphicsDisplay>(8, *w) : nullptr},
-// 						 b{make_unique<Board>(td.get(), gd.get())}, scoreWhite{0}, scoreBlack{0} {}
 
 Game::~Game() {}
 
@@ -80,10 +76,14 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
 
         if(board->checkCheckmate(isWhiteTurn)) {
             out<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl; // remember to change this
+            if (curPlayer == "white") { scoreWhite += 1; }
+            else if (curPlayer == "black") { scoreBlack += 1; }
             break;
         }
 
         if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
+            scoreWhite += 0.5;
+            scoreBlack += 0.5;
             out<<"Stalemate!"<<endl; 
             break;
         }
@@ -91,7 +91,7 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
         if(board->checkIfKingIsInCheck(isWhiteTurn)) {
             out<<nextPlayer<<" is now in check"<<endl;
         }
-        cout<<"No checks"<<endl; 
+        // cout<<"No checks"<<endl; 
         board->notifyObservers();
     }
 }

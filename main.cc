@@ -11,8 +11,8 @@ using namespace std;
 int main(int argc, char *argv[]) {
     // Add a flag check if we are in "bonus" mode
 
-    unique_ptr<Xwindow> window = make_unique<Xwindow>(680, 680);
-    // unique_ptr<Xwindow> window = nullptr;
+    // unique_ptr<Xwindow> window = make_unique<Xwindow>(680, 680);
+    unique_ptr<Xwindow> window = nullptr;
 
     Game game {window.get()};
     // Game game = Game{nullptr};
@@ -49,6 +49,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // game.renderScore(); // show be called after ctrl+d is pressed, so maybe put this in some destructor?
+    game.renderScore();
     return 0;
 }
