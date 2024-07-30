@@ -49,6 +49,7 @@ void Game::runTurn() {
 
 void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, int blackDifficulty) {
     isWhiteTurn = true;
+    
     if (whiteIsHuman) {
         pWhite = make_unique<Human>(true);
     } else {
@@ -60,22 +61,19 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
     } else {
         pBlack = make_unique<Computer>(false, blackDifficulty);
     }
-    cout<<"done"<<endl;
+
     if (!setupMode) { setupNormalBoard(); } 
     board->notifyObservers();
 
     while (in) {
-
         runTurn();
 
         isWhiteTurn = !isWhiteTurn;
         string nextPlayer = isWhiteTurn ? "white" : "black";
         string curPlayer = isWhiteTurn ? "black" : "white";
 
-        out<<"move made succesful"<<endl;
-
         if(board->checkCheckmate(isWhiteTurn)) {
-            out<<curPlayer<<" has won "<<nextPlayer<<" has been mated."<<endl; // remember to change this
+            out << "Checkmate! " << curPlayer << " wins!" << endl;
             if (curPlayer == "white") { scoreWhite += 1; }
             else if (curPlayer == "black") { scoreBlack += 1; }
             break;
@@ -84,14 +82,13 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
         if(board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
             scoreWhite += 0.5;
             scoreBlack += 0.5;
-            out<<"Stalemate!"<<endl; 
+            out << "Stalemate!" << endl; 
             break;
         }
 
         if(board->checkIfKingIsInCheck(isWhiteTurn)) {
-            out<<nextPlayer<<" is now in check"<<endl;
+            out << nextPlayer << " is in check." << endl;
         }
-        // cout<<"No checks"<<endl; 
         board->notifyObservers();
     }
 }
@@ -116,12 +113,10 @@ void Game::setupBoard() {
             row--; 
             char lowerCaseType = tolower(type);
             if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
-                // TODO: need something here to indicate that castling is NOT ALLOWED
-                cout<<"placing piece: "<<type<<" "<<row<<" "<<int(col - 'a')<<endl;
-                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType);
+                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
                 board->notifyObservers();
             } else {
-                out << "Invalid command in Game::setupBoard (+)" << " "<<type<<" "<<col<<" "<<row<<endl;
+                cerr << "Invalid command in Game::setupBoard (+)" << endl;
             }
         } else if (command == "-") {
             char col;
@@ -130,7 +125,7 @@ void Game::setupBoard() {
             if (row >= 0 && row <= 8 && col >= 'a' && col <= 'h') {
                 board->removePiece(row, col);
             } else {
-                out << "Invalid command in Game::setupBoard (-)" << endl;
+                cerr << "Invalid command in Game::setupBoard (-)" << endl;
             }
         } else if (command == "=") { // makes it `colour`'s turn to go next
             string colour;
@@ -141,7 +136,7 @@ void Game::setupBoard() {
             } else if (colour == "black") {
                 isWhiteTurn = false;
             } else {
-                out << "Invalid command in Game::setupBoard (=)" << endl;
+                cerr << "Invalid command in Game::setupBoard (=)" << endl;
             }
         } else if (command == "done") { // leave setup mode
             // TODO: verify that the board contains exactly one white king and exactly one black king; that no pawns are on the first or last row of the board; and that neither king is in check.
@@ -149,22 +144,21 @@ void Game::setupBoard() {
             int whiteKingCount = board->getNumKings(true);
             
             //verify good # of kings
-            if(blackKingCount != 1 || whiteKingCount != 1) {
+            if (blackKingCount != 1 || whiteKingCount != 1) {
                 setupMode = false; 
-                cout<<"Error: Invalid board setup, wrong number of kings"<<endl; 
+                cerr << "Error: Invalid board setup, wrong number of kings" << endl; 
                 break;
             }
 
             // verify kings not both in check
-
-            if(board->checkIfKingIsInCheck(true) && board->checkIfKingIsInCheck(false)) {
+            if (board->checkIfKingIsInCheck(true) && board->checkIfKingIsInCheck(false)) {
                 setupMode = false; 
-                cout<<"Error: invalid board setup, both kings in check"<<endl;
+                cerr << "Error: invalid board setup, both kings in check" << endl;
             }
 
             break;
         } else {
-            out << "Invalid command in Game::setupBoard (\"done\")" << endl;
+            cerr << "Invalid command in Game::setupBoard (\"done\")" << endl;
         }
     }
 }
