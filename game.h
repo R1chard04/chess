@@ -39,7 +39,7 @@ class Game {
         void setupNormalBoard();
         void setupBoard();  
         void renderScore() const; 
-        void runTurn(); 
+        bool runTurn(); 
 
         virtual ~Game();
 
