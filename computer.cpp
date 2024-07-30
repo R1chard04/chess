@@ -35,16 +35,12 @@ bool Computer::makeMove1(ChessBoard& cBoard) {
 
     vector<int> move = moves[0]; 
 
-    cout << "here1" << endl;
     // pawn promotion 
     if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
-        cout << "here2" << endl;
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
     } else {
-        cout << "here3" << endl;
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
     }
-    cout << "here4" << endl;
     return true; 
 }
 
@@ -108,8 +104,8 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
     int board_size = 8;
     vector<vector<int> > moves = generateMoves(cBoard);
 
-    cout<<"makeMove 3 made"<<endl; 
-    cout<<moves.size()<<endl;
+    // cout<<"makeMove 3 made"<<endl; 
+    // cout<<moves.size()<<endl;
     if (moves.size() == 0) return false;
 
     // avoid capture 
@@ -122,26 +118,26 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
         bool out = cBoard.checkIfPieceIsAttacked(currentPiece, isWhite);
         // cout << "check piece attacked past" << endl;
 
-        cout<<"this is run"<<" "<<"piece is: "<< currentPiece->getPieceType()<<" attacked is:"<<out<<endl;
+        // cout<<"this is run"<<" "<<"piece is: "<< currentPiece->getPieceType()<<" attacked is:"<<out<<endl;
         
 
         if(!cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) continue; 
         // don't care if piece not attacked
-        cout<<"this is also run"<<endl;
+        // cout<<"this is also run"<<endl;
 
         ChessBoard boardAfterMove = ChessBoard(cBoard); 
 
         if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
-            cout<<"monkeyNoBishop"<<endl;
+            // cout<<"monkeyNoBishop"<<endl;
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
                 return true; 
             } 
         } else {
-            cout<<"monkeybishop: "<<move[0]<<" "<<move[1]<<" "<<move[2]<<" "<<move[3]<<endl; 
+            // cout<<"monkeybishop: "<<move[0]<<" "<<move[1]<<" "<<move[2]<<" "<<move[3]<<endl; 
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3]);
-            cout<<boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)<<endl;
+            // cout<<boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)<<endl;
             if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
                 return true;
@@ -166,13 +162,13 @@ bool Computer::makeMove4(ChessBoard& cBoard) {
         int captureVal = capturePiece->getValue(); 
 
         if(captureVal > curVal || (captureVal == curVal && isWhite)) {
-            cout << "good capture because piece is worth more" << endl;
+            // cout << "good capture because piece is worth more" << endl;
             // good capture because piece is worth more
             if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
-                cout << "promotion" << endl;
+                // cout << "promotion" << endl;
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
             } else {
-                cout << "not promotion" << endl;
+                // cout << "not promotion" << endl;
                 cBoard.movePiece(move[0], move[1], move[2], move[3]);
             }
             return true; 
@@ -181,7 +177,6 @@ bool Computer::makeMove4(ChessBoard& cBoard) {
         ChessBoard boardAfterMove = ChessBoard(cBoard); 
 
         if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
-            cout << "if statement 1" << endl;
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
         } else {
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3]);
@@ -189,7 +184,6 @@ bool Computer::makeMove4(ChessBoard& cBoard) {
 
         Piece *pieceAfterMove = boardAfterMove.getSquare(move[2], move[3]);
         if(!boardAfterMove.checkIfPieceIsAttacked(pieceAfterMove, isWhite)) {
-            cout << "if statement 2" << endl;
             // capture with no recapture 
             if(currentPiece->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
@@ -199,7 +193,6 @@ bool Computer::makeMove4(ChessBoard& cBoard) {
             return true;
         }
     }
-    cout<<"is the fault here"<<endl;
     return makeMove3(cBoard);
 }
 

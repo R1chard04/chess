@@ -35,24 +35,24 @@ bool Human::makeMove(ChessBoard& board) {
                     char lowercasePromotionType = tolower(promotionType);
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
                         Piece* piece = board.getSquare(startRow, startColNum);
-                        if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove" << endl; }
-                        else if (piece->getIsWhite() != isWhite) { cerr << "Invalid piece at start position in Human::makeMove" << endl; } 
-                        else if (piece->getPieceType() != 'p') { cerr << "Invalid piece type at start position in Human::makeMove" << endl; }
+                        if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; }
+                        else if (piece->getIsWhite() != isWhite) { cerr << "Invalid piece at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; } 
+                        else if (piece->getPieceType() != 'p') { cerr << "Invalid piece type at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; }
                         else {
                             if (board.verifyMove(startRow, startColNum, endRow, endColNum, promotionType)) {
                                 board.movePiece(startRow, startColNum, endRow, endColNum, promotionType);
                                 return true;
                             } else {
-                                cerr << "Invalid move in Human::makeMove" << endl;
+                                cerr << "Invalid move in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl;
                             }
                         }
                     } else {
-                        cerr << "Invalid promotion type in Human::makeMove" << endl;
+                        cerr << "Invalid promotion type in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl;
                     }
                 } else { // move is not a promotion
                     Piece* piece = board.getSquare(startRow, startColNum);
-                    if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove" << endl; }
-                    else if (piece->getIsWhite() ^ isWhite) { cerr << "Invalid piece at start position in Human::makeMove" << endl; }
+                    if (piece == nullptr) { cerr << "No piece at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; }
+                    else if (piece->getIsWhite() ^ isWhite) { cerr << "Invalid piece at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; }
                     else {
                         // cout << "color: " << piece->getIsWhite() << " type: " << piece->getPieceType();
                         if (board.verifyMove(startRow, startColNum, endRow, endColNum, isWhite)) {
