@@ -145,30 +145,41 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
     return false; 
 }
 
+bool Computer::makeMove4(ChessBoard& cBoard) {
+    return makeMove3(cBoard);
+}
+
 bool Computer::makeMove(ChessBoard& cBoard) {
 
     int board_size = 8;
     string playerColour = isWhite ? "white" : "black";
     string opponentColour = isWhite ? "black" : "white";
 
-    if(difficulty == 1) {
-        // random legal moves
-        // idea: find a piece that is on the board and randomly choose a move 
-        return makeMove1(cBoard);
-    } else if(difficulty == 2) {
-        // prefers capturing moves and checks
+    string inputLine; 
 
-        // REWRITE WHEN WE HAVE A GOBACK FUNCTION IN CHESSBOARD
-        
-        makeMove2(cBoard);
-    } else if(difficulty == 3) {
-        // prefers avoiding capture, capturing moves, and checks
-        makeMove3(cBoard);         
+    while(getline(in, inputLine)) {
+        istringstream iss{inputLine}; 
+        string command; 
+        iss >> command; 
+        if (command == "move") {
+            if(difficulty == 1) {
+                // random legal moves
+                // idea: find a piece that is on the board and randomly choose a move 
+                return makeMove1(cBoard);
+            } else if(difficulty == 2) {
+                // prefers capturing moves and checks
+                return makeMove2(cBoard);
+            } else if(difficulty == 3) {
+                // prefers avoiding capture, capturing moves, and checks
+                return makeMove3(cBoard);         
 
-    } else if(difficulty == 4) {
-        //
-
-    } 
-
+            } else if(difficulty == 4) {
+                // weighted pieces 
+                return makeMove4(cBoard);
+            } 
+        } else {
+            cerr << "Invalid computer command" <<endl;
+        }
+    }
     return true;
 }
