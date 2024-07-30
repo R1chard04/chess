@@ -1,18 +1,17 @@
 #include "game.h"
 
 
-// TODO: remember to replace graphical display init
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},
                             graphicalDisplay{window != nullptr ? make_unique<GraphicalObserver>(*window, 8) : nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
                             isWhiteTurn{true}, setupMode{false} {}
 
 Game::~Game() {}
 
-// SHOULD BE DONE
 void Game::setupNormalBoard() {
     board->removeAllPieces();
     isWhiteTurn = true;
 
+    // places white pieces
     board->placePiece(0, 0, true, 'r');
     board->placePiece(0, 1, true, 'n');
     board->placePiece(0, 2, true, 'b');
@@ -22,11 +21,13 @@ void Game::setupNormalBoard() {
     board->placePiece(0, 6, true, 'n');
     board->placePiece(0, 7, true, 'r');
 
+    // places white and white pawns
     for (int i = 0; i < 8; i++) {
         board->placePiece(1, i, true, 'p');
         board->placePiece(6, i, false, 'p');
     }
 
+    // places black pawns
     board->placePiece(7, 0, false, 'r');
     board->placePiece(7, 1, false, 'n');
     board->placePiece(7, 2, false, 'b');
@@ -38,7 +39,6 @@ void Game::setupNormalBoard() {
 
 }
 
-// SHOULD BE DONE
 void Game::runTurn() {
     if (isWhiteTurn) {
         pWhite->makeMove(*board);
@@ -49,18 +49,12 @@ void Game::runTurn() {
 
 void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, int blackDifficulty) {
     isWhiteTurn = true;
-    
-    if (whiteIsHuman) {
-        pWhite = make_unique<Human>(true);
-    } else {
-        pWhite = make_unique<Computer>(true, whiteDifficulty);
-    }
 
-    if (blackIsHuman) {
-        pBlack = make_unique<Human>(false);
-    } else {
-        pBlack = make_unique<Computer>(false, blackDifficulty);
-    }
+    if (whiteIsHuman) { pWhite = make_unique<Human>(true); } 
+    else { pWhite = make_unique<Computer>(true, whiteDifficulty); }
+
+    if (blackIsHuman) { pBlack = make_unique<Human>(false); } 
+    else { pBlack = make_unique<Computer>(false, blackDifficulty); }
 
     if (!setupMode) { setupNormalBoard(); } 
     board->notifyObservers();
@@ -139,21 +133,28 @@ void Game::setupBoard() {
                 cerr << "Invalid command in Game::setupBoard (=)" << endl;
             }
         } else if (command == "done") { // leave setup mode
-            // TODO: verify that the board contains exactly one white king and exactly one black king; that no pawns are on the first or last row of the board; and that neither king is in check.
             int blackKingCount = board->getNumKings(false); 
             int whiteKingCount = board->getNumKings(true);
             
-            //verify good # of kings
+            // verify that the board contains exactly one white king and exactly one black king
             if (blackKingCount != 1 || whiteKingCount != 1) {
                 setupMode = false; 
                 cerr << "Error: Invalid board setup, wrong number of kings" << endl; 
-                break;
+                continue;
             }
 
-            // verify kings not both in check
-            if (board->checkIfKingIsInCheck(true) && board->checkIfKingIsInCheck(false)) {
+            // verify that neither kings are in check
+            if (board->checkIfKingIsInCheck(true) || board->checkIfKingIsInCheck(false)) {
                 setupMode = false; 
                 cerr << "Error: invalid board setup, both kings in check" << endl;
+                continue;
+            }
+
+            // verify that no pawns are in the first or last row of the board
+            if (board->checkNoPawnsInLastRank()) {
+                setupMode = false;
+                cerr << "Error: invalid board setup, both kings in check" << endl;
+                continue;
             }
 
             break;

@@ -3,21 +3,20 @@
 
 Computer::Computer(bool isWhite, int difficulty): Player{isWhite}, difficulty{difficulty} {}
 
-vector<vector<int> > Computer::generateMoves(ChessBoard& cBoard) {
+vector<vector<int>> Computer::generateMoves(ChessBoard& cBoard) {
     int board_size = 8; 
     string playerColour = isWhite ? "white" : "black";
-    vector<vector<int> > res; 
+    vector<vector<int>> res; 
 
-    for(int i = 0; i < board_size; i++) {
-        for(int j = 0; j < board_size; j++) {
-            if(cBoard.getSquare(i, j) == nullptr) continue; 
-            if(cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
+    for (int i = 0; i < board_size; i++) {
+        for (int j = 0; j < board_size; j++) {
+            if (cBoard.getSquare(i, j) == nullptr) continue; 
+            if (cBoard.getSquare(i, j)->getIsWhite() != isWhite) continue; 
 
             // square is computer's piece 
-            for(int k = 0; k < board_size; k++) {
-                for(int h = 0; h < board_size; h++) {
-                    if(cBoard.verifyMove(i, j, k, h, isWhite)) {
-                        // valid move
+            for (int k = 0; k < board_size; k++) {
+                for (int h = 0; h < board_size; h++) {
+                    if (cBoard.verifyMove(i, j, k, h, isWhite)) {
                         res.push_back({i, j, k, h});
                     }
                 }
@@ -29,14 +28,14 @@ vector<vector<int> > Computer::generateMoves(ChessBoard& cBoard) {
 
 bool Computer::makeMove1(ChessBoard& cBoard) {
     int board_size = 8; 
-    vector<vector<int> > moves = generateMoves(cBoard);
+    vector<vector<int>> moves = generateMoves(cBoard);
 
-    if(moves.size() == 0) return false; // cannot generate a viable move; 
+    if (moves.size() == 0) return false; // cannot generate a viable move; 
 
     vector<int> move = moves[0]; 
 
-    // PROMOTION: 
-    if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+    // pawn promotion 
+    if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
     } else {
         cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
@@ -51,15 +50,15 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
 
     vector<vector<int> > moves = generateMoves(cBoard); 
 
-    if(moves.size() == 0) return false;
+    if (moves.size() == 0) return false;
 
     // move takes a piece: 
-    for(int i = 0; i < moves.size(); i++) {
+    for (int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
-        if(cBoard.getSquare(move[2], move[3]) == nullptr) continue; 
-        if(cBoard.getSquare(move[2], move[3])->getIsWhite() != isWhite) {
+        if (cBoard.getSquare(move[2], move[3]) == nullptr) continue; 
+        if (cBoard.getSquare(move[2], move[3])->getIsWhite() != isWhite) {
             // takes opponent's piece
-            if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+            if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
                 // capture with promotion on pawn
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'q');
                 return true;
@@ -78,7 +77,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
         ChessBoard boardAfterMove = ChessBoard(cBoard); 
 
         // promotion on pawn
-        if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
+        if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0)) {
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             // make the move and check if there is a check on opponent
             if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
@@ -87,7 +86,7 @@ bool Computer::makeMove2(ChessBoard& cBoard) {
             } 
         } else {
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'x');
-            if(boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
+            if (boardAfterMove.checkIfKingIsInCheck(!isWhite)) {
                 cBoard.movePiece(move[0], move[1], move[2], move[3], 'x');
                 // the move resulted in a check
                 return true; 
@@ -106,10 +105,10 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
 
     cout<<"makeMove 3 made"<<endl; 
     cout<<moves.size()<<endl;
-    if(moves.size() == 0) return false;
+    if (moves.size() == 0) return false;
 
     // avoid capture 
-    for(int i = 0; i < moves.size(); i++) {
+    for (int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
         // check if the piece is being attacked
         Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
@@ -124,7 +123,7 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
 
         ChessBoard boardAfterMove = ChessBoard(cBoard); 
 
-        if(cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
+        if (cBoard.getSquare(move[0], move[1])->getPieceType() == 'p' && (move[2] == board_size - 1 || move[2] == 0) ) {
             cout<<"monkeyNoBishop"<<endl;
             boardAfterMove.movePiece(move[0], move[1], move[2], move[3], 'q');
             if(!boardAfterMove.checkIfPieceIsAttacked(boardAfterMove.getSquare(move[2], move[3]), isWhite)) {
@@ -151,21 +150,21 @@ bool Computer::makeMove(ChessBoard& cBoard) {
     string playerColour = isWhite ? "white" : "black";
     string opponentColour = isWhite ? "black" : "white";
 
-    if(difficulty == 1) {
+    if (difficulty == 1) {
         // random legal moves
         // idea: find a piece that is on the board and randomly choose a move 
         return makeMove1(cBoard);
-    } else if(difficulty == 2) {
+    } else if (difficulty == 2) {
         // prefers capturing moves and checks
 
         // REWRITE WHEN WE HAVE A GOBACK FUNCTION IN CHESSBOARD
         
         makeMove2(cBoard);
-    } else if(difficulty == 3) {
+    } else if (difficulty == 3) {
         // prefers avoiding capture, capturing moves, and checks
         makeMove3(cBoard);         
 
-    } else if(difficulty == 4) {
+    } else if (difficulty == 4) {
         //
 
     } 
