@@ -24,7 +24,7 @@ bool Bishop::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     
     if (toRow == row && toCol == col) { return false; }
     if (abs(toRow - row) != abs(toCol - col)) { return false; }
-    for (int i = 1; i < abs(toRow - row) - 1; ++i) {
+    for (int i = 1; i < abs(toRow - row); ++i) {
         Piece* p = cBoard.getSquare(toRow > row ? row + i : row - i, toCol > col ? col + i: col - i);
         if (p != nullptr) { return false; }
     }
