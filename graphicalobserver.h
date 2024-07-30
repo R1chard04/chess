@@ -10,12 +10,13 @@ using namespace std;
 class ChessBoard;
 
 class GraphicalObserver : public Observer {
-    ChessBoard* mainSubject; 
+    Xwindow& window; 
 
-    Xwindow w; 
+    // const int boardSize;
+    const int tileSize;
     
     public:
-        GraphicalObserver(ChessBoard* mainSubject);
+        GraphicalObserver(Xwindow& w, int tileWidth);
 
         void notify(ChessBoard& board) override;
 

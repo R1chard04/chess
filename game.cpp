@@ -3,7 +3,7 @@
 
 // TODO: remember to replace graphical display init
 Game::Game(Xwindow* window): scoreWhite{0}, scoreBlack{0}, textDisplay{make_unique<TextObserver>()},
-                            graphicalDisplay{nullptr}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
+                            graphicalDisplay{make_unique<GraphicalObserver>(*window, 8)}, board{make_unique<ChessBoard>(textDisplay.get(), graphicalDisplay.get())},
                             isWhiteTurn{true}, setupMode{false} {}
 
 // Game::Game(Xwindow *w, bool enableGraphics) : in{cin}, out{cout}, turn{Colour::White}, isSetup{false}, enableGraphics{enableGraphics},

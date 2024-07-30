@@ -5,15 +5,14 @@
 #include <memory>
 #include "window.h"
 #include "game.h"
-
 using namespace std;
 
 // TODO: check for invalid inputs... MOSTLY DONE
 int main(int argc, char *argv[]) {
     // Add a flag check if we are in "bonus" mode
 
-    // unique_ptr<Xwindow> window = make_unique<Xwindow>(400, 400);
-    unique_ptr<Xwindow> window = nullptr;
+    unique_ptr<Xwindow> window = make_unique<Xwindow>(680, 680);
+    // unique_ptr<Xwindow> window = nullptr;
 
     Game game {window.get()};
     // Game game = Game{nullptr};
