@@ -8,7 +8,7 @@ vector<vector<int>> knightMoves = {
     {1, 2}, {-1, 2}, {1, -2}, {-1, -2},
 };
 
-Knight::Knight(bool isWhite, int row, int col): Piece{isWhite, knightMoves, 'n', row, col} {}
+Knight::Knight(bool isWhite, int row, int col): Piece{isWhite, knightMoves, 'n', row, col, 3} {}
 
 
 bool Knight::checkValidMove(ChessBoard& board, int toRow, int toCol) {  

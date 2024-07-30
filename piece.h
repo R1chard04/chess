@@ -14,9 +14,10 @@ protected:
     char pieceType;
     int row, col;
     bool hasMoved;
+    int value; 
 
 public:
-    Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col);
+    Piece(bool isWhite, vector<vector<int>> moves, char pieceType, int row, int col, int value);
     virtual ~Piece();
 
     virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) = 0;
@@ -26,6 +27,7 @@ public:
     bool getHasMoved() const;
     int getRow() const;
     int getCol() const;
+    int getValue() const; 
     void setHasMoved(bool hasMoved);
     void setCoords(int row, int col);
 };

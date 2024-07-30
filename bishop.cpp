@@ -14,7 +14,7 @@ vector<vector<int>> bishopMoves = {
     {8, 8}, {8, -8}, {-8, 8}, {-8, -8},
 };
 
-Bishop::Bishop(bool isWhite, int row, int col): Piece{isWhite, bishopMoves, 'b', row, col} {}
+Bishop::Bishop(bool isWhite, int row, int col): Piece{isWhite, bishopMoves, 'b', row, col, 3} {}
 
 bool Bishop::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int board_size = 8;

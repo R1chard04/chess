@@ -1,5 +1,6 @@
 #include "king.h"
 #include "piece.h"
+#include <climits>
 #include <vector>
 using namespace std; 
 
@@ -9,7 +10,7 @@ vector<vector<int>> kingMoves = {
     {-2, 0}, {2, 0}
 };
 
-King::King(bool isWhite, int row, int col): Piece{isWhite, kingMoves, 'k', row, col} {}
+King::King(bool isWhite, int row, int col): Piece{isWhite, kingMoves, 'k', row, col, INT_MAX} {}
 
 bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {  
     

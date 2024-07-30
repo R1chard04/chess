@@ -11,7 +11,7 @@ vector<vector<int>> blackPawnMoves = {
     {0, -1}, {1, -1}, {-1, -1}, {0, -2}
 };
 
-Pawn::Pawn(bool isWhite, int row, int col): Piece{isWhite, isWhite ? whitePawnMoves : blackPawnMoves, 'p', row, col} {}
+Pawn::Pawn(bool isWhite, int row, int col): Piece{isWhite, isWhite ? whitePawnMoves : blackPawnMoves, 'p', row, col, 1} {}
 
 bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int dy = toRow - row;

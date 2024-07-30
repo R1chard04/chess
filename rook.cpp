@@ -10,7 +10,7 @@ vector<vector<int>> rookMoves = {
     {0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}, {0, -8}
 };
 
-Rook::Rook(bool isWhite, int row, int col): Piece{isWhite, rookMoves, 'r', row, col} {}
+Rook::Rook(bool isWhite, int row, int col): Piece{isWhite, rookMoves, 'r', row, col, 5} {}
 
 bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int board_size = 8;

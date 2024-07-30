@@ -21,7 +21,7 @@ vector<vector<int>> queenMoves = {
     {8, 8}, {8, -8}, {-8, 8}, {-8, -8}
 };
 
-Queen::Queen(bool isWhite, int row, int col): Piece{isWhite, queenMoves, 'q', row, col} {}
+Queen::Queen(bool isWhite, int row, int col): Piece{isWhite, queenMoves, 'q', row, col, 9} {}
 
 bool Queen::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int board_size = 8;
