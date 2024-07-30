@@ -286,8 +286,10 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
                         || existsPieceInSquare(*this, row-2, col+1, 'n', isWhite) || existsPieceInSquare(*this, row-2, col-1, 'n', isWhite) 
                         || existsPieceInSquare(*this, row+1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row+1, col-2, 'n', isWhite) 
                         || existsPieceInSquare(*this, row-1, col+2, 'n', isWhite) || existsPieceInSquare(*this, row-1, col-2, 'n', isWhite);
-    // cout << "attacked by knight: " << attackedByKnight << endl;
-    bool attackedByPawn = isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn))
+    cout << "attacked by knight: " << attackedByKnight << endl;
+
+    cout << "oogabooga booga: " <<existsPieceInSquare(*this, row-1, col-1, 'p', isWhite)<<" "<<isWhite<<endl;
+    bool attackedByPawn = !isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn))
                         : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite) || (piece->getPieceType() == 'p' && enPassantPawn != nullptr && (getSquare(row, col-1) == enPassantPawn || getSquare(row, col+1) == enPassantPawn));
     // cout << "attacked by pawn: " << attackedByPawn << endl;
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
