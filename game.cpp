@@ -48,7 +48,7 @@ bool Game::runTurn() {
 }
 
 void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, int blackDifficulty) {
-    isWhiteTurn = true;
+    if(!setupMode) { isWhiteTurn = true; }
 
     if (whiteIsHuman) { pWhite = make_unique<Human>(true); } 
     else { pWhite = make_unique<Computer>(true, whiteDifficulty); }
@@ -123,8 +123,10 @@ void Game::setupBoard() {
             char col;
 			int row;
 			iss >> col >> row;
-            if (row >= 0 && row <= 8 && col >= 'a' && col <= 'h') {
-                board->removePiece(row, col);
+            row--;
+            if (row >= 0 && row < 8 && col >= 'a' && col <= 'h') {
+                board->removePiece(row, int(col - 'a'));
+                board->notifyObservers();
             } else {
                 cerr << "Invalid command in Game::setupBoard (-)" << endl;
             }
