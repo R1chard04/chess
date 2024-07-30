@@ -116,7 +116,7 @@ void Game::setupBoard() {
             row--; 
             char lowerCaseType = tolower(type);
             if (row >= 0 && row < 8 && col >= 'a' && col <= 'h' && (lowerCaseType == 'p' || lowerCaseType == 'r' || lowerCaseType == 'n' || lowerCaseType == 'b' || lowerCaseType == 'q' || lowerCaseType == 'k')) {
-                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
+                board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, lowerCaseType == 'k' || lowerCaseType == 'r');
                 board->notifyObservers();
             } else {
                 cerr << "Invalid command in Game::setupBoard (+)" << endl;
