@@ -52,8 +52,8 @@ class ChessBoard {
 
         Piece* getKing(bool isWhite) const; // get location of a colour's king
         int getNumKings(bool isWhite) const; // get number of kings of a colour (to check board setup)
-        Piece* getEnPassantPawn() const; // get the enpassant pawn 
-        void setEnPassantPawn(Piece*); // set the enpassant pawn
+        Piece* getEnPassantPawn() const; // get the opponent's pawn that can be enpassanted 
+        void setEnPassantPawn(Piece*); // set the pawn that can be enpassanted next turn
 };
 
 #endif
