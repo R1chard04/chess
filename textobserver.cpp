@@ -5,7 +5,6 @@ TextObserver::TextObserver() {}
 
 TextObserver::~TextObserver() {}
 
-// eventually, we should move this to the ostream& operator<<
 void TextObserver::notify(ChessBoard& board) {
     for (int i = 7; i >= 0; --i) {
       cout << i + 1 << " ";

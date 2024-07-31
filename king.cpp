@@ -37,11 +37,8 @@ bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {
 
     // check if castling is valid
     if (dx == 2 || dx == -2) {
-        // cout<<"castling under attempt"<<endl;
         if(board.getSquare(toRow, col + dx / 2) != nullptr) { return false; } 
-        // cout<<"castling under attempt1"<<endl;
         if (this->getHasMoved()) { return false; }
-        // cout<<"castling under attempt2"<<endl;
         Piece* rook = board.getSquare(this->row, dx == 2 ? 7 : 0);
         
         // for queen-side castles, check if there is a square on the right of the rook 
@@ -49,7 +46,6 @@ bool King::checkValidMove(ChessBoard& board, int toRow, int toCol) {
 
         if (rook == nullptr || rook->getPieceType() != 'r' || rook->getHasMoved()) { return false; }
 
-        // cout<<"king castle passes all of these"<<endl;
         // check that king is not castling in or through check
         if (board.checkIfKingIsInCheck(this->getIsWhite())) { return false; }
         if (board.checkIfKingIsInCheck(this->getIsWhite(), this->row, this->col, toRow, col + dx / 2)) { return false; }

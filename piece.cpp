@@ -11,7 +11,7 @@ bool Piece::getIsWhite() const {
     return isWhite;
 }
 
-char Piece::getPieceType() const {  // Corrected return type
+char Piece::getPieceType() const {
     return pieceType;
 }
 

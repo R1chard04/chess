@@ -34,22 +34,22 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
         return false; 
     }
 
-    // is it moving by two squares? 
+    // check if pawn is moving by 2 squares or 1 
     if( (dy == 2 || dy == -2)) {
         if(getHasMoved() == true) {
             // has moved so can't move two squares
             return false; 
         } else {
             // check if there is a piece blocking the squares
-            if(cBoard.getSquare(toRow, toCol) != nullptr) {
+            if (cBoard.getSquare(toRow, toCol) != nullptr) {
                 return false; 
             }
 
-            if(cBoard.getSquare(row + dy/2, toCol) != nullptr) { 
+            if (cBoard.getSquare(row + dy/2, toCol) != nullptr) { 
                 return false; 
             }
         }
-    } else if(dx != 0) {
+    } else if (dx != 0) {
         // pawn is moving horizontally and is taking another piece
         if(cBoard.getSquare(toRow, toCol) == nullptr) {
             // en passant or invalid move

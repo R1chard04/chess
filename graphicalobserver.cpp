@@ -47,5 +47,3 @@ void GraphicalObserver::notify(ChessBoard& board) {
 }
 
 GraphicalObserver::~GraphicalObserver() {}
-
-
