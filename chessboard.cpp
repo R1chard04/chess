@@ -379,15 +379,20 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
 
     // pawn promotion
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) {
+
+        promotionType = tolower(promotionType);
+
+
         if (promotionType == 'k') {
             cerr << "error: cannot promote pawn to king" << endl; 
         } else if(promotionType == 'x') {
-            p->setHasMoved(true);
-            return;
+            promotionType = 'q'; 
         }
+
         bool pIsWhite = p->getIsWhite();
         
         removePiece(toRow, toCol);
+
         placePiece(toRow, toCol, pIsWhite, promotionType, true);
     }
 

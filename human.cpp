@@ -40,6 +40,8 @@ bool Human::makeMove(ChessBoard& board) {
 
                 if (iss >> promotionType) { // check if there the move is a promotion
                     char lowercasePromotionType = tolower(promotionType);
+
+                    cout<<"passes this"<<endl; 
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
                         // check if the promotion is a viable piece
 
@@ -66,7 +68,6 @@ bool Human::makeMove(ChessBoard& board) {
                         cerr << "Invalid promotion type in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl;
                     }
                 } else { // move is not a promotion
-                
                     Piece* piece = board.getSquare(startRow, startColNum);
                     
                     // get the piece we are trying to move and make sure it exists and is our piece
