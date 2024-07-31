@@ -9,7 +9,7 @@ class King : public Piece {
 
     public:
         King(bool isWhite, int row, int col);
-        bool checkValidMove(ChessBoard& board, int toRow, int toCol) override;
+        bool checkValidMove(ChessBoard& board, int toRow, int toCol) override; // checks whether a move by a king is valid
         virtual ~King() = default;
 
 };
