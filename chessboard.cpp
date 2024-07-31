@@ -425,7 +425,6 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
 
         promotionType = tolower(promotionType);
 
-
         if (promotionType == 'k') {
             cerr << "error: cannot promote pawn to king" << endl; 
         } else if(promotionType == 'x') {
