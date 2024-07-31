@@ -110,7 +110,6 @@ bool Computer::makeMove3(ChessBoard& cBoard) {
     for (int i = 0; i < moves.size(); i++) {
         vector<int> move = moves[i];
         Piece* currentPiece = cBoard.getSquare(move[0], move[1]);
-        bool out = cBoard.checkIfPieceIsAttacked(currentPiece, isWhite);
         
         if(!cBoard.checkIfPieceIsAttacked(currentPiece, isWhite)) continue; 
 
@@ -181,7 +180,6 @@ bool Computer::makeMove4(ChessBoard& cBoard) {
 
 bool Computer::makeMove(ChessBoard& cBoard) {
 
-    int board_size = 8;
     string playerColour = isWhite ? "white" : "black";
     string opponentColour = isWhite ? "black" : "white";
 

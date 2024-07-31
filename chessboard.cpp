@@ -279,12 +279,11 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
                         : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite);
     bool attackedByEnPassantPawn = (piece->getPieceType() == 'p' && enPassantPawn != nullptr && ((col > 0 && getSquare(row, col-1) == enPassantPawn) || (col < 7 && getSquare(row, col+1) == enPassantPawn)));
     
-    return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn;
+    return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn || attackedByEnPassantPawn;
 }
 
 
 bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, int toRow, int toCol) {
-    int kingRow, kingCol;
     Piece* king = getKing(isWhite);
     
     if (fromRow != -1) {
