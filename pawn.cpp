@@ -3,10 +3,13 @@
 #include <vector>
 using namespace std; 
 
+
+// set of possible pawn moves for white
 vector<vector<int>> whitePawnMoves = {
     {0, 1}, {1, 1}, {-1, 1}, {0, 2}
 };
 
+// set of possible pawn moves for black
 vector<vector<int>> blackPawnMoves = {
     {0, -1}, {1, -1}, {-1, -1}, {0, -2}
 };
@@ -18,18 +21,23 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     int dx = toCol - col;
 
     int board_size = 8;
+
+    // check if move is in the board
     if(toRow < 0 || toRow >= board_size || toCol < 0 || toCol >= board_size) {
         return false; 
     }
 
+    // check if move is in the set of possible pawn moves
     bool isPawnMove = false; 
     for(int i = 0; i < moves.size(); i++) {
         if(moves[i][0] == dx && moves[i][1] == dy) {
+            // it is in the set of possible pawn moves!
             isPawnMove = true; 
             break; 
         }
     }
 
+    // not a pawn move, not a valid move
     if(!isPawnMove) {
         return false; 
     }
@@ -63,6 +71,7 @@ bool Pawn::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
     } else {
         // is moving one square up 
         if(cBoard.getSquare(toRow, toCol) != nullptr) {
+            // trying to move pawn into a square with an existing piece 
             return false; 
         }
     }   
