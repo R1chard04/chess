@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std; 
 
+// moves possible by a queen relative to its current position
 vector<vector<int>> rookMoves = {
     {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0},
     {-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0}, {-8, 0},
@@ -18,19 +19,23 @@ bool Rook::checkValidMove(ChessBoard& cBoard, int toRow, int toCol) {
         return false; 
     }
     
+    // cannot move to its current square
     if ((toRow != row && toCol != col) || (toRow == row && toCol == col)) { return false; }
     
-    if (toRow == row) {
+    // check the direction this piece is moving it: either moves horizontally or vertically
+    if (toRow == row) { // horizontal move
         for (int i = 1; i < abs(toCol - col); ++i) {
             Piece* p = cBoard.getSquare(row, toCol > col ? col + i : col - i);
             if (p != nullptr) { return false; }
         }
-    } else if (toCol == col) {
+    } else if (toCol == col) { // vertical move
         for (int i = 1; i < abs(toRow - row); ++i) {
             Piece* p = cBoard.getSquare(toRow > row ? row + i : row - i, col);
             if (p != nullptr) { return false; }
         }
     }
+
+    // final check: if there exists a piece on the last square the piece moves to, it must capture it and that piece must be the opposite colour
     Piece* p = cBoard.getSquare(toRow, toCol);
     if (p != nullptr && p->getIsWhite() == this->getIsWhite()) { return false; }
 
