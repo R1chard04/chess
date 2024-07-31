@@ -21,7 +21,7 @@ bool Human::makeMove(ChessBoard& board) {
             int startRow;
             char endCol;
             int endRow;
-            char promotionType;
+            char promotionType = ' ';
 
             // read in move information
             iss >> startCol >> startRow >> endCol >> endRow;
@@ -34,14 +34,16 @@ bool Human::makeMove(ChessBoard& board) {
             int startColNum = int(startCol - 'a'); 
             int endColNum = int(endCol - 'a'); 
 
+            if (!iss) { cerr << "Incorrect input. " << endl; continue; }
+
 
             if (startRow >= 0 && startRow < 8 && startCol >= 'a' && startCol <= 'h' && endRow >= 0 && endRow < 8 && endCol >= 'a' && endCol <= 'h') {
                 // make sure rows and columns are in the board 
+                iss >> promotionType;
 
-                if (iss >> promotionType) { // check if there the move is a promotion
+                if (iss) { // check if there the move is a promotion
                     char lowercasePromotionType = tolower(promotionType);
 
-                    cout<<"passes this"<<endl; 
                     if (lowercasePromotionType == 'r' || lowercasePromotionType == 'n' || lowercasePromotionType == 'b' || lowercasePromotionType == 'q') {
                         // check if the promotion is a viable piece
 
@@ -54,7 +56,7 @@ bool Human::makeMove(ChessBoard& board) {
                         else if (piece->getPieceType() != 'p') { cerr << "Invalid piece type at start position in Human::makeMove: " << startCol << startRow + 1 << " " << endCol << endRow + 1 << endl; }
                         else {
                             // the piece is a viable piece to be promoted, do more speciffic checks
-                            if (board.verifyMove(startRow, startColNum, endRow, endColNum, promotionType)) {
+                            if (board.verifyMove(startRow, startColNum, endRow, endColNum, isWhite, promotionType)) {
                                 // verify that the move is possible if it is, we execute the move
                                 board.movePiece(startRow, startColNum, endRow, endColNum, promotionType);
                                 return true;
