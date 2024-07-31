@@ -9,13 +9,13 @@
 class Player {
 
     protected:
-        bool isWhite;
-        std::istream &in = std::cin;
-        std::ostream &out = std::cout;
+        bool isWhite; // colour of the player
+        std::istream &in = std::cin; //input stream
+        std::ostream &out = std::cout; // output stream
 
     public:
-        Player(bool isWhite);
-        virtual bool makeMove(ChessBoard& board) = 0;
+        Player(bool isWhite); 
+        virtual bool makeMove(ChessBoard& board) = 0; // generates move from player
         virtual ~Player() = default;
 
 };

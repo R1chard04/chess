@@ -8,7 +8,7 @@
 class Human : public Player {
     public:
         Human(bool isWhite); 
-        bool makeMove(ChessBoard& board) override;
+        bool makeMove(ChessBoard& board) override; // get move from human
         virtual ~Human() = default;
 
 };
