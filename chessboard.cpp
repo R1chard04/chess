@@ -6,23 +6,32 @@
 using namespace std; 
 
 ChessBoard::ChessBoard(TextObserver* textDisplay, GraphicalObserver* graphicsDisplay): enPassantPawn{nullptr} {
+    // initializes an 8x8 board
     for (int i = 0; i < 8; ++i) {
         vector<Piece*> row {8, nullptr};
         board.push_back(row);
     }
+
+    // attaches the observers if they exist
     if (textDisplay != nullptr) attach(textDisplay);
     if (graphicsDisplay != nullptr) attach(graphicsDisplay);
 }
 
+// Copy constructor - useful for copying board states
 ChessBoard::ChessBoard(const ChessBoard& other) {
+    // initializes an 8x8 board
     for (int i = 0; i < 8; ++i) {
         vector<Piece*> row {8, nullptr};
         board.push_back(row);
     }
+
+    // copies all white pieces to the new board
     for (int i = 0; i < other.whitePieces.size(); ++i) {
         Piece* p = other.whitePieces[i].get();
         placePiece(p->getRow(), p->getCol(), p->getIsWhite(), p->getPieceType(), p->getHasMoved());
     }
+
+    // copies all white pieces to the new board
     for (int i = 0; i < other.blackPieces.size(); ++i) {
         Piece* p = other.blackPieces[i].get();
         placePiece(p->getRow(), p->getCol(), p->getIsWhite(), p->getPieceType(), p->getHasMoved());
@@ -54,10 +63,12 @@ Piece* ChessBoard::getSquare(int row, int col) const {
     return board[row][col];
 }
 
+// removes either a white or black piece from the board
 void ChessBoard::removePiece(int row, int col) {
     Piece *p = getSquare(row, col);
     if (p == nullptr) { return; }
 
+    // if a piece exists in the square, then remove it. Note: they are smart pointers, so we can just take them out of scope and they will delete themselves
     if (p->getIsWhite()) {
         for (int i = 0; i < whitePieces.size(); ++i) {
             Piece* tmpP = whitePieces[i].get();
@@ -76,14 +87,18 @@ void ChessBoard::removePiece(int row, int col) {
         }
     }
 
+    // set the coordinate to nullptr to avoid invalid reads
     board[row][col] = nullptr;
 }
 
+// places a piece on the board
 void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool moved) {
+    // remove a piece if it currently exists on the board
     if (getSquare(row, col) != nullptr) {
         removePiece(row, col);
     }
 
+    // set the piece according to what type it is
     unique_ptr<Piece> p;
     if (pieceType == 'p') { p = make_unique<Pawn>(isWhite, row, col); } 
     else if (pieceType == 'r') { p = make_unique<Rook>(isWhite, row, col); } 
@@ -92,7 +107,10 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     else if (pieceType == 'q') { p = make_unique<Queen>(isWhite, row, col); } 
     else if (pieceType == 'k') { p = make_unique<King>(isWhite, row, col); }
 
+    // set the hasMoved field to account for board setups, pawn promotions, etc
     p.get()->setHasMoved(moved);
+
+    // add the new piece into the array of white or black pieces
     board[row][col] = p.get();
     if (isWhite) {
         whitePieces.emplace_back(move(p));
@@ -101,6 +119,7 @@ void ChessBoard::placePiece(int row, int col, bool isWhite, char pieceType, bool
     }
 }
 
+// removes all the pieces from a board - used for setup purposes
 void ChessBoard::removeAllPieces() {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -109,6 +128,7 @@ void ChessBoard::removeAllPieces() {
     }
 }
 
+// retrieves the king of a certain colour by iterating through either the array of white pieces of black pieces
 Piece* ChessBoard::getKing(bool isWhite) const {
     if (isWhite) {
         for (int i = 0; i < whitePieces.size(); ++i) {
@@ -126,7 +146,7 @@ Piece* ChessBoard::getKing(bool isWhite) const {
     return nullptr;
 }
 
-
+// checks if a current piece exists from a square; if a pieceType and isWhite field is specified, it ensures that that piece is of the opposite colour of the colour specified
 bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     if (row < 0 || row > 7 || col < 0 || col > 7) return false;
     if (pieceType == ' ') {
@@ -136,9 +156,11 @@ bool existsPieceInSquare(ChessBoard& board, int row, int col, char pieceType = '
     return (tmpPiece != nullptr && tmpPiece->getPieceType() == pieceType && tmpPiece->getIsWhite() != isWhite);
 }
 
+// checks if a current piece exists on a horizontal row
 bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     int i = col;
 
+    // check on the right of the current square
     while (i < 8) {
         if (existsPieceInSquare(board, row, i)) {
             if (pieceType != ' ' && existsPieceInSquare(board, row, i, pieceType, isWhite)) {
@@ -150,6 +172,7 @@ bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType
         i += 1;
     }
 
+    // check on the left of the current square
     i = col;
     while (i >= 0) {
         if (existsPieceInSquare(board, row, i)) {
@@ -165,9 +188,11 @@ bool existsPieceInHorizontal(ChessBoard& board, int row, int col, char pieceType
     return false;
 }
 
+// checks if a current piece exists on a vertical row
 bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     int i = row;
 
+    // check on the top of the current square
     while (i < 8) {
         if (existsPieceInSquare(board, i, col)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, col, pieceType, isWhite)) {
@@ -179,6 +204,7 @@ bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType =
         i += 1;
     }
 
+    // check on the bottom of the current square
     i = row;
     while (i >= 0) {
         if (existsPieceInSquare(board, i, col)) {
@@ -194,10 +220,12 @@ bool existsPieceInVertical(ChessBoard& board, int row, int col, char pieceType =
     return false;
 }
 
+// checks if a current piece exists on a diagonal
 bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType = ' ', bool isWhite = true) {
     int i = row;
     int j = col;
 
+    // check in the top-right direction of the current square
     while (i < 8 && j < 8) {
         if (existsPieceInSquare(board, i, j)) {
             if (pieceType != ' ' && existsPieceInSquare(board, i, j, pieceType, isWhite)) {
@@ -210,6 +238,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         j += 1;
     }
 
+    // check in the bottom-left direction of the current square
     i = row;
     j = col;
     while (i >= 0 && j >= 0) {
@@ -224,6 +253,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         j -= 1;
     }
 
+    // check in the top-left direction of the current square
     i = row;
     j = col;
     while (i < 8 && j >= 0) {
@@ -238,6 +268,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
         j -= 1;
     }
 
+    // check in the bottom-right direction of the current square
     i = row;
     j = col;
     while (i >= 0 && j < 8) {
@@ -255,6 +286,7 @@ bool existsPieceInDiagonal(ChessBoard& board, int row, int col, char pieceType =
     return false;
 }
 
+// checks if any piece is attacked by any existing piece on the board
 bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
     int row = piece->getRow();
     int col = piece->getCol();
@@ -277,15 +309,19 @@ bool ChessBoard::checkIfPieceIsAttacked(Piece* piece, bool isWhite) {
 
     bool attackedByPawn = !isWhite ? existsPieceInSquare(*this, row-1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row-1, col+1, 'p', isWhite)
                         : existsPieceInSquare(*this, row+1, col-1, 'p', isWhite) || existsPieceInSquare(*this, row+1, col+1, 'p', isWhite);
+    
     bool attackedByEnPassantPawn = (piece->getPieceType() == 'p' && enPassantPawn != nullptr && ((col > 0 && getSquare(row, col-1) == enPassantPawn) || (col < 7 && getSquare(row, col+1) == enPassantPawn)));
     
+    // return true if the current piece is attacked by any of the opponent's pieces
     return attackedByKing || attackedByQueen || attackedByRook || attackedByBishop || attackedByKnight || attackedByPawn || attackedByEnPassantPawn;
 }
 
 
+// checks if a king of a specific colour is currently in check - if coordinates are specified, then check that but after a hypothetical move
 bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, int toRow, int toCol) {
     Piece* king = getKing(isWhite);
     
+    // check if the king is still in check after a hypothetical move by generating a temporary new board
     if (fromRow != -1) {
         ChessBoard boardAfterMove = ChessBoard{*this};
         boardAfterMove.movePiece(fromRow, fromCol, toRow, toCol);
@@ -296,10 +332,12 @@ bool ChessBoard::checkIfKingIsInCheck(bool isWhite, int fromRow, int fromCol, in
     return checkIfPieceIsAttacked(king, king->getIsWhite());
 }
 
+// generate all possible moves allowed on the board by a current colour
 vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
     int board_size = 8; 
     vector<vector<int>> res; 
 
+    // i and j represent the first square, while k and h represent the second square; if a piece exists in the first square and can move to the second error-free, then append it to the array of all possible moves
     for(int i = 0; i < board_size; i++) {
         for(int j = 0; j < board_size; j++) {
             // piece is nullptr
@@ -322,6 +360,7 @@ vector<vector<int>> generateMoves(ChessBoard& cBoard, bool isWhite) {
     return res; 
 }
 
+// check if a current colour is in checkmate
 bool ChessBoard::checkCheckmate(bool isWhite) {
     if(checkStalemate(isWhite) && checkIfKingIsInCheck(isWhite)) {
         return true; 
@@ -329,12 +368,14 @@ bool ChessBoard::checkCheckmate(bool isWhite) {
     return false; 
 }
 
+// check if a current colour is in stalemate
 bool ChessBoard::checkStalemate(bool isWhite) {
     vector<vector<int>> moves = generateMoves(*this, isWhite);
     if(moves.size() == 0) return true; 
     return false;
 }
 
+// check if pawns exist in the last rank (for board setup)
 bool ChessBoard::checkNoPawnsInLastRank() {
     for (int i = 0; i < 8; ++i) {
         Piece* p = getSquare(0, i);
@@ -345,6 +386,7 @@ bool ChessBoard::checkNoPawnsInLastRank() {
     return false;
 }
 
+// moves a piece from one square to another
 void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType) {
     Piece *p = getSquare(fromRow, fromCol);
     if (p == nullptr) { return; }
@@ -370,6 +412,7 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
         removePiece(p->getRow(), toCol);
     }
 
+    // remove a piece in the current square if it exists, and set the piece in the the old square into the new square's location
     if (getSquare(toRow, toCol) != nullptr) {
         removePiece(toRow, toCol);
     }
@@ -377,7 +420,7 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
     board[toRow][toCol] = p;
     board[fromRow][fromCol] = nullptr;
 
-    // pawn promotion
+    // pawn promotion checks
     if (p->getPieceType() == 'p' && (toRow == 0 || toRow == 7)) {
         if (promotionType == 'k') {
             cerr << "error: cannot promote pawn to king" << endl; 
@@ -387,30 +430,32 @@ void ChessBoard::movePiece(int fromRow, int fromCol, int toRow, int toCol, char 
         }
         bool pIsWhite = p->getIsWhite();
         
+        // if promotion is valid, then remove the current piece (which is a pawn) and place the new piece
         removePiece(toRow, toCol);
         placePiece(toRow, toCol, pIsWhite, promotionType, true);
     }
 
 }
 
+
+// verifies that a move is possible based on squares a piece is moving from and to
 bool ChessBoard::verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType) {
     if (fromRow < 0 || fromRow > 7 || fromCol < 0 || fromCol > 7 || toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) { return false; }
 
     Piece* piece = getSquare(fromRow, fromCol);
     if (piece == nullptr) { return false; }
-    // cout << "check passed: piece exists: " << piece->getPieceType() << endl;
 
     // check if a piece can move to the destination; no pieces block path; landing square is empty or occupied by DIFFERENT colour piece
     if (!(piece->checkValidMove(*this, toRow, toCol))) { return false; }
-    // cout << "check passed: piece can move" << endl;
 
     // check that after the move, the king is not in check
     if (checkIfKingIsInCheck(isWhite, fromRow, fromCol, toRow, toCol)) { return false; }
-    // cout << "check passed: king is not in check" << endl;
     
     return true;
 }
 
+
+// returns the number of kings on the board (for board setup)
 int ChessBoard::getNumKings(bool isWhite) const {
     int numKings = 0;
     if (isWhite) {
