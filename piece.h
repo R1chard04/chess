@@ -21,7 +21,7 @@ public:
     virtual bool checkValidMove(ChessBoard& board, int toRow, int toCol) = 0;
 
     bool getIsWhite() const;
-    char getPieceType() const;  // Corrected return type
+    char getPieceType() const;
     bool getHasMoved() const;
     int getRow() const;
     int getCol() const;

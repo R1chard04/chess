@@ -14,7 +14,7 @@ class Player {
         std::ostream &out = std::cout;
 
     public:
-        Player(bool isWhite); // TODO: maybe add some params here 
+        Player(bool isWhite);
         virtual bool makeMove(ChessBoard& board) = 0;
         virtual ~Player() = default;
 

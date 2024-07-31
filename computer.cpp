@@ -208,10 +208,12 @@ bool Computer::makeMove(ChessBoard& cBoard) {
         istringstream iss{inputLine}; 
         string command; 
         iss >> command; 
-        if (command == "move") {
-            if(difficulty == 1) {
-                // random legal moves
-                // idea: find a piece that is on the board and randomly choose a move 
+
+        if (command == "resign") {
+            return false;
+        } else if (command == "move") {
+            if (difficulty == 1) {
+                // find a piece that is on the board and randomly choose a valid move for that piece
                 return makeMove1(cBoard);
             } else if(difficulty == 2) {
                 // prefers capturing moves and checks
@@ -219,9 +221,7 @@ bool Computer::makeMove(ChessBoard& cBoard) {
             } else if(difficulty == 3) {
                 // prefers avoiding capture, capturing moves, and checks
                 return makeMove3(cBoard);         
-
             } else if(difficulty == 4) {
-                // weighted pieces 
                 // captures free pieces or pieces weighted more than another piece
                 return makeMove4(cBoard);
             } 

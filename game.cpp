@@ -82,7 +82,7 @@ void Game::startGame(bool whiteIsHuman, bool blackIsHuman, int whiteDifficulty, 
             break;
         }
 
-        if (board->checkStalemate(isWhiteTurn)) { // what is the logic for ending a game? 
+        if (board->checkStalemate(isWhiteTurn)) {
             scoreWhite += 0.5;
             scoreBlack += 0.5;
             out << "Stalemate!" << endl; 
@@ -120,7 +120,6 @@ void Game::setupBoard() {
                     board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
                 } else if(lowerCaseType == 'p') {
                     if(lowerCaseType != type) {
-                        // it is white
                         if(row == 1) {
                             board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, false);
                         } else {
@@ -132,7 +131,6 @@ void Game::setupBoard() {
                         } else {
                             board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, true);
                         }
-                        // it is black
                     }
                 } else {
                     board->placePiece(row, int(col - 'a'), type != lowerCaseType, lowerCaseType, false);
