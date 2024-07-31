@@ -19,11 +19,11 @@ class TextObserver;
 class GraphicalObserver;
 
 class ChessBoard {
-    std::vector<Observer*> observers;
-    std::vector<std::vector<Piece*>> board;
+    std::vector<Observer*> observers; // set of observers attached to chessboard subject
+    std::vector<std::vector<Piece*>> board; // grid of board state
 
-    std::vector<std::unique_ptr<Piece>> whitePieces;
-    std::vector<std::unique_ptr<Piece>> blackPieces;
+    std::vector<std::unique_ptr<Piece>> whitePieces; // set of all of white's pieces 
+    std::vector<std::unique_ptr<Piece>> blackPieces; // set of all of black's pieces
 
     Piece* enPassantPawn; // TODO: MAKE SURE TO UPDATE THIS WHEN A PAWN MOVES TWO SQUARES
 
@@ -32,28 +32,28 @@ class ChessBoard {
         ChessBoard(const ChessBoard& other);
         virtual ~ChessBoard();
 
-        void attach(Observer* o);
-        void detach(Observer* o);
-        void notifyObservers(); 
+        void attach(Observer* o); // attach an observer
+        void detach(Observer* o); // delete an observer
+        void notifyObservers();  // notify observers
 
-        bool checkIfPieceIsAttacked(Piece* piece, bool isWhite);
-        bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType = ' '); // ` ` represents no promotion
+        bool checkIfPieceIsAttacked(Piece* piece, bool isWhite); // check if piece is being attacked on the board
+        bool verifyMove(int fromRow, int fromCol, int toRow, int toCol, bool isWhite, char promotionType = ' '); // ` ` represents no promotion and verify if a move is viable
 
-        bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1);
-        bool checkCheckmate(bool isWhite); 
-        bool checkStalemate(bool isWhite);
-        bool checkNoPawnsInLastRank();
+        bool checkIfKingIsInCheck(bool isWhite, int fromRow = -1, int fromCol = -1, int toRow = -1, int toCol = -1); // check if a king is in check after a move or currently
+        bool checkCheckmate(bool isWhite);  // check if a colour has been mated
+        bool checkStalemate(bool isWhite); // check if a colour is in stalemate
+        bool checkNoPawnsInLastRank(); // check there are no pawns in the final rank
 
-        Piece* getSquare(int row, int col) const;
-        void removeAllPieces();
-        void placePiece(int row, int col, bool isWhite, char pieceType, bool moved = false);
-        void removePiece(int row, int col);
-        void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // uses verifyMove probably
+        Piece* getSquare(int row, int col) const; // get the piece at a row/col in the board
+        void removeAllPieces(); // remove all pieces from board
+        void placePiece(int row, int col, bool isWhite, char pieceType, bool moved = false); // place piece on the board 
+        void removePiece(int row, int col); // remove piece at a row/col on the board
+        void movePiece(int fromRow, int fromCol, int toRow, int toCol, char promotionType = 'x'); // moves a piece to a location, no checks done
 
-        Piece* getKing(bool isWhite) const;
-        int getNumKings(bool isWhite) const;
-        Piece* getEnPassantPawn() const;
-        void setEnPassantPawn(Piece*);
+        Piece* getKing(bool isWhite) const; // get location of a colour's king
+        int getNumKings(bool isWhite) const; // get number of kings of a colour (to check board setup)
+        Piece* getEnPassantPawn() const; // get the enpassant pawn 
+        void setEnPassantPawn(Piece*); // set the enpassant pawn
 };
 
 #endif
